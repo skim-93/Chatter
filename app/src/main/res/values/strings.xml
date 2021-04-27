@@ -6,4 +6,7 @@
     <string name="title_chat">Chat</string>
     <string name="title_weather">Weather</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_holder_weather">Weather place holder</string>
+    <string name="place_holder_notification">Notification place holder</string>
 </resources>
