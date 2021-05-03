@@ -7,12 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Amans Button" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
