@@ -65,7 +65,7 @@ public class SignInViewModel extends AndroidViewModel {
     }
 
     public void connect(final String email, final String password) {
-        String url = ""; //Sign in endpoint
+        String url = "https://group1-tcss450-project.herokuapp.com/auth"; //Sign in endpoint
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
