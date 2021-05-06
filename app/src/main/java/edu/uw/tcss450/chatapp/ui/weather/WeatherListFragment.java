@@ -34,9 +34,6 @@ public class WeatherListFragment extends Fragment {
 
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
 
-        //UserInfoViewModel model = new ViewModelProvider(getActivity())
-         //       .get(UserInfoViewModel.class);
-
         binding.buttonZipcodeSearch.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())

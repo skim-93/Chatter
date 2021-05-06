@@ -29,14 +29,7 @@ public class WeatherMapFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Local access to the ViewBinding object. No need to create as Instance Var as it is only
-        //used here.
         FragmentWeatherMapBinding binding = FragmentWeatherMapBinding.bind(getView());
-        //Note argument sent to the ViewModelProvider constructor. It is the Activity that
-        //holds this fragment.
-        //UserInfoViewModel model = new ViewModelProvider(getActivity())
-        //        .get(UserInfoViewModel.class);
-        //On button click, navigate to Third Home
 
 //        binding.buttonConfirmLocation.setOnClickListener(button ->
 //                Navigation.findNavController(getView()).navigate(
