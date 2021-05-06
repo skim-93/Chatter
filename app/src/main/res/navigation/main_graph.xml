@@ -20,13 +20,22 @@
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
     <fragment
-        android:id="@+id/navigation_weather"
-        android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherFragment"
-        android:label="fragment_weather"
-        tools:layout="@layout/fragment_weather" />
-    <fragment
         android:id="@+id/navigation_contact"
         android:name="edu.uw.tcss450.chatapp.ui.contact.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/navigation_weather"
+        android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherListFragment"
+        android:label="fragment_weather_list"
+        tools:layout="@layout/fragment_weather_list" >
+        <action
+            android:id="@+id/action_navigation_weather_to_weatherMapFragment"
+            app:destination="@id/weatherMapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherMapFragment"
+        android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherMapFragment"
+        android:label="fragment_weather_map"
+        tools:layout="@layout/fragment_weather_map" />
 </navigation>
