@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -28,7 +29,6 @@ import edu.uw.tcss450.chatapp.utils.PasswordValidator;
 public class RegisterFragment extends Fragment {
 
     private FragmentRegisterBinding binding;
-
     private RegisterViewModel mRegisterModel;
 
     private PasswordValidator mNameValidator = checkPwdLength(1);
@@ -125,15 +125,13 @@ public class RegisterFragment extends Fragment {
         //result of connect().
     }
 
-    private void navigateToLogin() {
-        RegisterFragmentDirections.ActionRegisterFragmentToLoginFragment directions =
-                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment();
-
-        directions.setEmail(binding.editEmail.getText().toString());
-        directions.setPassword(binding.editPassword1.getText().toString());
-
+    private void navigateToEmailVerification() {
+        NavDirections directions = RegisterFragmentDirections
+                .actionRegisterFragmentToEmailVerificationFragment(
+                        binding.editEmail.getText().toString(),
+                        binding.editPassword1.getText().toString()
+                );
         Navigation.findNavController(getView()).navigate(directions);
-
     }
 
     /**
@@ -153,7 +151,7 @@ public class RegisterFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                navigateToLogin();
+                navigateToEmailVerification();
             }
         } else {
             Log.d("JSON Response", "No Response");
