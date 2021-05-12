@@ -5,9 +5,7 @@
     android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sunnyweather"
     tools:context=".ui.weather.WeatherListFragment">
-    <!-- TODO: Update blank fragment layout -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hourly_list_root"
@@ -102,7 +100,6 @@
         app:layout_constraintHorizontal_bias="0.574"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_temperature" />
-
 
     <EditText
         android:id="@+id/textZipcode"

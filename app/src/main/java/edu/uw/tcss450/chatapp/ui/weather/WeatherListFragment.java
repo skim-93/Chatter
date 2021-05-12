@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherListBinding;
 
  */
 public class WeatherListFragment extends Fragment {
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,10 +39,5 @@ public class WeatherListFragment extends Fragment {
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())
         );
-
-
-
     }
-
-
 }
