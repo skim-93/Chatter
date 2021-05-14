@@ -6,17 +6,17 @@
     app:startDestination="@id/navigation_home">
     <activity
         android:id="@+id/mainActivity"
-        android:name="edu.uw.tcss450.chatapp.MainActivity"
+        android:name="edu.uw.tcss450.chatapp_group1.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/navigation_home"
-        android:name="edu.uw.tcss450.chatapp.ui.home.HomeFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="edu.uw.tcss450.chatapp.ui.chat.ChatFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatFragment"
         android:label="Chat"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -25,12 +25,12 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_contact"
-        android:name="edu.uw.tcss450.chatapp.ui.contact.ContactListFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactListFragment"
         android:label="Contact"
         tools:layout="@layout/fragment_contact_list" />
     <fragment
         android:id="@+id/navigation_weather"
-        android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherListFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListFragment"
         android:label="Weather"
         tools:layout="@layout/fragment_weather_list" >
         <action
@@ -39,12 +39,12 @@
     </fragment>
     <fragment
         android:id="@+id/weatherMapFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherMapFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.weather.WeatherMapFragment"
         android:label="Weather Map"
         tools:layout="@layout/fragment_weather_map" />
     <fragment
         android:id="@+id/chatRoomFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.chat.ChatRoomFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatRoomFragment"
         android:label="Chat Room"
         tools:layout="@layout/fragment_chat_room" />
 </navigation>
