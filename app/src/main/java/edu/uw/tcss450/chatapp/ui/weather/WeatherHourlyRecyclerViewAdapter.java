@@ -17,10 +17,10 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherHourlyCardBinding;
 
 public class WeatherHourlyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherHourlyRecyclerViewAdapter.WeatherViewHolder> {
-    private final List<WeatherPost> mWeathers;
-    private final Map<WeatherPost, Boolean> mExpandedFlags;
+    private final List<WeatherData> mWeathers;
+    private final Map<WeatherData, Boolean> mExpandedFlags;
 
-    public WeatherHourlyRecyclerViewAdapter(List<WeatherPost> items) {
+    public WeatherHourlyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;
         mExpandedFlags = mWeathers.stream()
                 .collect(Collectors.toMap(Function.identity(), weather -> false));
@@ -53,7 +53,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public FragmentWeatherHourlyCardBinding binding;
-        private WeatherPost mWeather;
+        private WeatherData mWeather;
 
         public WeatherViewHolder(View view) {
             super(view);
@@ -67,7 +67,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
          * Helper used to determine if the preview should be displayed or not.
          */
 
-        void setWeather(final WeatherPost weather) {
+        void setWeather(final WeatherData weather) {
             mWeather = weather;
         }
     }

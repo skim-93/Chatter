@@ -17,10 +17,10 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherDailyCardBinding;
 
 public class WeatherDailyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherDailyRecyclerViewAdapter.WeatherViewHolder> {
-    private final List<WeatherPost> mWeathers;
-    private final Map<WeatherPost, Boolean> mExpandedFlags;
+    private final List<WeatherData> mWeathers;
+    private final Map<WeatherData, Boolean> mExpandedFlags;
 
-    public WeatherDailyRecyclerViewAdapter(List<WeatherPost> items) {
+    public WeatherDailyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;
         mExpandedFlags = mWeathers.stream()
                 .collect(Collectors.toMap(Function.identity(), weather -> false));
@@ -53,7 +53,7 @@ public class WeatherDailyRecyclerViewAdapter extends
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public FragmentWeatherDailyCardBinding binding;
-        private WeatherPost mWeather;
+        private WeatherData mWeather;
 
         public WeatherViewHolder(View view) {
             super(view);
@@ -66,7 +66,7 @@ public class WeatherDailyRecyclerViewAdapter extends
          * Helper used to determine if the preview should be displayed or not.
          */
 
-        void setWeather(final WeatherPost weather) {
+        void setWeather(final WeatherData weather) {
             mWeather = weather;
         }
     }
