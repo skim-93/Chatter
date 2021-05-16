@@ -37,15 +37,13 @@ public class WeatherHourlyRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         holder.setWeather(mWeathers.get(position));
-
-
     }
 
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
+
     /**
      * Objects from this class represent an Individual row View from the List
      * of rows in the Blog Recycler View.
@@ -61,12 +59,9 @@ public class WeatherHourlyRecyclerViewAdapter extends
             binding = FragmentWeatherHourlyCardBinding.bind(view);
         }
 
-
-
         /**
          * Helper used to determine if the preview should be displayed or not.
          */
-
         void setWeather(final WeatherPost weather) {
             mWeather = weather;
         }

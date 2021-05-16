@@ -20,9 +20,9 @@ public class WeatherListViewModel extends androidx.lifecycle.ViewModel{
         mWeatherList = new MutableLiveData<>();
         mWeatherList.setValue(new ArrayList<>());
     }
+
     public void addWeatherListObserver(@NonNull LifecycleOwner owner,
                                        @NonNull Observer<? super List<WeatherPost>> observer) {
         mWeatherList.observe(owner, observer);
     }
-
 }
