@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+import edu.uw.tcss450.chatapp_group1.R;
+
 public class EmailVerificationViewModel extends AndroidViewModel {
 
     private MutableLiveData<JSONObject> mResponse;
@@ -62,7 +64,7 @@ public class EmailVerificationViewModel extends AndroidViewModel {
     }
 
     public void sendVerificationRequest() {
-        String url = "https://group1-tcss450-project.herokuapp.com/get-verification";
+        String url = getApplication().getResources().getString(R.string.base_url) + "get-verification";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
