@@ -19,11 +19,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.uw.tcss450.chatapp_group1.databinding.ActivityMainBinding;
 import edu.uw.tcss450.chatapp_group1.model.NewMessageCountViewModel;
+import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 import edu.uw.tcss450.chatapp_group1.services.PushReceiver;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatMessage;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
     private AppBarConfiguration mAppBarConfiguration;
 
     private ActivityMainBinding binding;
@@ -34,7 +36,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+
+        new ViewModelProvider(this,
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
+                ).get(UserInfoViewModel.class);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
