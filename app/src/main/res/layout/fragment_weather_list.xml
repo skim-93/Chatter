@@ -59,40 +59,21 @@
         app:layout_constraintTop_toBottomOf="@+id/daily_list_root">
 
         <ImageButton
-            android:id="@+id/button_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_map_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.703" />
-
-        <ImageButton
             android:id="@+id/button_zipcode_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
+            android:layout_marginStart="324dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_search_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textZipcode"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/textZipcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:autofillHints=""
-            android:hint="@string/action_enter_zipcode"
-            android:inputType="textPostalAddress"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="TODO" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -114,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="165dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="160dp"
             android:layout_marginBottom="24dp"
             android:text="@string/text_condition"
@@ -152,7 +133,7 @@
             android:layout_marginEnd="176dp"
             android:text="@string/text_city_name"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.513"
