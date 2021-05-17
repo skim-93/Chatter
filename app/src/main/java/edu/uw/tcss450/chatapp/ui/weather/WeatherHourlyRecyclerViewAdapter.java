@@ -19,10 +19,8 @@ public class WeatherHourlyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherHourlyRecyclerViewAdapter.WeatherViewHolder> {
     private final List<WeatherData> mWeathers;
 
-    public WeatherHourlyRecyclerViewAdapter(List<WeatherData> items)
-    {
+    public WeatherHourlyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;
-
     }
 
     @NonNull
@@ -36,15 +34,13 @@ public class WeatherHourlyRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         holder.setWeather(mWeathers.get(position));
-
-
     }
 
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
+
     /**
      * Objects from this class represent an Individual row View from the List
      * of rows in the hourly Recycler View.
@@ -64,13 +60,11 @@ public class WeatherHourlyRecyclerViewAdapter extends
          * helps to set the hourly weather components
          * @param weather
          */
-
         void setWeather(final WeatherData weather) {
             mWeather = weather;
             binding.textTemperature.setText(mWeather.getmTemperature());
             binding.textCondition.setText(mWeather.getmCondition());
             binding.textWeatherTime.setText(mWeather.getmTime());
-            //set the image icon to be implemented using if else depending on the condition
         }
     }
 }

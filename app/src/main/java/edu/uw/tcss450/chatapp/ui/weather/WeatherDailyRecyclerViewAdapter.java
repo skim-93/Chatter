@@ -18,12 +18,9 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherDailyCardBinding;
 public class WeatherDailyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherDailyRecyclerViewAdapter.WeatherViewHolder> {
     private final List<WeatherData> mWeathers;
-    private final Map<WeatherData, Boolean> mExpandedFlags;
 
     public WeatherDailyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;
-        mExpandedFlags = mWeathers.stream()
-                .collect(Collectors.toMap(Function.identity(), weather -> false));
     }
 
     @NonNull
@@ -37,15 +34,13 @@ public class WeatherDailyRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         holder.setWeather(mWeathers.get(position));
-
-
     }
 
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
+
     /**
      * Objects from this class represent an Individual row View from the List
      * of rows in the daily weather Recycler View.
@@ -65,16 +60,13 @@ public class WeatherDailyRecyclerViewAdapter extends
          * helps to set the components of the dailyweather
          * @param weatherDaily
          */
-        void setWeather(final WeatherData weatherDaily)
-        {
+        void setWeather(final WeatherData weatherDaily) {
             mWeather = weatherDaily;
             mWeather = weatherDaily;
             binding.textMinTemp.setText(mWeather.getmMinTemperature());
             binding.textMaxTemp.setText(mWeather.getmMaxTemperature());
             binding.textCondition.setText(mWeather.getmCondition());
             binding.textWeatherDate.setText(mWeather.getmDate());
-            //set the image icon to be implemented using if else depending on the condition
-
         }
     }
 }

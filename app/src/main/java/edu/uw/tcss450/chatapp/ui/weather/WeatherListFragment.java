@@ -43,6 +43,7 @@ public class WeatherListFragment extends Fragment {
                     "03:00 am", 66.9, "Sunny");
             mWeathers.add(listItem);
         }
+
         binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(mWeathers));
         mWeathers = new ArrayList<>();
         for(int i = 0; i<= 9; i++){
@@ -52,17 +53,11 @@ public class WeatherListFragment extends Fragment {
         }
 
         binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(mWeathers));
+
         binding.buttonZipcodeSearch.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())
         );
-        binding.buttonMap.setOnClickListener(button ->
-                Navigation.findNavController(getView()).navigate(
-                        WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())
-        );
-
-
-
     }
 
 
