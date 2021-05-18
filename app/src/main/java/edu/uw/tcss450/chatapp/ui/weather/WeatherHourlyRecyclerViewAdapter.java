@@ -62,7 +62,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
          */
         void setWeather(final WeatherData weather) {
             mWeather = weather;
-            binding.textTemperature.setText(mWeather.getmTemperature());
+            binding.textTemperature.setText(""+mWeather.getmTemperature());
             binding.textCondition.setText(mWeather.getmDescription());
             binding.textWeatherTime.setText(mWeather.getmTime());
         }
