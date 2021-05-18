@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -105,14 +106,64 @@ public class WeatherListViewModel extends AndroidViewModel {
     }
 
     private void handleFiveDayForecastResult(final JSONObject result) {
+        List<WeatherData> weatherResults = new ArrayList<>();
+        if (result.has("5 day forecasts")) {
+            JSONArray forecasts = null;
+            try {
+                forecasts = result.getJSONArray("5 day forecasts");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < forecasts.length(); i++) {
+                JSONObject forecast;
+                try {
+                    forecast = (JSONObject) forecasts.get(i);
+                    double minTemp = forecast.getDouble("Min Temperature");
+                    double maxTemp = forecast.getDouble("Max Temperature");
+                    String weatherDescription = forecast.getString("Weather Description");
+                    WeatherData currentForecast = new WeatherData(weatherDescription, minTemp, maxTemp);
+                    weatherResults.add(currentForecast);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Log.e("Weather List view model", "Error! No daily forecasts");
+        }
+        mFiveDayForecast.setValue(weatherResults);
     }
 
     private void handle24HourForecastResult(final JSONObject result) {
-        //JSONArray forecasts = result.getJSONArray()
+        List<WeatherData> weatherResults = new ArrayList<>();
+        if (result.has("daily-forecasts")) {
+            JSONArray forecasts = null;
+            try {
+                forecasts = result.getJSONArray("daily-forecasts");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < forecasts.length(); i++) {
+                JSONObject forecast;
+                try {
+                    forecast = (JSONObject) forecasts.get(i);
+                    double temperature = forecast.getDouble("Temperature");
+                    String weatherDescription = forecast.getString("Weather Description");
+                    String time = forecast.getString("Time");
+                    WeatherData currentForecast = new WeatherData(weatherDescription,time,temperature);
+                    weatherResults.add(currentForecast);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Log.e("Weather List view model", "Error! No daily forecasts");
+        }
+        m24HourForecast.setValue(weatherResults);
     }
 
     private void handleCurrentWeatherResult(final JSONObject result) {
-        String weatherDescription = null, temperature = null, cityName = null;
+        String weatherDescription = null, cityName = null;
+        double temperature = 0;
         if (result.has("Weather Description")) {
             try {
                 weatherDescription = (String) result.getString("Weather Description");
@@ -126,7 +177,7 @@ public class WeatherListViewModel extends AndroidViewModel {
 
         if (result.has("Temperature")) {
             try {
-                temperature = (String) result.getString("Temperature");
+                temperature = result.getDouble("Temperature");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
