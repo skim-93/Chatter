@@ -25,7 +25,6 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherListBinding;
  */
 public class WeatherListFragment extends Fragment {
     private WeatherListViewModel mModel;
-    private List<WeatherData> mWeathers;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +52,24 @@ public class WeatherListFragment extends Fragment {
             Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
         });
 
-        // Simple test
-        mModel.getCurrentWeather("98030");
+        mModel.add24HourForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
+            for(int i = 0; i < weatherDataList.size(); i++) {
+                // Update UI components
+                Log.d("Weather List Fragment", "Weather description " + weatherDataList.get(i).getmDescription());
+                Log.d("Weather List Fragment", "Temperature " + weatherDataList.get(i).getmTemperature());
+                Log.d("Weather List Fragment", "time " + weatherDataList.get(i).getmTime());
+            }
+        });
+
+        mModel.addFiveDayForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
+            for(int i = 0; i < weatherDataList.size(); i++) {
+                // Update UI components
+                Log.d("Weather List Fragment", "Weather description: " + weatherDataList.get(i).getmDescription());
+                Log.d("Weather List Fragment", "Min temp: " + weatherDataList.get(i).getmMinTemperature());
+                Log.d("Weather List Fragment", "Max temp: " + weatherDataList.get(i).getmMaxTemperature());
+            }
+        });
+
+        mModel.getFiveDayForecast("98030");
     }
 }
