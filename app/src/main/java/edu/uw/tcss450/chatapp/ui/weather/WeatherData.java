@@ -1,28 +1,34 @@
 package edu.uw.tcss450.chatapp.ui.weather;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class WeatherData implements Serializable {
     private  String mTime;
     private  String mCity;
-    private  String mTemperature;
+    private  double mTemperature;
     private  String mDescription;
     private  Double mMinTemp;
     private  Double mMaxTemp;
-    private List<WeatherData> mForecasts;
 
-    public WeatherData(String desc, String temp, String city) { // Constructor for Current weather
+    public WeatherData(String desc, double temp, String city) {
         this.mDescription = desc;
         this.mTemperature = temp;
         this.mCity = city;
     }
 
-    public WeatherData(List<WeatherData> forecast) { // Constructor for 5 day forecast and 24 hour forecast
-        mForecasts = forecast;
+    public WeatherData(String desc, double min, double max) {
+        this.mDescription = desc;
+        this.mMinTemp = min;
+        this.mMaxTemp = max;
     }
 
-    public String getmTemperature() {
+    public WeatherData(String desc, String time, double temp) {
+        this.mDescription = desc;
+        this.mTemperature = temp;
+        this.mTime = time;
+    }
+
+    public double getmTemperature() {
         return mTemperature;
     }
 
@@ -45,6 +51,4 @@ public class WeatherData implements Serializable {
     public String  getmMaxTemperature() {
         return String.valueOf((int)Math.round(mMaxTemp));
     }
-
-    public List<WeatherData> getmForecasts() {return mForecasts;}
 }
