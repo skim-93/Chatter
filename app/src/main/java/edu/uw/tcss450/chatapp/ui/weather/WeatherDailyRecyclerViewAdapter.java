@@ -66,8 +66,8 @@ public class WeatherDailyRecyclerViewAdapter extends
             mWeather = weatherDaily;
             binding.textMinTemp.setText(mWeather.getmMinTemperature());
             binding.textMaxTemp.setText(mWeather.getmMaxTemperature());
-            binding.textCondition.setText(mWeather.getmCondition());
-            binding.textWeatherDate.setText(mWeather.getmDate());
+            binding.textCondition.setText(mWeather.getmDescription());
+            //binding.textWeatherDate.setText(mWeather.getmDate());
         }
     }
 }
