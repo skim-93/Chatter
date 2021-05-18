@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,12 @@ public class WeatherListFragment extends Fragment {
     private List<WeatherData> mWeathers;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -38,28 +45,15 @@ public class WeatherListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
-        mWeathers = new ArrayList<>();
-        for(int i = 0; i<= 23; i++){
-            WeatherData listItem = new WeatherData(
-                    "03:00 am", 66.9, "Sunny");
-            mWeathers.add(listItem);
-        }
 
-        binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(mWeathers));
-        mWeathers = new ArrayList<>();
-        for(int i = 0; i<= 9; i++){
-            WeatherData listItem = new WeatherData(
-                    "Sunny", 56.0, 75.5, "05/13/21");
-            mWeathers.add(listItem);
-        }
+        mModel.addCurrentWeatherObserver(getViewLifecycleOwner(), weatherData -> {
+            // Update UI components
+            Log.d("Weather List Fragment", "Weather description " + weatherData.getmDescription());
+            Log.d("Weather List Fragment", "Temperature " + weatherData.getmTemperature());
+            Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
+        });
 
-        binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(mWeathers));
-
-        binding.buttonZipcodeSearch.setOnClickListener(button ->
-                Navigation.findNavController(getView()).navigate(
-                        WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())
-        );
+        // Simple test
+        mModel.getCurrentWeather("98030");
     }
-
-
 }
