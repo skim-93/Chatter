@@ -25,6 +25,12 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="default" />
+        <action
+            android:id="@+id/action_SignInFragment_to_lostPasswordFragment"
+            app:destination="@id/lostPasswordFragment" />
+        <action
+            android:id="@+id/action_SignInFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -53,6 +59,31 @@
         tools:layout="@layout/fragment_email_verification" >
         <action
             android:id="@+id/action_emailVerificationFragment_to_SignInFragment"
+            app:destination="@id/SignInFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/lostPasswordFragment"
+        android:name="edu.uw.tcss450.chatapp.ui.auth.signin.LostPasswordFragment"
+        android:label="LostPasswordFragment" >
+        <action
+            android:id="@+id/action_lostPasswordFragment_to_SignInFragment"
+            app:destination="@id/SignInFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="edu.uw.tcss450.chatapp.ui.auth.signin.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_SignInFragment"
             app:destination="@id/SignInFragment" />
         <argument
             android:name="email"
