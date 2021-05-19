@@ -66,6 +66,8 @@ public class SignInFragment extends Fragment {
 
         binding.buttonSignIn.setOnClickListener(this::attemptSignIn);
 
+        binding.forgotPasswordButton.setOnClickListener(this::navigateToResetPassword);
+
         mSignInModel.addResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeResponse);
@@ -99,6 +101,12 @@ public class SignInFragment extends Fragment {
                 binding.editPassword.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
+    }
+
+    private void navigateToResetPassword(View view) {
+        Navigation.findNavController(getView()).navigate(SignInFragmentDirections.actionSignInFragmentToLostPasswordFragment(
+                binding.editEmail.getText().toString()
+        ));
     }
 
     /**
