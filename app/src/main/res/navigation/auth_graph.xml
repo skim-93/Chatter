@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/SignInFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.auth.signin.SignInFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.auth.signin.SignInFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.auth.register.RegisterFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="edu.uw.tcss450.chatapp.MainActivity"
+        android:name="edu.uw.tcss450.chatapp_group1.MainActivity"
         android:label="MainActivity">
         <argument
             android:name="email"
@@ -54,7 +54,7 @@
     </activity>
     <fragment
         android:id="@+id/emailVerificationFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.auth.register.EmailVerificationFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.auth.register.EmailVerificationFragment"
         android:label="fragment_email_verification"
         tools:layout="@layout/fragment_email_verification" >
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/lostPasswordFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.auth.signin.LostPasswordFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.auth.signin.LostPasswordFragment"
         android:label="LostPasswordFragment" >
         <action
             android:id="@+id/action_lostPasswordFragment_to_SignInFragment"
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="edu.uw.tcss450.chatapp.ui.auth.signin.ChangePasswordFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.auth.signin.ChangePasswordFragment"
         android:label="ChangePasswordFragment" >
         <action
             android:id="@+id/action_changePasswordFragment_to_SignInFragment"
