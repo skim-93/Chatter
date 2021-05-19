@@ -5,8 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class ContactListFragment extends Fragment {
+
     private ContactListViewModel mContactListViewModel;
     private UserInfoViewModel mUserInfoViewModel;
 
@@ -56,6 +57,7 @@ public class ContactListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentContactListBinding binding = FragmentContactListBinding.bind(getView());
+
         //add observer for contact friend list
         mContactListViewModel.addContactFriendListObserver(getViewLifecycleOwner(), contactList -> binding.contactListRoot.setAdapter(
                 new ContactRecyclerViewAdapter(contactList, this.getContext(),

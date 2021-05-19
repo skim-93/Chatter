@@ -24,6 +24,12 @@
             app:destination="@id/chatRoomFragment" />
     </fragment>
     <fragment
+        android:id="@+id/navigation_contact"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactListFragment"
+        android:label="Contact"
+        tools:layout="@layout/fragment_contact_list" />
+    <fragment
+
         android:id="@+id/navigation_weather"
         android:name="edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListFragment"
         android:label="Weather"

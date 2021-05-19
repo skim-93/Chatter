@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherHourlyCardBinding;
 
 public class WeatherHourlyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherHourlyRecyclerViewAdapter.WeatherViewHolder> {
+
     private final List<WeatherData> mWeathers;
 
     public WeatherHourlyRecyclerViewAdapter(List<WeatherData> items) {
@@ -36,6 +38,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
     @Override
     public int getItemCount() {
         return mWeathers.size();
+
     }
 
     /**
@@ -45,6 +48,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public FragmentWeatherHourlyCardBinding binding;
+
         private WeatherData mWeather;
 
         public WeatherViewHolder(View view) {
@@ -52,6 +56,7 @@ public class WeatherHourlyRecyclerViewAdapter extends
             mView = view;
             binding = FragmentWeatherHourlyCardBinding.bind(view);
         }
+
 
         /**
          * helps to set the hourly weather components

@@ -75,5 +75,6 @@
     <string name="submit_email">Submit</string>
     <string name="image_description_weather">image_icon_weather</string>
 
+    <string name="base_url">https://group1-tcss450-project.herokuapp.com/</string>
 
 </resources>

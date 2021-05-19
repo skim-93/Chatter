@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
 
  */
 public class WeatherListFragment extends Fragment {
+
     private WeatherListViewModel mModel;
     private List<WeatherData> mWeathers;
 
@@ -36,6 +38,7 @@ public class WeatherListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
+
         mWeathers = new ArrayList<>();
         for(int i = 0; i<= 23; i++){
             WeatherData listItem = new WeatherData(
@@ -57,6 +60,7 @@ public class WeatherListFragment extends Fragment {
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment())
         );
+
     }
 
 

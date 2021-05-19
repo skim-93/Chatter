@@ -13,6 +13,7 @@ import java.util.List;
 
 
 public class WeatherListViewModel extends androidx.lifecycle.ViewModel{
+
     private MutableLiveData<List<WeatherData>> mWeatherList;
 
     public WeatherListViewModel(@NonNull Application application) {
@@ -21,6 +22,7 @@ public class WeatherListViewModel extends androidx.lifecycle.ViewModel{
         mWeatherList.setValue(new ArrayList<>());
     }
     public void addWeatherListObserver(@NonNull LifecycleOwner owner,
+
                                        @NonNull Observer<? super List<WeatherData>> observer) {
         mWeatherList.observe(owner, observer);
     }
