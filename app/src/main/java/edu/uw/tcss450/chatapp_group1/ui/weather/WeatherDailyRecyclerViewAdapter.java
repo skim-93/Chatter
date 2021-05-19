@@ -39,7 +39,6 @@ public class WeatherDailyRecyclerViewAdapter extends
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
 
     /**
@@ -61,6 +60,7 @@ public class WeatherDailyRecyclerViewAdapter extends
 
         /**
          * helps to set the components of the dailyweather
+         *
          * @param weatherDaily
          */
         void setWeather(final WeatherData weatherDaily) {
@@ -68,7 +68,7 @@ public class WeatherDailyRecyclerViewAdapter extends
             mWeather = weatherDaily;
             binding.textMinTemp.setText(mWeather.getmMinTemperature());
             binding.textMaxTemp.setText(mWeather.getmMaxTemperature());
-            binding.textCondition.setText(mWeather.getmCondition());
+            binding.textCondition.setText(mWeather.getmDescription());
             binding.textWeatherDate.setText(mWeather.getmDate());
         }
     }
