@@ -118,10 +118,11 @@ public class WeatherListViewModel extends AndroidViewModel {
                 JSONObject forecast;
                 try {
                     forecast = (JSONObject) forecasts.get(i);
+                    String weatherDate = forecast.getString("Date");
                     double minTemp = forecast.getDouble("Min Temperature");
                     double maxTemp = forecast.getDouble("Max Temperature");
                     String weatherDescription = forecast.getString("Weather Description");
-                    WeatherData currentForecast = new WeatherData(weatherDescription, minTemp, maxTemp);
+                    WeatherData currentForecast = new WeatherData(weatherDate, weatherDescription, minTemp, maxTemp);
                     weatherResults.add(currentForecast);
                 } catch (JSONException e) {
                     e.printStackTrace();

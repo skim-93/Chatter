@@ -9,6 +9,7 @@ public class WeatherData implements Serializable {
     private  String mDescription;
     private  Double mMinTemp;
     private  Double mMaxTemp;
+    private String mDate;
 
     public WeatherData(String desc, double temp, String city) {
         this.mDescription = desc;
@@ -16,7 +17,8 @@ public class WeatherData implements Serializable {
         this.mCity = city;
     }
 
-    public WeatherData(String desc, double min, double max) {
+    public WeatherData(String date, String desc, double min, double max) {
+        this.mDate = date;
         this.mDescription = desc;
         this.mMinTemp = min;
         this.mMaxTemp = max;
@@ -49,5 +51,8 @@ public class WeatherData implements Serializable {
 
     public String  getmMaxTemperature() {
         return (int)Math.round(mMaxTemp) + "°";
+    }
+    public String getmDate() {
+        return mDate;
     }
 }
