@@ -28,7 +28,7 @@
 
     <string name="text_city_name">Tacoma</string>
     <string name="text_unit">°F</string>
-    <string name="text_condition">Sunny</string>
+    <string name="text_condition">overcast clouds</string>
     <string name="action_enter_zipcode">enter zipcode</string>
     <string name="text_minimum_temp">61</string>
     <string name="text_maximum_temp">78</string>
