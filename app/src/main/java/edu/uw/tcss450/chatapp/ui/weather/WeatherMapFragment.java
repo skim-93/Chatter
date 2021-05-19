@@ -35,10 +35,5 @@ public class WeatherMapFragment extends Fragment {
 //                Navigation.findNavController(getView()).navigate(
 //                        WeatherMapFragmentDirections.actionWeatherMapFragmentToWeatherFragment())
 //        );
-
-
-
     }
-
-
 }

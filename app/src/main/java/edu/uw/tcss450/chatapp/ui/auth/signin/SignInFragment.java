@@ -44,6 +44,7 @@ public class SignInFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mSignInModel = new ViewModelProvider(getActivity())
                 .get(SignInViewModel.class);
+        getActivity().setTitle("Sign In");
     }
 
     @Override

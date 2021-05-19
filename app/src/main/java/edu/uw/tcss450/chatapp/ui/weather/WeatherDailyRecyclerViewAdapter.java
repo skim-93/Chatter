@@ -17,13 +17,10 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherDailyCardBinding;
 
 public class WeatherDailyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherDailyRecyclerViewAdapter.WeatherViewHolder> {
-    private final List<WeatherPost> mWeathers;
-    private final Map<WeatherPost, Boolean> mExpandedFlags;
+    private final List<WeatherData> mWeathers;
 
-    public WeatherDailyRecyclerViewAdapter(List<WeatherPost> items) {
+    public WeatherDailyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;
-        mExpandedFlags = mWeathers.stream()
-                .collect(Collectors.toMap(Function.identity(), weather -> false));
     }
 
     @NonNull
@@ -31,29 +28,27 @@ public class WeatherDailyRecyclerViewAdapter extends
     public WeatherDailyRecyclerViewAdapter.WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new WeatherDailyRecyclerViewAdapter.WeatherViewHolder(LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.fragment_weather_hourly_card, parent, false));
+                .inflate(R.layout.fragment_weather_daily_card, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         holder.setWeather(mWeathers.get(position));
-
-
     }
 
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
+
     /**
      * Objects from this class represent an Individual row View from the List
-     * of rows in the Blog Recycler View.
+     * of rows in the daily weather Recycler View.
      */
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public FragmentWeatherDailyCardBinding binding;
-        private WeatherPost mWeather;
+        private WeatherData mWeather;
 
         public WeatherViewHolder(View view) {
             super(view);
@@ -61,13 +56,17 @@ public class WeatherDailyRecyclerViewAdapter extends
             binding = FragmentWeatherDailyCardBinding.bind(view);
         }
 
-
         /**
-         * Helper used to determine if the preview should be displayed or not.
+         * helps to set the components of the dailyweather
+         * @param weatherDaily
          */
-
-        void setWeather(final WeatherPost weather) {
-            mWeather = weather;
+        void setWeather(final WeatherData weatherDaily) {
+            mWeather = weatherDaily;
+            mWeather = weatherDaily;
+            binding.textMinTemp.setText(mWeather.getmMinTemperature());
+            binding.textMaxTemp.setText(mWeather.getmMaxTemperature());
+            binding.textCondition.setText(mWeather.getmCondition());
+            binding.textWeatherDate.setText(mWeather.getmDate());
         }
     }
 }

@@ -12,22 +12,21 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="edu.uw.tcss450.chatapp.ui.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_chat"
         android:name="edu.uw.tcss450.chatapp.ui.chat.ChatFragment"
-        android:label="fragment_chat"
+        android:label="Chat"
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_navigation_chat_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/navigation_weather"
         android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherListFragment"
-        android:label="fragment_weather_list"
+        android:label="Weather"
         tools:layout="@layout/fragment_weather_list" >
         <action
             android:id="@+id/action_navigation_weather_to_weatherMapFragment"
@@ -36,12 +35,12 @@
     <fragment
         android:id="@+id/weatherMapFragment"
         android:name="edu.uw.tcss450.chatapp.ui.weather.WeatherMapFragment"
-        android:label="fragment_weather_map"
+        android:label="Weather Map"
         tools:layout="@layout/fragment_weather_map" />
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="edu.uw.tcss450.chatapp.ui.chat.ChatRoomFragment"
-        android:label="fragment_chat_room"
+        android:label="Chat Room"
         tools:layout="@layout/fragment_chat_room" />
     <fragment
         android:id="@+id/navigation_contact"
