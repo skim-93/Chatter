@@ -25,11 +25,15 @@ import edu.uw.tcss450.chatapp.databinding.FragmentWeatherListBinding;
  */
 public class WeatherListFragment extends Fragment {
     private WeatherListViewModel mModel;
+    private List<WeatherData> mWeathers;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
+        mModel.getCurrentWeather("98030");
+        mModel.get24HourForecast("98030");
+        mModel.getFiveDayForecast("98030");
     }
 
     @Override
@@ -47,18 +51,33 @@ public class WeatherListFragment extends Fragment {
 
         mModel.addCurrentWeatherObserver(getViewLifecycleOwner(), weatherData -> {
             // Update UI components
+ //          WeatherData a = new WeatherData(weatherData.getmDescription(),weatherData.getmTemperature(), weatherData.getmCity());
+
             Log.d("Weather List Fragment", "Weather description " + weatherData.getmDescription());
             Log.d("Weather List Fragment", "Temperature " + weatherData.getmTemperature());
             Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
+            String city = weatherData.getmCity();
+            String temp = String.valueOf(weatherData.getmTemperature());
+            String cond = weatherData.getmDescription();
+            binding.textCity.setText(city);
+            binding.textTemperature.setText(temp);
+            binding.textCondition.setText(cond);
+
         });
 
         mModel.add24HourForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
+            //mWeathers = new ArrayList<>();
             for(int i = 0; i < weatherDataList.size(); i++) {
+//                WeatherData listItem = new WeatherData(weatherDataList.get(i).getmDescription(), weatherDataList.get(i).getmTemperature(), weatherDataList.get(i).getmTime());
+//                mWeathers.add(listItem);
                 // Update UI components
+
                 Log.d("Weather List Fragment", "Weather description " + weatherDataList.get(i).getmDescription());
                 Log.d("Weather List Fragment", "Temperature " + weatherDataList.get(i).getmTemperature());
                 Log.d("Weather List Fragment", "time " + weatherDataList.get(i).getmTime());
             }
+            binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(weatherDataList));
+
         });
 
         mModel.addFiveDayForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
@@ -68,8 +87,10 @@ public class WeatherListFragment extends Fragment {
                 Log.d("Weather List Fragment", "Min temp: " + weatherDataList.get(i).getmMinTemperature());
                 Log.d("Weather List Fragment", "Max temp: " + weatherDataList.get(i).getmMaxTemperature());
             }
+            binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(weatherDataList));
         });
 
-        mModel.getFiveDayForecast("98030");
+
+ //       mModel.getFiveDayForecast("98030");
     }
 }
