@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
         String email = args.getEmail();
         String jwt = args.getJwt();
 
