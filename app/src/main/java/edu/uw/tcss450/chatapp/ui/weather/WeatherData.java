@@ -28,10 +28,9 @@ public class WeatherData implements Serializable {
         this.mTime = time;
     }
 
-    public double getmTemperature() {
-        return mTemperature;
+    public String getmTemperature() {
+        return mTemperature + "°";
     }
-
     public String getmCity() {
         return mCity;
     }
@@ -45,10 +44,10 @@ public class WeatherData implements Serializable {
     }
 
     public String  getmMinTemperature() {
-        return String.valueOf((int)Math.round(mMinTemp));
+        return (int)Math.round(mMinTemp) + "°";
     }
 
     public String  getmMaxTemperature() {
-        return String.valueOf((int)Math.round(mMaxTemp));
+        return (int)Math.round(mMaxTemp) + "°";
     }
 }

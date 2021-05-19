@@ -12,43 +12,39 @@
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/text_weather_date"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image_weather"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
         android:id="@+id/image_weather"
-        android:layout_width="69dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="116dp"
+        android:layout_width="46dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/image_description_weather"
         android:src="@drawable/sunnyweather"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_weather_date"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_condition"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="8dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/text_condition"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/image_weather"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,27 +52,30 @@
         android:id="@+id/text_min_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/text_minimum_temp"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_condition"
+        app:layout_constraintEnd_toStartOf="@+id/text_max_temp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
     <TextView
         android:id="@+id/text_max_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
         android:text="@string/text_maximum_temp"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_min_temp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.416" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
