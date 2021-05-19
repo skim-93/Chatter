@@ -24,6 +24,11 @@
     <string name="place_holder_weather">Weather Place Holder</string>
     <string name="place_holder_notification">Notification Place Holder</string>
 
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="set_new_password">Set New Password</string>
+    <string name="new_password">New Password:</string>
+
     <!--    weather -->
 
     <string name="text_city_name">Tacoma</string>
