@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
+
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
 /**
@@ -53,6 +54,7 @@ public class SignInFragment extends Fragment {
 
         mPushyTokenViewModel = new ViewModelProvider(getActivity())
                 .get(PushyTokenViewModel.class);
+
     }
 
     @Override
@@ -73,6 +75,8 @@ public class SignInFragment extends Fragment {
                 ));
 
         binding.buttonSignIn.setOnClickListener(this::attemptSignIn);
+
+        binding.forgotPasswordButton.setOnClickListener(this::navigateToResetPassword);
 
         mSignInModel.addResponseObserver(
                 getViewLifecycleOwner(),
@@ -146,6 +150,12 @@ public class SignInFragment extends Fragment {
         //result of connect().
     }
 
+    private void navigateToResetPassword(View view) {
+        Navigation.findNavController(getView()).navigate(SignInFragmentDirections.actionSignInFragmentToLostPasswordFragment(
+                binding.editEmail.getText().toString()
+        ));
+    }
+
     /**
      * Helper to abstract the navigation to the Activity past Authentication.
      * @param email users email
@@ -184,6 +194,7 @@ public class SignInFragment extends Fragment {
 //                    navigateToSuccess(
 //                            binding.editEmail.getText().toString(),
 //                            response.getString("token") );
+
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }

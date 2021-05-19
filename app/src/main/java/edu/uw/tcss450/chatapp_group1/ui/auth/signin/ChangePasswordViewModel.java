@@ -23,15 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import edu.uw.tcss450.chatapp_group1.R;
-
 import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
 
-public class SignInViewModel extends AndroidViewModel {
-
+public class ChangePasswordViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mResponse;
 
-    public SignInViewModel(@NonNull Application application) {
+    public ChangePasswordViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
@@ -66,13 +63,20 @@ public class SignInViewModel extends AndroidViewModel {
         }
     }
 
-    public void connect(final String email, final String password) {
-        String url = getApplication().getResources().getString(R.string.base_url) + "auth"; //Sign in endpoint
+    public void connect(final String email, final String password, final String newPassword) {
+        String url = "https://group1-tcss450-project.herokuapp.com/resetpassword";
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("newpassword", newPassword);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Request request = new JsonObjectRequest(
-                Request.Method.GET,
+                Request.Method.PUT,
                 url,
-                null,//no body for this get request
+                body,
                 mResponse::setValue,
                 this::handleError) {
             @Override
@@ -91,7 +95,7 @@ public class SignInViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
+
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }

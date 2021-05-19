@@ -24,6 +24,11 @@
     <string name="place_holder_weather">Weather Place Holder</string>
     <string name="place_holder_notification">Notification Place Holder</string>
 
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="set_new_password">Set New Password</string>
+    <string name="new_password">New Password:</string>
+
     <!--    weather -->
 
     <string name="text_city_name">Tacoma</string>
@@ -47,11 +52,28 @@
     <string name="todo">todo</string>
 
     <!--    contacts-->
-    <string name="text_name_contact">John Smith</string>
+    <string name="text_first_name_contact">First Name</string>
+    <string name="text_last_name_contact">Last Name</string>
+    <string name="text_email_contact">Email@Email.com</string>
+    <string name="tab_menu_friend_contact">Friend</string>
+    <string name="tab_menu_request_contact">Request</string>
+    <string name="tab_menu_receive_contact">Receive</string>
+    <string name="contact_button_add">ADD</string>
+    <string name="contact_button_delete">DELETE</string>
+    <string name="contact_add_text">Please type email</string>
+    <string name="contact_sample_text_first_name">ITs my First Name</string>
+    <string name="contact_sample_text_last_name">ITs my Last Name</string>
+    <string name="contact_sample_text_user_name">Sample User Name</string>
+    <string name="contact_sample_text_email">ITs my Email@Email.com</string>
+    <string name="contact_sample_icon_description">Contact Icon</string>
+    <string name="contact_add_icon_description">Contact add Icon</string>
+    <string name="contact_decline_icon_description">Contact decline Icon</string>
+    <string name="contact_fragment_name">Contact</string>
 
     <!--Resources for the email verification-->
     <string name="email_code_hint">Please Enter Email Verification Code</string>
     <string name="submit_email">Submit</string>
+    <string name="image_description_weather">image_icon_weather</string>
 
     <string name="base_url">https://group1-tcss450-project.herokuapp.com/</string>
 

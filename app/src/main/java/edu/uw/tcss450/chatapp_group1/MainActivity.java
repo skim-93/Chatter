@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -27,6 +28,7 @@ import edu.uw.tcss450.chatapp_group1.ui.chat.ChatViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private UserInfoViewModel mModel;
 
     private ActivityMainBinding binding;
 
@@ -79,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+        String email = args.getEmail();
+        String jwt = args.getJwt();
+
+        mModel = new ViewModelProvider(
+                this,
+                new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
+                .get(UserInfoViewModel.class);
     }
 
     @Override
@@ -87,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -131,5 +140,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }

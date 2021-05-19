@@ -65,6 +65,7 @@ public class EmailVerificationViewModel extends AndroidViewModel {
 
     public void sendVerificationRequest() {
         String url = getApplication().getResources().getString(R.string.base_url) + "get-verification";
+
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

@@ -23,5 +23,4 @@ public class AuthActivity extends AppCompatActivity {
     private void initiatePushyTokenRequest() {
         new ViewModelProvider(this).get(PushyTokenViewModel.class).retrieveToken();
     }
-
 }

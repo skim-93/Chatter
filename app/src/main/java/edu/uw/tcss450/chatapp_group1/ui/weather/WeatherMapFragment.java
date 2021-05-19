@@ -35,9 +35,5 @@ public class WeatherMapFragment extends Fragment {
 //                        WeatherMapFragmentDirections.actionWeatherMapFragmentToWeatherFragment())
 //        );
 
-
-
     }
-
-
 }
