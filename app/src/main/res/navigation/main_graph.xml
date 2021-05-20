@@ -16,7 +16,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_contact"
-        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactListFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactFragment"
         android:label="Contact"
         tools:layout="@layout/fragment_contact_list" >
         <action
