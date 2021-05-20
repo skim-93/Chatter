@@ -31,6 +31,8 @@ public class ContactListViewModel extends AndroidViewModel {
     private MutableLiveData<List<Contact>> mFriendContactList;
     /**Initializer for contact search list mutable live data**/
     private MutableLiveData<List<Contact>> mSearchContacts;
+    /**Initializer for contact request list mutable live data**/
+    private MutableLiveData<List<Contact>> mRequestList;
     /**Initializer for JSONobject live data**/
     private final MutableLiveData<JSONObject> mResponse;
 
@@ -41,9 +43,11 @@ public class ContactListViewModel extends AndroidViewModel {
     public ContactListViewModel(@NonNull Application application) {
         super(application);
         //Sample contact list generator
-        //ContactGenerator generator = new ContactGenerator();//
+        ContactGenerator generator = new ContactGenerator();//
+        //using sample data for request because it doesn't have backend setup yet
         //mContactList = new MutableLiveData<>(generator.getContactList());
-        //mContactListFull = new MutableLiveData<>(generator.getContactList());
+        //mRequestList = new MutableLiveData<>(new ArrayList<>());
+        mRequestList = new MutableLiveData<>(generator.getContactList());
         mFriendContactList = new MutableLiveData<>(new ArrayList<>());
         mSearchContacts = new MutableLiveData<>(new ArrayList<>());
         mResponse = new MutableLiveData<>();
@@ -70,7 +74,15 @@ public class ContactListViewModel extends AndroidViewModel {
                                           @NonNull Observer<? super List<Contact>> observer) {
         mSearchContacts.observe(owner, observer);
     }
-
+    /**
+     * Add contact request list observer
+     * @param owner life cycle owner
+     * @param observer observer for list<Contact>
+     */
+        public void addRequestListObserver(@NonNull LifecycleOwner owner,
+                                       @NonNull Observer<? super List<Contact>> observer) {
+        mRequestList.observe(owner, observer);
+    }
     /**
      * Request to get contact friend list from backend
      * @param jwt authorization token
@@ -205,8 +217,6 @@ public class ContactListViewModel extends AndroidViewModel {
                 Log.e("JSON PARSE", "JSON Parse Error in handleError");
             }
         }
-        Log.e("CONNECTION ERROR", error.getLocalizedMessage());
-        throw new IllegalStateException(error.getMessage());
     }
 
     /**
