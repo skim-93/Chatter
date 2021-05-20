@@ -65,7 +65,7 @@ public class EmailVerificationFragment extends Fragment {
                 message = "Success!";
                 toast = Toast.makeText(context, message, toast_duration);
                 toast.show();
-                navigateToLogin();
+                navigateAway();
             } else {
                 message = "Invalid! Try again";
                 toast = Toast.makeText(context, message, toast_duration);
@@ -76,12 +76,19 @@ public class EmailVerificationFragment extends Fragment {
         }
     }
 
-    private void navigateToLogin() {
+    private void navigateAway() {
         EmailVerificationFragmentArgs args = EmailVerificationFragmentArgs
                 .fromBundle(getArguments());
         EmailVerificationFragmentDirections.ActionEmailVerificationFragmentToSignInFragment directions =
                 EmailVerificationFragmentDirections.actionEmailVerificationFragmentToSignInFragment(
                 );
+        if (args.getPassword().equals("RECOVER")) { // Navigate to password recovery
+            EmailVerificationFragmentDirections.ActionEmailVerificationFragmentToChangePasswordFragment passwordDirections =
+                    EmailVerificationFragmentDirections.actionEmailVerificationFragmentToChangePasswordFragment(args.getEmail());
+
+            Navigation.findNavController(getView()).navigate(passwordDirections);
+            return;
+        }
         directions.setEmail(args.getEmail());
         directions.setPassword(args.getPassword());
         Navigation.findNavController(getView()).navigate(directions);

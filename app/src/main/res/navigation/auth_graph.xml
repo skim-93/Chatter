@@ -66,6 +66,9 @@
         <argument
             android:name="password"
             app:argType="string" />
+        <action
+            android:id="@+id/action_emailVerificationFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/lostPasswordFragment"
@@ -77,6 +80,9 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_lostPasswordFragment_to_emailVerificationFragment2"
+            app:destination="@id/emailVerificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
@@ -87,9 +93,6 @@
             app:destination="@id/SignInFragment" />
         <argument
             android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
             app:argType="string" />
     </fragment>
 </navigation>
