@@ -77,4 +77,6 @@
 
     <string name="base_url">https://group1-tcss450-project.herokuapp.com/</string>
 
+    <string name="action_settings">Settings</string>
+
 </resources>
