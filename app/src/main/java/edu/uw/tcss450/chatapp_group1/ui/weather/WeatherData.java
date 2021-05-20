@@ -12,11 +12,10 @@ public class WeatherData implements Serializable {
     private String mDate;
     private String mIcon;
 
-    public WeatherData(String desc, double temp, String city, String icon) {
+    public WeatherData(String desc, double temp, String city) {
         this.mDescription = desc;
         this.mTemperature = temp;
         this.mCity = city;
-        this.mIcon = icon;
     }
 
     public WeatherData(String date, String desc, double min, double max, String icon) {

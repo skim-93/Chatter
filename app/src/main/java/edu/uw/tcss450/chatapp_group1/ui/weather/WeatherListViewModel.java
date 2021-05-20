@@ -121,7 +121,8 @@ public class WeatherListViewModel extends AndroidViewModel {
                     double maxTemp = forecast.getDouble("Max Temperature");
                     String weatherDescription = forecast.getString("Weather Description");
                     String icon = forecast.getString("Icon");
-                    WeatherData currentForecast = new WeatherData("",weatherDescription, minTemp, maxTemp, icon);
+                    String weatherDate = forecast.getString("Date");
+                    WeatherData currentForecast = new WeatherData(weatherDate,weatherDescription, minTemp, maxTemp, icon);
                     weatherResults.add(currentForecast);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -166,12 +167,12 @@ public class WeatherListViewModel extends AndroidViewModel {
         String weatherDescription = null, cityName = null, icon = null;
         double temperature = 0;
         if (result.has("Weather Description") && result.has("Temperature") &&
-                result.has("City name") && result.has("icon")) {
+                result.has("City name")) {
             try {
                 weatherDescription = (String) result.getString("Weather Description");
                 temperature = result.getDouble("Temperature");
                 cityName = (String) result.getString("City name");
-                icon = (String) result.getString("Icon");
+               // icon = (String) result.getString("Icon");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -179,7 +180,7 @@ public class WeatherListViewModel extends AndroidViewModel {
             Log.e("Weather List view model", "Error! missing information");
             return;
         }
-        mCurrentWeather.setValue(new WeatherData(weatherDescription,temperature,cityName,icon));
+        mCurrentWeather.setValue(new WeatherData(weatherDescription,temperature,cityName));
     }
 
     private void handleError(final VolleyError error) {
