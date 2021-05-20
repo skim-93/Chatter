@@ -94,7 +94,7 @@ public class ChatListViewModel extends AndroidViewModel {
                 temp.add(post);
             }
         } catch (JSONException e) {
-            Log.e("JSON PARSE ERROR", "Found in handle Success ChatViewModel");
+            Log.e("JSON PARSE ERROR", "handleSuccess:");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
         mChatRoomList.setValue(temp);
@@ -146,13 +146,12 @@ public class ChatListViewModel extends AndroidViewModel {
         Request request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                body, //push token found in the JSONObject body
+                body,
                 response -> handleAddChat(jwt, response),
                 this::handleError) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
                 headers.put("Authorization", jwt);
                 return headers;
             }
@@ -172,33 +171,30 @@ public class ChatListViewModel extends AndroidViewModel {
             putMembers(jwt, chatID);
             connectGet(jwt);
         } catch (JSONException e) {
-            Log.e("JSON PARSE ERROR", "Found in handle Success ChatViewModel");
+            Log.e("JSON PARSE ERROR", "handleAddChat:");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
     }
 
     public void putMembers(final String jwt, int chatID) {
         String url = getApplication().getResources().getString(R.string.base_url) + "chats/" + chatID;
-        System.out.println("Adding Members");
         JSONObject body = new JSONObject();
         try {
             body.put("chatid", chatID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println(body.toString());
 
         Request request = new JsonObjectRequest(
                 Request.Method.PUT,
                 url,
-                body, //push token found in the JSONObject body
+                body,
                 mResponse::setValue,
                 this::handleError) {
 
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
                 headers.put("Authorization", jwt);
                 return headers;
             }
@@ -212,7 +208,7 @@ public class ChatListViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
-    // reusable method to handle errors with volley
+    // handle volley error
     private void handleError(final VolleyError error) {
         Log.e("CONNECTION ERROR", "No Chat Info");
     }
