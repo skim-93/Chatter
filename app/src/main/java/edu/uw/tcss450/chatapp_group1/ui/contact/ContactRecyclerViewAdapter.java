@@ -4,21 +4,26 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 public class ContactRecyclerViewAdapter extends
-        RecyclerView.Adapter<ContactRecyclerViewAdapter.ContactViewHolder> {
+        RecyclerView.Adapter<ContactRecyclerViewAdapter.ContactViewHolder> implements Filterable {
     /**Initializer for contact list**/
     private final List<Contact> mContactList;
+    /**Initializer for search contact list**/
+    private List<Contact> mSearchContacts;
     /**Initializer for context**/
     private final Context mContext;
     /**Initializer for fragment manager**/
@@ -40,6 +45,7 @@ public class ContactRecyclerViewAdapter extends
                                       ContactListViewModel viewModel) {
         this.mContactList = contacts;
         this.mContext = context;
+        this.mSearchContacts = new ArrayList<>(contacts);
         this.mFragmentManager = fragmentManager;
         this.mUserInfoViewModel = userModel;
         this.mContactListViewModel = viewModel;
@@ -108,5 +114,51 @@ public class ContactRecyclerViewAdapter extends
             usernameTextView.setText(mContact.getUserName());
         }
     }
+
+    /**
+     * Getter for search filter
+     * @return return with search filter
+     */
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    /**
+     * method to search contact card from the list and then return with matching info
+     */
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Contact> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mSearchContacts);
+            } else {
+                String searchNewPerson = constraint.toString().toLowerCase().trim();
+                for (Contact contact : mSearchContacts) {
+                    if (contact.getFirstName().toLowerCase().contains(searchNewPerson) ||
+                            contact.getLastName().toLowerCase().contains(searchNewPerson)||
+                            contact.getEmail().toLowerCase().contains(searchNewPerson)) {
+                        filteredList.add(contact);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        /**
+         * receive filter result and apply to the list contacts
+         * @param constraint readable sequence of char values
+         * @param results result from filter data
+         */
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mContactList.clear();
+            mContactList.addAll((List<Contact>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
 }
