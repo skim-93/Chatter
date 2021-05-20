@@ -38,8 +38,6 @@ public class LostPasswordFragment extends Fragment {
             .and(checkExcludeWhiteSpace())
             .and(checkPwdSpecialChar("@"));
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +80,7 @@ public class LostPasswordFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                navigateBackToSignIn(null);
-                Toast.makeText(getActivity(),
-                        "Email sent to: " + binding.emailTextField.getText().toString(),
-                        Toast.LENGTH_LONG).show();
-
-                // The following hides the keyboard (bc it's annoying that it stays up)
+                navigateToEmailVerification();
                 ((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
             }
@@ -121,6 +114,17 @@ public class LostPasswordFragment extends Fragment {
     /**
      * Returns to the sign in page
      */
+    private void navigateToEmailVerification() {
+        LostPasswordFragmentDirections.ActionLostPasswordFragmentToEmailVerificationFragment2 directions =
+                LostPasswordFragmentDirections.actionLostPasswordFragmentToEmailVerificationFragment2(
+                        binding.emailTextField.getText().toString(), "RECOVER");
+
+        Navigation.findNavController(getView()).navigate(directions);
+    }
+
+    /**
+     * Returns to the sign in page
+     */
     private void navigateBackToSignIn(View view) {
         Navigation.findNavController(getView()).navigate(
                 LostPasswordFragmentDirections
@@ -129,5 +133,4 @@ public class LostPasswordFragment extends Fragment {
         Navigation.findNavController(requireView()).popBackStack(
                 R.id.lostPasswordFragment, true);
     }
-
 }

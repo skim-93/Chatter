@@ -11,7 +11,7 @@ import java.util.List;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     /**Initializer for fragment list **/
     private final List<Fragment> mFragmentList = new ArrayList<>();
-    /**Initializer for Title listt **/
+    /**Initializer for Title list **/
     private final List<String> mFragmentTitleList = new ArrayList<>();
     /**
      * view pager adapter generator

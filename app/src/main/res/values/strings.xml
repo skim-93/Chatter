@@ -23,7 +23,7 @@
     <string name="place_holder_temperature">Current Temperature</string>
     <string name="place_holder_weather">Weather Place Holder</string>
     <string name="place_holder_notification">Notification Place Holder</string>
-
+    <string name="text_home_welcome">WELCOME TO CHATTER</string>
     <string name="reset_password">Reset Password</string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="set_new_password">Set New Password</string>

@@ -63,7 +63,6 @@ public class ContactSearchFragment extends Fragment {
                     ContactSearchRecyclerViewAdapter adapter = new ContactSearchRecyclerViewAdapter(contactList, mUserInfoViewModel, mContactListViewModel);
                     binding.contactListRoot.setAdapter(adapter);
                     //setup search tab for text listener
-
                     binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
                         public boolean onQueryTextSubmit(String query) {

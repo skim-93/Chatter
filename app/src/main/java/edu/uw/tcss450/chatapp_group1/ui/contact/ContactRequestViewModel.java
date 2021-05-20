@@ -20,16 +20,15 @@ import java.util.Objects;
 
 public class ContactRequestViewModel extends AndroidViewModel {
     /**Initializer for request contact list**/
-    private MutableLiveData<List<ContactRequest>> mRequestList;
+    private MutableLiveData<List<Contact>> mRequestList;
     /**Initializer for response JSONobject**/
     private final MutableLiveData<JSONObject> mResponse;
     // request sample list generator
     // ContactRequestGenerator generator = new ContactRequestGenerator();
-
     // constructor for request view model
     public ContactRequestViewModel(@NonNull Application application) {
         super(application);
-        mRequestList = new MutableLiveData<>(ContactRequestGenerator.getContactList());
+        mRequestList = new MutableLiveData<>(ContactGenerator.getContactList());
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
     }
@@ -40,7 +39,7 @@ public class ContactRequestViewModel extends AndroidViewModel {
      * @param observer Observer List FriendRequest
      */
     public void addRequestListObserver(@NonNull LifecycleOwner owner,
-                                       @NonNull Observer<? super List<ContactRequest>> observer) {
+                                       @NonNull Observer<? super List<Contact>> observer) {
         mRequestList.observe(owner, observer);
     }
 
@@ -87,6 +86,5 @@ public class ContactRequestViewModel extends AndroidViewModel {
         Log.e("CONNECTION ERROR", error.getLocalizedMessage());
         throw new IllegalStateException(error.getMessage());
     }
-
 
 }

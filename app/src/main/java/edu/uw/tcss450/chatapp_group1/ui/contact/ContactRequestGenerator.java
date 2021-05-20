@@ -2,7 +2,10 @@ package edu.uw.tcss450.chatapp_group1.ui.contact;
 
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Unused generator for now (request using contact list),
+ * but it will be removed at the end of sprint3
+ */
 public class ContactRequestGenerator {
     //contact request initializer
     private static final ContactRequest[] CONTACTS;

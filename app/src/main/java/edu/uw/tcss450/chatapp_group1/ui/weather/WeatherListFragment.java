@@ -5,13 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
 
@@ -54,32 +52,13 @@ public class WeatherListFragment extends Fragment {
             binding.textCity.setText(weatherData.getmCity());
             binding.textTemperature.setText(weatherData.getmTemperature());
             binding.textCondition.setText(weatherData.getmDescription());
-            Log.d("Weather List Fragment", "Weather description " + weatherData.getmDescription());
-            Log.d("Weather List Fragment", "Temperature " + weatherData.getmTemperature());
-            Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
         });
-
+      
         mModel.add24HourForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
-            for(int i = 0; i < weatherDataList.size(); i++) {
-                Log.d("Weather List Fragment", "Weather description " + weatherDataList.get(i).getmDescription());
-                Log.d("Weather List Fragment", "Temperature " + weatherDataList.get(i).getmTemperature());
-                Log.d("Weather List Fragment", "time " + weatherDataList.get(i).getmTime());
-                Log.d("Weather List Fragment", "icon " + weatherDataList.get(i).getmIcon());
-
-            }
             binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(weatherDataList));
         });
 
         mModel.addFiveDayForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
-            for(int i = 0; i < weatherDataList.size(); i++) {
-                // Update UI components
-                Log.d("Weather List Fragment", "Weather description: " + weatherDataList.get(i).getmDescription());
-                Log.d("Weather List Fragment", "Min temp: " + weatherDataList.get(i).getmMinTemperature());
-                Log.d("Weather List Fragment", "Max temp: " + weatherDataList.get(i).getmMaxTemperature());
-                Log.d("Weather List Fragment", "Weather Date: " + weatherDataList.get(i).getmDate());
-                Log.d("Weather List Fragment", "icon " + weatherDataList.get(i).getmIcon());
-
-            }
             binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(weatherDataList));
         });
     }

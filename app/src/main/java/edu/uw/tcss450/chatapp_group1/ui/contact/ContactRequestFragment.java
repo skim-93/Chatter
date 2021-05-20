@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentContactRequestBinding;
+import edu.uw.tcss450.chatapp_group1.databinding.FragmentContactSearchBinding;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 /**
@@ -20,8 +22,11 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
  */
 public class ContactRequestFragment extends Fragment {
     /**Initializer for contact request view model**/
-    private ContactRequestViewModel mModel;
-
+    private ContactListViewModel mModel;
+    /**Initializer for contact list view model**/
+    private ContactListViewModel mContactListViewModel;
+    /**Initializer for user info view model**/
+    private UserInfoViewModel mUserInfoViewModel;
     /**
      * on create for contact request fragment
      * @param savedInstanceState saved instance state bundle
@@ -29,8 +34,10 @@ public class ContactRequestFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ContactRequestViewModel.class);
-        UserInfoViewModel model = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+//        mModel = new ViewModelProvider(getActivity()).get(ContactListViewModel.class);
+        mContactListViewModel = new ViewModelProvider(getActivity()).get(ContactListViewModel.class);
+        mUserInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+
     }
 
     /**
@@ -55,8 +62,23 @@ public class ContactRequestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentContactRequestBinding binding = FragmentContactRequestBinding.bind(getView());
-
-        mModel.addRequestListObserver(getViewLifecycleOwner(), requestList -> binding.contactListRoot.setAdapter(new ContactRequestRecyclerViewAdapter(requestList, this.getContext())));
+        mContactListViewModel.addRequestListObserver(getViewLifecycleOwner(), contactList -> {
+                    ContactRequestRecyclerViewAdapter adapter = new ContactRequestRecyclerViewAdapter(contactList, this.getContext(), mUserInfoViewModel, mContactListViewModel);
+                    binding.contactListRoot.setAdapter(adapter);
+                    //setup search tab for text listener
+                    binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapter.getFilter().filter(newText);
+                            return false;
+                        }
+                    });
+                }
+        );
     }
 
 }

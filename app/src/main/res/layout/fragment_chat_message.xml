@@ -16,10 +16,11 @@
         android:id="@+id/card_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:layout_margin="@dimen/chat_margin"
+        app:cardBackgroundColor="@color/colorOffWhite"
         app:cardCornerRadius="5dp"
-        app:cardElevation="0dp"
-        android:layout_gravity="end">
+        app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_inner"
@@ -34,6 +35,8 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorOffWhite"
+                android:textColorHint="@color/colorOffWhite"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
