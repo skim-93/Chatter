@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-        //TODO open a settings fragment
-            Log.d("SETTINGS", "Clicked");
+            Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);
