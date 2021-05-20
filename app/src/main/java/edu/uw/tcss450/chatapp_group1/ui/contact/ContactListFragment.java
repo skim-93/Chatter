@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentContactListBinding;
+import edu.uw.tcss450.chatapp_group1.databinding.FragmentContactSearchBinding;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 /**
@@ -57,10 +59,23 @@ public class ContactListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentContactListBinding binding = FragmentContactListBinding.bind(getView());
-
-        //add observer for contact friend list
-        mContactListViewModel.addContactFriendListObserver(getViewLifecycleOwner(), contactList -> binding.contactListRoot.setAdapter(
-                new ContactRecyclerViewAdapter(contactList, this.getContext(),
-                        getChildFragmentManager(), mUserInfoViewModel, mContactListViewModel)));
+        mContactListViewModel.addContactFriendListObserver(getViewLifecycleOwner(), contactList -> {
+                    ContactRecyclerViewAdapter adapter = new ContactRecyclerViewAdapter(contactList, this.getContext(),
+                        getChildFragmentManager(), mUserInfoViewModel, mContactListViewModel);
+                    binding.contactListRoot.setAdapter(adapter);
+                    //setup search tab for text listener
+                    binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapter.getFilter().filter(newText);
+                            return false;
+                        }
+                    });
+                }
+        );
     }
 }
