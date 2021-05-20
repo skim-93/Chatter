@@ -1,19 +1,16 @@
 package edu.uw.tcss450.chatapp_group1.ui.weather;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.List;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
@@ -25,7 +22,6 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
 public class WeatherListFragment extends Fragment {
 
     private WeatherListViewModel mModel;
-    private List<WeatherData> mWeathers;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +42,6 @@ public class WeatherListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
 
         binding.buttonZipcodeSearch.setOnClickListener(button ->
@@ -56,15 +51,12 @@ public class WeatherListFragment extends Fragment {
 
         mModel.addCurrentWeatherObserver(getViewLifecycleOwner(), weatherData -> {
             // Update UI components
+            binding.textCity.setText(weatherData.getmCity());
+            binding.textTemperature.setText(weatherData.getmTemperature());
+            binding.textCondition.setText(weatherData.getmDescription());
             Log.d("Weather List Fragment", "Weather description " + weatherData.getmDescription());
             Log.d("Weather List Fragment", "Temperature " + weatherData.getmTemperature());
             Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
-            String city = weatherData.getmCity();
-            String temp = String.valueOf(weatherData.getmTemperature());
-            String cond = weatherData.getmDescription();
-            binding.textCity.setText(city);
-            binding.textTemperature.setText(temp);
-            binding.textCondition.setText(cond);
         });
 
         mModel.add24HourForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
@@ -72,6 +64,8 @@ public class WeatherListFragment extends Fragment {
                 Log.d("Weather List Fragment", "Weather description " + weatherDataList.get(i).getmDescription());
                 Log.d("Weather List Fragment", "Temperature " + weatherDataList.get(i).getmTemperature());
                 Log.d("Weather List Fragment", "time " + weatherDataList.get(i).getmTime());
+                Log.d("Weather List Fragment", "icon " + weatherDataList.get(i).getmIcon());
+
             }
             binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(weatherDataList));
         });
@@ -82,6 +76,9 @@ public class WeatherListFragment extends Fragment {
                 Log.d("Weather List Fragment", "Weather description: " + weatherDataList.get(i).getmDescription());
                 Log.d("Weather List Fragment", "Min temp: " + weatherDataList.get(i).getmMinTemperature());
                 Log.d("Weather List Fragment", "Max temp: " + weatherDataList.get(i).getmMaxTemperature());
+                Log.d("Weather List Fragment", "Weather Date: " + weatherDataList.get(i).getmDate());
+                Log.d("Weather List Fragment", "icon " + weatherDataList.get(i).getmIcon());
+
             }
             binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(weatherDataList));
         });
