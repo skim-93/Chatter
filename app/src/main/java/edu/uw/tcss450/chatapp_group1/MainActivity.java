@@ -14,6 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -138,5 +141,22 @@ public class MainActivity extends AppCompatActivity {
                 mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+        //TODO open a settings fragment
+            Log.d("SETTINGS", "Clicked");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
