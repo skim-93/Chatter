@@ -15,7 +15,7 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherDailyCardBinding
 
 public class WeatherDailyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherDailyRecyclerViewAdapter.WeatherViewHolder> {
-
+    //store all of the weather data present
     private final List<WeatherData> mWeathers;
 
     public WeatherDailyRecyclerViewAdapter(List<WeatherData> items) {
@@ -61,7 +61,6 @@ public class WeatherDailyRecyclerViewAdapter extends
 
         /**
          * helps to set the components of the dailyweather
-         *
          * @param weatherDaily
          */
         void setWeather(final WeatherData weatherDaily) {
