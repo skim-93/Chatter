@@ -24,7 +24,8 @@
         android:text="uwnetid5@fake.email.com"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fifty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textCursorDrawable="@drawable/cursor_color"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fifty"
@@ -50,7 +51,8 @@
         android:text="test5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_fifty" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_fifty"
+        android:textCursorDrawable="@drawable/cursor_color"/>
 
     <Button
         android:id="@+id/button_sign_in"
