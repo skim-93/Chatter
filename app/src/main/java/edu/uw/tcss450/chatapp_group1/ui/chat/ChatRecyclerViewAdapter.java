@@ -19,6 +19,12 @@ import java.util.List;
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChatMessageBinding;
 
+
+/**
+ * Recycler view adapter class for holding a chat
+ *
+ * @author Charles
+ */
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
     private final List<ChatMessage> mMessages;

@@ -18,6 +18,11 @@ import java.util.List;
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChatListCardBinding;
 
+/**
+ * Recycler view adapter class for holding a chat list.
+ *
+ * @author Joseph
+ */
 public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListViewHolder> {
 
     /**
@@ -26,6 +31,11 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
     private List<ChatRoomViewModel> mChatRoomViewModels;
     private final ChatListFragment mParent;
 
+    /**
+     * Constructor.
+     * @param chats chats list
+     * @param parent parent fragment
+     */
     public ChatListRecyclerViewAdapter(List<ChatRoomViewModel> chats, ChatListFragment parent) {
         this.mChatRoomViewModels = chats;
         this.mParent = parent;
@@ -87,11 +97,18 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
         }
     }
 
+    /**
+     * Setting chat rooms
+     * @param rooms list
+     */
     public void setChatRooms(List<ChatRoomViewModel> rooms){
         mChatRoomViewModels = rooms;
         notifyDataSetChanged();
     }
 
+    /**
+     * Get count of chat rooms.
+     */
     @Override
     public int getItemCount() {
         return mChatRoomViewModels.size();

@@ -28,6 +28,11 @@ import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
+/**
+ * View model for the chat list. Stores data about chat lists across app lifecycles.
+ *
+ * @author Joseph
+ */
 public class ChatListViewModel extends AndroidViewModel {
 
     /**
@@ -37,6 +42,10 @@ public class ChatListViewModel extends AndroidViewModel {
     private final MutableLiveData<JSONObject> mResponse;
     private UserInfoViewModel userInfoViewModel;
 
+    /**
+     * Constructor
+     * @param application app
+     */
     public ChatListViewModel(@NonNull Application application) {
         super(application);
         mChatRoomList = new MutableLiveData<>(new ArrayList<>());
@@ -44,10 +53,19 @@ public class ChatListViewModel extends AndroidViewModel {
         mResponse.setValue(new JSONObject());
     }
 
+    /**
+     * Set this user info view model to ours.
+     * @param theUserInfoViewModel
+     */
     public void setUserInfoViewModel(UserInfoViewModel theUserInfoViewModel) {
         userInfoViewModel = theUserInfoViewModel;
     }
 
+    /**
+     * Set observer for changes to chat list.
+     * @param owner owner
+     * @param observer the observer
+     */
     public void addChatListObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super List<ChatRoomViewModel>> observer) {
         mChatRoomList.observe(owner, observer);
     }
@@ -81,7 +99,10 @@ public class ChatListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    // reusable method to handle the json result.
+    /**
+     * Handle HTTP success response
+     * @param result the json result
+     */
     private void handleSuccess(final JSONObject result) {
         ArrayList<ChatRoomViewModel> temp = new ArrayList<>();
         try {
@@ -164,7 +185,11 @@ public class ChatListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext()).add(request);
     }
 
-    // handler for adding chat
+    /**
+     * Helper for adding chats.
+     * @param jwt jwt
+     * @param response the json response
+     */
     private void handleAddChat(final String jwt, final JSONObject response) {
         try {
             int chatID = response.getInt("chatID");
@@ -176,6 +201,11 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Adding members to chat.
+     * @param jwt jwt
+     * @param chatID the chat room id
+     */
     public void putMembers(final String jwt, int chatID) {
         String url = getApplication().getResources().getString(R.string.base_url) + "chats/" + chatID;
         JSONObject body = new JSONObject();
@@ -208,7 +238,10 @@ public class ChatListViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
-    // handle volley error
+    /**
+     * Handle HTTP error response.
+     * @param error the error
+     */
     private void handleError(final VolleyError error) {
         Log.e("CONNECTION ERROR", "No Chat Info");
     }
