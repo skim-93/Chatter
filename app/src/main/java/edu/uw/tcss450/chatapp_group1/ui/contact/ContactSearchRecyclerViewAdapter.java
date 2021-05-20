@@ -96,7 +96,7 @@ public class ContactSearchRecyclerViewAdapter extends
     }
 
     /**
-     * Getter for serach fillter
+     * Getter for search filter
      * @return return with search filter
      */
     @Override
@@ -105,7 +105,7 @@ public class ContactSearchRecyclerViewAdapter extends
     }
 
     /**
-     * method to search contact card from whole search list and return with matching info
+     * method to search contact card from the list and then return with matching info
      */
     private Filter searchFilter = new Filter() {
         @Override
@@ -131,7 +131,7 @@ public class ContactSearchRecyclerViewAdapter extends
         /**
          * receive filter result and apply to the list contacts
          * @param constraint readable sequence of char values
-         * @param results resut from filter data
+         * @param results result from filter data
          */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {

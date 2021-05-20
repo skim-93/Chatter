@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,15 +14,18 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 public class ContactRequestRecyclerViewAdapter extends
-        RecyclerView.Adapter<ContactRequestRecyclerViewAdapter.RequestViewHolder> {
+        RecyclerView.Adapter<ContactRequestRecyclerViewAdapter.RequestViewHolder> implements Filterable {
+    /**Initializer for search contact list**/
+    private List<Contact> mSearchContacts;
     /**Initializer for contact request list**/
-    private List<ContactRequest> mFriendRequest;
+    private List<Contact> mFriendRequest;
     /**Initializer for contact list view model**/
     private ContactListViewModel mViewModel;
     /**Initializer for user info view model**/
@@ -30,16 +35,17 @@ public class ContactRequestRecyclerViewAdapter extends
 
     /**
      * Contact request recycler view adapter
-     * @param requests list of contact request
+     * @param contacts list of contact request
      * @param context context for recycler view adapter
      */
-    public ContactRequestRecyclerViewAdapter(List<ContactRequest> requests, Context context) {
-        this.mFriendRequest = requests;
-        mContext = context;
-        mInfoModel = new ViewModelProvider((FragmentActivity) mContext)
-                .get(UserInfoViewModel.class);
-        mViewModel = new ViewModelProvider((FragmentActivity) mContext)
-                .get(ContactListViewModel.class);
+    public ContactRequestRecyclerViewAdapter(List<Contact> contacts, Context context,UserInfoViewModel userModel,
+                                             ContactListViewModel viewModel) {
+        ContactGenerator generator = new ContactGenerator();
+        this.mFriendRequest = new ArrayList<>(generator.getContactList());
+        this.mSearchContacts = new ArrayList<>(contacts);
+        this.mContext = context;
+        this.mInfoModel = userModel;
+        this.mViewModel = viewModel;
     }
 
     /**
@@ -84,7 +90,7 @@ public class ContactRequestRecyclerViewAdapter extends
         private ImageButton contact_request_accept_button;
         private ImageButton contact_request_decline_button;
         private final View mView;
-        private ContactRequest mRequest;
+        private Contact mRequest;
         public RequestViewHolder(View v) {
             super(v);
             mView = v;
@@ -93,9 +99,9 @@ public class ContactRequestRecyclerViewAdapter extends
             contact_request_decline_button = v.findViewById(R.id.contact_button_request_decline);
         }
 
-        private void setRequest(final ContactRequest request, RequestViewHolder holder) {
+        private void setRequest(final Contact request, RequestViewHolder holder) {
             mRequest = request;
-            usernameTextView.setText(request.getUsername());
+            usernameTextView.setText(request.getEmail());
             //set on click listener for accept button
             contact_request_accept_button.setOnClickListener(v -> {
                 //need to connect to backend later(will be updated in sprint3)
@@ -108,4 +114,48 @@ public class ContactRequestRecyclerViewAdapter extends
             });
         }
     }
+
+    /**
+     * Getter for search filter
+     * @return return with search filter
+     */
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    /**
+     * method to search contact card from the list and then return with matching info
+     */
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Contact> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mSearchContacts);
+            } else {
+                String searchRequest = constraint.toString().toLowerCase().trim();
+                for (Contact contacts : mSearchContacts) {
+                    if (contacts.getEmail().toLowerCase().contains(searchRequest)) {
+                        filteredList.add(contacts);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        /**
+         * receive filter result and apply to the list contacts
+         * @param constraint readable sequence of char values
+         * @param results result from filter data
+         */
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mFriendRequest.clear();
+            mFriendRequest.addAll((List<Contact>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

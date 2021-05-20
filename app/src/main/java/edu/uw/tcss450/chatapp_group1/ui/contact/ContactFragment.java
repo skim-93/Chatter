@@ -59,7 +59,7 @@ public class ContactFragment extends Fragment {
         //add menu with fragment to adapter
         adapter.addFrag(new ContactListFragment(),"FRIENDS");
         adapter.addFrag(new ContactRequestFragment(),"REQUEST");
-        adapter.addFrag(new ContactSearchFragment(), "SEARCH");
+        adapter.addFrag(new ContactSearchFragment(), "FIND NEW");
         //set background to no color
         tabLayout.setBackground(null);
         //set adapter and initial menu position
