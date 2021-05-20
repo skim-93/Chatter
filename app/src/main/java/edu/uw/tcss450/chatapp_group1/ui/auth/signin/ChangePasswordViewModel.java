@@ -1,7 +1,6 @@
 package edu.uw.tcss450.chatapp_group1.ui.auth.signin;
 
 import android.app.Application;
-import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,8 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
@@ -63,12 +60,13 @@ public class ChangePasswordViewModel extends AndroidViewModel {
         }
     }
 
-    public void connect(final String email, final String password, final String newPassword) {
-        String url = "https://group1-tcss450-project.herokuapp.com/resetpassword";
+    public void connect(final String email, final String newPassword) {
+        String url = "https://group1-tcss450-project.herokuapp.com/verification/change-password";
 
         JSONObject body = new JSONObject();
         try {
-            body.put("newpassword", newPassword);
+            body.put("email", email);
+            body.put("newPassword", newPassword);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,17 +77,6 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                 body,
                 mResponse::setValue,
                 this::handleError) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                String credentials = email + ":" + password;
-                String auth = "Basic "
-                        + Base64.encodeToString(credentials.getBytes(),
-                        Base64.NO_WRAP);
-                headers.put("Authorization", auth);
-                return headers;
-            }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,

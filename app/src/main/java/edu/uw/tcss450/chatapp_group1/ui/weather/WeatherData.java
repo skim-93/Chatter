@@ -3,47 +3,50 @@ package edu.uw.tcss450.chatapp_group1.ui.weather;
 import java.io.Serializable;
 
 public class WeatherData implements Serializable {
-    private  String mTime;
-    private  String mCity;
-    private  Double mTemperature;
-    private  String mCondition;
-    private  Double mMinTemp;
-    private  Double mMaxTemp;
-    private  String mDate;
+    private String mTime;
+    private String mCity;
+    private double mTemperature;
+    private String mDescription;
+    private Double mMinTemp;
+    private Double mMaxTemp;
+    private String mDate;
+    private String mIcon;
 
-    public WeatherData(Double temperature, String city, String condition) {
+    public WeatherData(String desc, double temp, String city, String icon) {
+        this.mDescription = desc;
+        this.mTemperature = temp;
         this.mCity = city;
-        this.mTemperature = temperature;
-        this.mCondition = condition;
+        this.mIcon = icon;
     }
 
-    public WeatherData(String time, Double temperature, String condition) {
-        this.mTime = time;
-        this.mTemperature = temperature;
-        this.mCondition = condition;
-    }
-
-    public WeatherData(String condition, Double minTemp, Double maxTemp, String date) {
-        this.mCondition = condition;
-        this.mMinTemp = minTemp;
-        this.mMaxTemp = maxTemp;
+    public WeatherData(String date, String desc, double min, double max, String icon) {
         this.mDate = date;
+        this.mDescription = desc;
+        this.mMinTemp = min;
+        this.mMaxTemp = max;
+        this.mIcon = icon;
     }
 
+    public WeatherData(String desc, String time, double temp, String icon) {
+        this.mDescription = desc;
+        this.mTemperature = temp;
+        this.mTime = time;
+        this.mIcon = icon;
+    }
+
+    public String getmIcon() {
+        return mIcon;
+    }
+
+    public String getmTemperature() {
+        return mTemperature + "°";
+    }
     public String getmCity() {
         return mCity;
     }
 
-    public String getmDate() {
-        return mDate;
-    }
-
-    public String getmTemperature() {
-        return String.valueOf((int)Math.round(mTemperature));
-    }
-
-    public String getmCondition() {
-        return mCondition;
+    public String getmDescription() {
+        return mDescription;
     }
 
     public String getmTime() {
@@ -51,10 +54,13 @@ public class WeatherData implements Serializable {
     }
 
     public String  getmMinTemperature() {
-        return String.valueOf((int)Math.round(mMinTemp));
+        return (int)Math.round(mMinTemp) + "°";
     }
 
     public String  getmMaxTemperature() {
-        return String.valueOf((int)Math.round(mMaxTemp));
+        return (int)Math.round(mMaxTemp) + "°";
+    }
+    public String getmDate() {
+        return mDate;
     }
 }

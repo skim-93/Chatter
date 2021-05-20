@@ -40,7 +40,6 @@ public class ChangePasswordFragment extends Fragment {
     private ChangePasswordViewModel mSetPasswordViewModel;
 
     private String mEmail;
-    private String mPassword;
 
     private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.passwordField2.getText().toString()))
@@ -79,7 +78,6 @@ public class ChangePasswordFragment extends Fragment {
         ChangePasswordFragmentArgs args = ChangePasswordFragmentArgs.fromBundle(getArguments());
 
         mEmail = args.getEmail();
-        mPassword = args.getPassword();
 
         Log.d("temp", "here1");
     }
@@ -100,17 +98,11 @@ public class ChangePasswordFragment extends Fragment {
                 }
             } else {
                 navigateBackToSignIn(null);
-                Toast.makeText(getActivity(),
-                        "New password set!",
-                        Toast.LENGTH_LONG).show();
-
                 ((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-
             }
         } else {
             Log.d("JSON Response", "No Response");
         }
-
     }
 
     /**
@@ -128,7 +120,7 @@ public class ChangePasswordFragment extends Fragment {
      * Sends a request to set the given user with the given temporary password to the given new password
      */
     private void attemptToSetPassword() {
-        mSetPasswordViewModel.connect(mEmail, mPassword, binding.passwordField1.getText().toString());
+        mSetPasswordViewModel.connect(mEmail, binding.passwordField1.getText().toString());
     }
 
     /**
@@ -136,12 +128,10 @@ public class ChangePasswordFragment extends Fragment {
      * @param view See above
      */
     private void navigateBackToSignIn(View view) {
-        ChangePasswordFragmentDirections.ActionChangePasswordFragmentToSignInFragment action = ChangePasswordFragmentDirections.actionChangePasswordFragmentToSignInFragment();
-        action.setEmail(mEmail);
-        action.setPassword(binding.passwordField1.getText().toString());
-        Navigation.findNavController(getView()).navigate(action);
-
-        Navigation.findNavController(requireView()).popBackStack(
-                R.id.changePasswordFragment, true);
+        ChangePasswordFragmentDirections.ActionChangePasswordFragmentToSignInFragment direction =
+                ChangePasswordFragmentDirections.actionChangePasswordFragmentToSignInFragment();
+        direction.setEmail(mEmail);
+        direction.setPassword(binding.passwordField1.getText().toString());
+        Navigation.findNavController(getView()).navigate(direction);
     }
 }
