@@ -37,7 +37,7 @@
         android:id="@+id/list_chat_root"
         android:name="edu.uw.group1.chat.ChatFragment"
         android:layout_width="0dp"
-        android:layout_height="568dp"
+        android:layout_height="464dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
