@@ -56,9 +56,6 @@ public class WeatherListFragment extends Fragment {
 
         mModel.addCurrentWeatherObserver(getViewLifecycleOwner(), weatherData -> {
             // Update UI components
-            Log.d("Weather List Fragment", "Weather description " + weatherData.getmDescription());
-            Log.d("Weather List Fragment", "Temperature " + weatherData.getmTemperature());
-            Log.d("Weather List Fragment", "City name " + weatherData.getmCity());
             String city = weatherData.getmCity();
             String temp = String.valueOf(weatherData.getmTemperature());
             String cond = weatherData.getmDescription();
@@ -68,21 +65,10 @@ public class WeatherListFragment extends Fragment {
         });
 
         mModel.add24HourForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
-            for(int i = 0; i < weatherDataList.size(); i++) {
-                Log.d("Weather List Fragment", "Weather description " + weatherDataList.get(i).getmDescription());
-                Log.d("Weather List Fragment", "Temperature " + weatherDataList.get(i).getmTemperature());
-                Log.d("Weather List Fragment", "time " + weatherDataList.get(i).getmTime());
-            }
             binding.hourlyListRoot.setAdapter(new WeatherHourlyRecyclerViewAdapter(weatherDataList));
         });
 
         mModel.addFiveDayForecastObserver(getViewLifecycleOwner(), weatherDataList -> {
-            for(int i = 0; i < weatherDataList.size(); i++) {
-                // Update UI components
-                Log.d("Weather List Fragment", "Weather description: " + weatherDataList.get(i).getmDescription());
-                Log.d("Weather List Fragment", "Min temp: " + weatherDataList.get(i).getmMinTemperature());
-                Log.d("Weather List Fragment", "Max temp: " + weatherDataList.get(i).getmMaxTemperature());
-            }
             binding.dailyListRoot.setAdapter(new WeatherDailyRecyclerViewAdapter(weatherDataList));
         });
     }
