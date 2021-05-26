@@ -96,4 +96,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Switch
+        android:id="@+id/switch_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:buttonTint="#BD0000"
+        android:checked="true"
+        android:text="Stay Signed in"
+        android:textColor="@color/white"
+        android:thumbTint="#FB7200"
+        android:trackTint="#FBFBFB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forgot_password_button"
+        tools:text="@string/switch_sign_in" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
