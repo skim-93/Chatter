@@ -36,6 +36,12 @@ public class WeatherListViewModel extends AndroidViewModel {
         mFiveDayForecast = new MutableLiveData<>();
     }
 
+    /**
+     * Add an observer to this live data. This is a pass through method for
+     * this classes MutableLiveData field of count.
+     * @param owner the LifecycleOwner which controls the observer
+     * @param observer the observer that will receive the events
+     */
     public void addFiveDayForecastObserver(@NonNull LifecycleOwner owner,
                                            @NonNull Observer<? super List<WeatherData>> observer) {
         mFiveDayForecast.observe(owner, observer);
@@ -50,6 +56,11 @@ public class WeatherListViewModel extends AndroidViewModel {
         mCurrentWeather.observe(owner, observer);
     }
 
+    /**
+     * based on the given zipcode make a request to the server to get the weather data
+     * for the current weather
+     * @param zipcode
+     */
     public void getCurrentWeather(String zipcode) {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/current-weather/" + zipcode;
 
@@ -68,6 +79,11 @@ public class WeatherListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * based on the given zipcode make a request to the server to get the weather data
+     * for the hourly weather
+     * @param zipcode
+     */
     public void get24HourForecast(String zipcode) {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/24-forecast/" + zipcode;
 
@@ -86,6 +102,11 @@ public class WeatherListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * based on the given zipcode make a request to the server to get the weather data
+     * for the daily weather
+     * @param zipcode
+     */
     public void getFiveDayForecast(String zipcode) {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/forecast/" + zipcode;
 
@@ -104,6 +125,11 @@ public class WeatherListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * after recieving the weather data send the items to the WeatherData class
+     * inorder to be constructed
+     * @param result
+     */
     private void handleFiveDayForecastResult(final JSONObject result) {
         List<WeatherData> weatherResults = new ArrayList<>();
         if (result.has("5 day forecasts")) {
@@ -121,7 +147,8 @@ public class WeatherListViewModel extends AndroidViewModel {
                     double maxTemp = forecast.getDouble("Max Temperature");
                     String weatherDescription = forecast.getString("Weather Description");
                     String icon = forecast.getString("Icon");
-                    WeatherData currentForecast = new WeatherData("",weatherDescription, minTemp, maxTemp, icon);
+                    String weatherDate = forecast.getString("Date");
+                    WeatherData currentForecast = new WeatherData(weatherDate,weatherDescription, minTemp, maxTemp, icon);
                     weatherResults.add(currentForecast);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -133,6 +160,11 @@ public class WeatherListViewModel extends AndroidViewModel {
         mFiveDayForecast.setValue(weatherResults);
     }
 
+    /**
+     * after recieving the weather data send the items to the WeatherData class
+     * inorder to be constructed
+     * @param result
+     */
     private void handle24HourForecastResult(final JSONObject result) {
         List<WeatherData> weatherResults = new ArrayList<>();
         if (result.has("daily-forecasts")) {
@@ -162,16 +194,21 @@ public class WeatherListViewModel extends AndroidViewModel {
         m24HourForecast.setValue(weatherResults);
     }
 
+    /**
+     * after recieving the weather data send the items to the WeatherData class
+     * inorder to be constructed
+     * @param result
+     */
     private void handleCurrentWeatherResult(final JSONObject result) {
         String weatherDescription = null, cityName = null, icon = null;
         double temperature = 0;
         if (result.has("Weather Description") && result.has("Temperature") &&
-                result.has("City name") && result.has("icon")) {
+                result.has("City name")) {
             try {
                 weatherDescription = (String) result.getString("Weather Description");
                 temperature = result.getDouble("Temperature");
                 cityName = (String) result.getString("City name");
-                icon = (String) result.getString("Icon");
+               // icon = (String) result.getString("Icon");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -179,7 +216,7 @@ public class WeatherListViewModel extends AndroidViewModel {
             Log.e("Weather List view model", "Error! missing information");
             return;
         }
-        mCurrentWeather.setValue(new WeatherData(weatherDescription,temperature,cityName,icon));
+        mCurrentWeather.setValue(new WeatherData(weatherDescription,temperature,cityName));
     }
 
     private void handleError(final VolleyError error) {

@@ -2,6 +2,10 @@ package edu.uw.tcss450.chatapp_group1.ui.weather;
 
 import java.io.Serializable;
 
+/**
+ * class to construct the weather depending on their behaivior for each of the
+ * currnent weather, hourly weather and daily weather
+ */
 public class WeatherData implements Serializable {
     private String mTime;
     private String mCity;
@@ -12,13 +16,14 @@ public class WeatherData implements Serializable {
     private String mDate;
     private String mIcon;
 
-    public WeatherData(String desc, double temp, String city, String icon) {
+    //constructs the current weather
+    public WeatherData(String desc, double temp, String city) {
         this.mDescription = desc;
         this.mTemperature = temp;
         this.mCity = city;
-        this.mIcon = icon;
     }
 
+    //constructs the hourly weather
     public WeatherData(String date, String desc, double min, double max, String icon) {
         this.mDate = date;
         this.mDescription = desc;
@@ -27,6 +32,7 @@ public class WeatherData implements Serializable {
         this.mIcon = icon;
     }
 
+    //constructs the daily weather
     public WeatherData(String desc, String time, double temp, String icon) {
         this.mDescription = desc;
         this.mTemperature = temp;

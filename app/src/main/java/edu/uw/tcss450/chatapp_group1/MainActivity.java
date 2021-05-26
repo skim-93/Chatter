@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -116,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
     /**
      * A BroadcastReceiver that listens for messages sent from PushReceiver
      */
@@ -164,4 +170,5 @@ public class MainActivity extends AppCompatActivity {
         //End the app completely
         finishAndRemoveTask();
     }
+
 }

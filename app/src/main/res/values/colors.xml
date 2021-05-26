@@ -12,6 +12,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorOffWhite">#E9E9E9</color>
     <color name="colorPrimaryAlpha">#226200EE</color>
+    <color name="darkRed">#AA1708</color>
 
     <!-- Main theme colors -->
     <color name="brownOrange">#CA6001</color>

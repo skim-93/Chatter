@@ -15,19 +15,19 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/navigation_chat"
-        android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatFragment"
-        android:label="Chat"
-        tools:layout="@layout/fragment_chat" >
-        <action
-            android:id="@+id/action_navigation_chat_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/navigation_contact"
-        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactListFragment"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactFragment"
         android:label="Contact"
-        tools:layout="@layout/fragment_contact_list" />
+        tools:layout="@layout/fragment_contact_list" >
+        <action
+            android:id="@+id/action_navigation_contact_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+        <argument
+            android:name="chatid"
+            app:argType="integer" />
+        <argument android:name="throughChat"
+            app:argType="boolean" />
+    </fragment>
     <fragment
 
         android:id="@+id/navigation_weather"
@@ -47,9 +47,24 @@
         android:id="@+id/chatRoomFragment"
         android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatRoomFragment"
         android:label="Chat Room"
-        tools:layout="@layout/fragment_chat_room" />
+        tools:layout="@layout/fragment_chat_room" >
+        <action
+            android:id="@+id/action_chatRoomFragment_to_navigation_contact"
+            app:destination="@id/navigation_contact" />
+        <argument
+            android:name="chatid"
+            app:argType="integer" />
+        <argument
+            android:name="chattitle"
+            app:argType="string" />
+    </fragment>
     <fragment
-        android:id="@+id/navigation_contact"
-        android:name="edu.uw.tcss450.chatapp_group1.ui.contact.ContactFragment"
-        android:label="@string/contact_fragment_name" />
+        android:id="@+id/navigation_chat"
+        android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatListFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_chatListFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
 </navigation>

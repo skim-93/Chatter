@@ -2,34 +2,41 @@ package edu.uw.tcss450.chatapp_group1.ui.chat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
+import edu.uw.tcss450.chatapp_group1.MainActivity;
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChatRoomBinding;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This class is the fragment for a chat room users can send and receive messages in.
+ *
+ * @author Joseph
  */
 public class ChatRoomFragment extends Fragment {
 
-    //The chat ID for "global" chat
-    private static final int HARD_CODED_CHAT_ID = 1;
-
+    /**
+     * Fields to store states/data.
+     */
+    private int mChatID;
+    private String mChatTitle;
+    private ChatSendViewModel mSendModel;
     private ChatViewModel mChatModel;
     private UserInfoViewModel mUserModel;
-    private ChatSendViewModel mSendModel;
 
+    /**
+     * Constructor.
+     */
     public ChatRoomFragment() {
         // Required empty public constructor
     }
@@ -40,10 +47,8 @@ public class ChatRoomFragment extends Fragment {
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mUserModel = provider.get(UserInfoViewModel.class);
         mChatModel = provider.get(ChatViewModel.class);
-        mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
         mSendModel = provider.get(ChatSendViewModel.class);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,48 +61,52 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // get the arguments from chat room xml
+        ChatRoomFragmentArgs args = ChatRoomFragmentArgs.fromBundle(getArguments());
+        mChatID = args.getChatid();
+        mChatTitle = args.getChattitle();
+        ((MainActivity) getActivity()).setActionBarTitle(mChatTitle);
+        mChatModel.getFirstMessages(mChatID, mUserModel.getmJwt());
         FragmentChatRoomBinding binding = FragmentChatRoomBinding.bind(getView());
 
-        //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
+        // Show this until messages fully load
         binding.swipeContainer.setRefreshing(true);
 
         final RecyclerView rv = binding.recyclerMessages;
-        //Set the Adapter to hold a reference to the list FOR THIS chat ID that the ViewModel
-        //holds.
+
+        // Setting the adapter to hold a list for this specific chat id
         rv.setAdapter(new ChatRecyclerViewAdapter(
-                mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+                mChatModel.getMessageListByChatId(mChatID),
                 mUserModel.getEmail()));
 
-
-        //When the user scrolls to the top of the RV, the swiper list will "refresh"
-        //The user is out of messages, go out to the service and get more
+        // Enable list refreshing when scrolling to the top of the recycler view.
         binding.swipeContainer.setOnRefreshListener(() -> {
-            mChatModel.getNextMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
+            mChatModel.getNextMessages(mChatID, mUserModel.getmJwt());
         });
 
-        mChatModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
+        // add an observer for messages
+        mChatModel.addMessageObserver(mChatID, getViewLifecycleOwner(),
                 list -> {
-                    /*
-                     * This solution needs work on the scroll position. As a group,
-                     * you will need to come up with some solution to manage the
-                     * recyclerview scroll position. You also should consider a
-                     * solution for when the keyboard is on the screen.
-                     */
-                    //inform the RV that the underlying list has (possibly) changed
                     rv.getAdapter().notifyDataSetChanged();
                     rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
                     binding.swipeContainer.setRefreshing(false);
                 });
 
-        //Send button was clicked. Send the message via the SendViewModel
+        // Send the message via ChatSendViewModel.
         binding.buttonSend.setOnClickListener(button -> {
-            mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+            mSendModel.sendMessage(mChatID,
                     mUserModel.getmJwt(),
                     binding.editMessage.getText().toString());
         });
-        //when we get the response back from the server, clear the edittext
+
+        // setting the button to redirect to contacts
+        binding.buttonAdd.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        ChatRoomFragmentDirections.actionChatRoomFragmentToNavigationContact(mChatID, true)
+                ));
+
+        // After a response is retrieved, reset the text in the editMessage field.
         mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
                 binding.editMessage.setText(""));
     }
 }
-

@@ -28,6 +28,11 @@ import java.util.Objects;
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
 
+/**
+ * View model for a single chat.
+ *
+ * @author Charles
+ */
 public class ChatViewModel extends AndroidViewModel {
 
     /**
