@@ -20,6 +20,8 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 /**
  * This class is the fragment for a chat room users can send and receive messages in.
+ *
+ * @author Joseph
  */
 public class ChatRoomFragment extends Fragment {
 
@@ -32,6 +34,9 @@ public class ChatRoomFragment extends Fragment {
     private ChatViewModel mChatModel;
     private UserInfoViewModel mUserModel;
 
+    /**
+     * Constructor.
+     */
     public ChatRoomFragment() {
         // Required empty public constructor
     }

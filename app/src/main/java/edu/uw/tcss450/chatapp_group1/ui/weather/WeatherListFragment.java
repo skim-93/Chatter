@@ -18,7 +18,7 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
 
  */
 public class WeatherListFragment extends Fragment {
-
+    //viewmodel for the weather list
     private WeatherListViewModel mModel;
 
     @Override
