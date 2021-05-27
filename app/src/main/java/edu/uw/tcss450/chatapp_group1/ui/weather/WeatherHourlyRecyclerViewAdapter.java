@@ -16,6 +16,7 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherHourlyCardBindin
 public class WeatherHourlyRecyclerViewAdapter extends
         RecyclerView.Adapter<WeatherHourlyRecyclerViewAdapter.WeatherViewHolder> {
 
+    //store all of the weather data present
     private final List<WeatherData> mWeathers;
     public WeatherHourlyRecyclerViewAdapter(List<WeatherData> items) {
         this.mWeathers = items;

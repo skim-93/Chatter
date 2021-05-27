@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 /**
  * Encapsulate chat message details.
+ *
+ * @author Charles
  */
 public final class ChatMessage implements Serializable {
 

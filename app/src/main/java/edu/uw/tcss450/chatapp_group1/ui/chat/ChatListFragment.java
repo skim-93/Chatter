@@ -18,6 +18,8 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
 /**
  * Fragment class for listing chat rooms that the current user is associated with.
+ *
+ * @author Joseph
  */
 public class ChatListFragment extends Fragment {
 
