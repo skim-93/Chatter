@@ -97,4 +97,7 @@
 
     <string name="theme_title">Theme</string>
 
+    <string name="shared_theme_pref">App Theme Preference</string>
+    <string name="theme_pref">Theme Preference</string>
+
 </resources>
