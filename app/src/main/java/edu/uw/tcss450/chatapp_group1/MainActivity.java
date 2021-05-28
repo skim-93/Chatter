@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -161,20 +162,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.drop_down, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivityForResult(settingIntent, 1);
             return true;
+        if (id == R.id.action_sign_out) {
+            signOut();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -184,5 +186,13 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             recreate(); // Recreate activity to update color theme
         }
+    }
+
+    private void signOut() {
+        SharedPreferences prefs = getSharedPreferences(
+                getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+        //End the app completely
+        finishAndRemoveTask();
     }
 }
