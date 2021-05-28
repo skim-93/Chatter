@@ -3,8 +3,6 @@ package edu.uw.tcss450.chatapp_group1;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
