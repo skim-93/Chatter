@@ -14,6 +14,18 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences(
+                getString(R.string.shared_theme_pref),
+                Context.MODE_PRIVATE
+        );
+        if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Red")) {
+            setTheme(R.style.Theme_DarkRed);
+        } else if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Orange")) {
+            setTheme(R.style.Theme_DarkOrange);
+        }
+
         super.onCreate(savedInstanceState);
         setTitle("Settings");
         setContentView(R.layout.settings_activity);
@@ -63,10 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
                     );
                     prefs.edit().putString(getString(R.string.theme_pref), "Dark Orange").apply();
                 }
-                SharedPreferences prefs = getActivity().getSharedPreferences(
-                        getString(R.string.shared_theme_pref),
-                        Context.MODE_PRIVATE
-                );
+                getActivity().recreate();
                 return true;
             });
         }
