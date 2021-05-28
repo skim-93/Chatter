@@ -1,5 +1,6 @@
 package edu.uw.tcss450.chatapp_group1;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -13,6 +14,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences(
+                getString(R.string.shared_theme_pref),
+                Context.MODE_PRIVATE
+        );
+        if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Red")) {
+            setTheme(R.style.Theme_DarkRed);
+        } else if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Orange")) {
+            setTheme(R.style.Theme_DarkOrange);
+        }
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -158,9 +172,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(settingIntent);
+            startActivityForResult(settingIntent, 1);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            recreate(); // Recreate activity to update color theme
+        }
     }
 }
