@@ -15,6 +15,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:text="ADD CHAT"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
