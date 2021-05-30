@@ -28,7 +28,8 @@
         android:ems="10"
         android:hint="Enter chat room name..."
         android:inputType="textPersonName"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
+        android:paddingLeft="5dp"
         app:layout_constraintEnd_toStartOf="@+id/button_add_chat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
