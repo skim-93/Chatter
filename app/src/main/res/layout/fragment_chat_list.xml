@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.chat.ChatListFragment">
 
+
     <Button
         android:id="@+id/button_add_chat"
         android:layout_width="wrap_content"
@@ -39,6 +40,7 @@
         android:name="edu.uw.group1.chat.ChatFragment"
         android:layout_width="0dp"
         android:layout_height="464dp"
+        android:isScrollContainer="false"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
