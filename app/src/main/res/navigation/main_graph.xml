@@ -42,7 +42,11 @@
         android:id="@+id/locationFragment"
         android:name="edu.uw.tcss450.chatapp_group1.ui.weather.LocationFragment"
         android:label="Weather Map"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_navigation_weather"
+            app:destination="@id/navigation_weather" />
+    </fragment>
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="edu.uw.tcss450.chatapp_group1.ui.chat.ChatRoomFragment"

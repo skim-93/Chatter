@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,11 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 binding.textLat.setText("latitude: " + String.valueOf(location.getLatitude())));
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
                 binding.textLong.setText("longitude: " + String.valueOf(location.getLongitude())));
+
+        binding.buttonSetLocation.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        LocationFragmentDirections.actionLocationFragmentToNavigationWeather())
+        );
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
