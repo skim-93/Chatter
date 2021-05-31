@@ -41,7 +41,7 @@ public class ContactRequestRecyclerViewAdapter extends
     public ContactRequestRecyclerViewAdapter(List<Contact> contacts, Context context,UserInfoViewModel userModel,
                                              ContactListViewModel viewModel) {
         ContactGenerator generator = new ContactGenerator();
-        this.mFriendRequest = new ArrayList<>(generator.getContactList());
+        this.mFriendRequest = contacts;
         this.mSearchContacts = new ArrayList<>(contacts);
         this.mContext = context;
         this.mInfoModel = userModel;
@@ -101,16 +101,22 @@ public class ContactRequestRecyclerViewAdapter extends
 
         private void setRequest(final Contact request, RequestViewHolder holder) {
             mRequest = request;
-            usernameTextView.setText(request.getEmail());
+            usernameTextView.setText(mRequest.getEmail());
             //set on click listener for accept button
             contact_request_accept_button.setOnClickListener(v -> {
-                //need to connect to backend later(will be updated in sprint3)
+                mViewModel.acceptRequest(mInfoModel.getmJwt(), mRequest.getmMemberID());
                 holder.contact_request_accept_button.setVisibility(View.GONE);
+                holder.contact_request_decline_button.setVisibility(View.GONE);
+                mFriendRequest.remove(mRequest);
+                notifyDataSetChanged();
             });
             //set on click listener for decline button
             contact_request_decline_button.setOnClickListener(v -> {
+                mViewModel.deleteContact(mInfoModel.getmJwt(), mRequest.getmMemberID());
+                holder.contact_request_accept_button.setVisibility(View.GONE);
                 holder.contact_request_decline_button.setVisibility(View.GONE);
-                //need to connect to backend later(will be updated in sprint3)
+                mFriendRequest.remove(mRequest);
+                notifyDataSetChanged();
             });
         }
     }
