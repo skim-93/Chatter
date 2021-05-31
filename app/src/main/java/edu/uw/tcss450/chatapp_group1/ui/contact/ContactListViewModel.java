@@ -43,11 +43,11 @@ public class ContactListViewModel extends AndroidViewModel {
     public ContactListViewModel(@NonNull Application application) {
         super(application);
         //Sample contact list generator
-        ContactGenerator generator = new ContactGenerator();//
+//        ContactGenerator generator = new ContactGenerator();//
         //using sample data for request because it doesn't have backend setup yet
         //mContactList = new MutableLiveData<>(generator.getContactList());
-        //mRequestList = new MutableLiveData<>(new ArrayList<>());
-        mRequestList = new MutableLiveData<>(generator.getContactList());
+//        mRequestList = new MutableLiveData<>(generator.getContactList());
+        mRequestList = new MutableLiveData<>(new ArrayList<>());
         mFriendContactList = new MutableLiveData<>(new ArrayList<>());
         mSearchContacts = new MutableLiveData<>(new ArrayList<>());
         mResponse = new MutableLiveData<>();
@@ -168,6 +168,111 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    public void deleteContact(String jwt, final int memberID) {
+//        String url = "https://10.2.2:5000/contacts/delete/"+memberID;
+        String url = "https://group1-tcss450-project.herokuapp.com/contacts/delete/"+memberID;
+        Request request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
+                mResponse::setValue,
+                this::handleError) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        Volley.newRequestQueue(getApplication().getApplicationContext()).add(request);
+    }
+
+
+    public void addFriendsList(final String jwt, final int memberID) {
+//        String url = "https://10.2.2:5000/contacts/create";
+        String url = "https://group1-tcss450-project.herokuapp.com/contacts/create";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("memberid", memberID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body,
+                mResponse::setValue,
+                this::handleError
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+
+    }
+
+    public void connectContactRequestList(final String jwt) {
+        String url = "https://group1-tcss450-project.herokuapp.com/contacts/request";
+        Request request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                this::handleRequestSuccess,
+                this::handleError
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+    private void handleRequestSuccess(final JSONObject result) {
+        ArrayList<Contact> temp = new ArrayList<>();
+        try {
+            JSONArray requests = result.getJSONArray("request");
+            for (int i = 0; i < requests.length(); i++) {
+
+                JSONObject request = requests.getJSONObject(i);
+                String firstName = request.getString("firstName");
+                String lastName = request.getString("lastName");
+                String email = request.getString("email");
+                String username = request.getString("userName");
+                int memberID = request.getInt("memberId");
+                Contact entry = new Contact(firstName, lastName, email, username, memberID);
+                temp.add(entry);
+
+            }
+        } catch (JSONException e) {
+            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
+        }
+        mRequestList.setValue(temp);
+    }
     /**
      * method to handle success search feedback for backend
      * @param result json object for search contact list
@@ -227,4 +332,35 @@ public class ContactListViewModel extends AndroidViewModel {
         return this.mSearchContacts.getValue();
     }
 
+    public void acceptRequest(String jwt, int memberID) {
+        String url = "https://group1-tcss450-project.herokuapp.com/contacts/accept";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("memberId", memberID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body,
+                mResponse::setValue,
+                this::handleError
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
 }
