@@ -128,7 +128,6 @@ public class SignInFragment extends Fragment {
         }
     }
 
-
     private void attemptSignIn(final View button) {
         validateEmail();
     }
@@ -206,10 +205,6 @@ public class SignInFragment extends Fragment {
                             )).get(UserInfoViewModel.class);
                     sendPushyToken();
 
-//                    navigateToSuccess(
-//                            binding.editEmail.getText().toString(),
-//                            response.getString("token") );
-
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
@@ -239,5 +234,4 @@ public class SignInFragment extends Fragment {
             }
         }
     }
-
 }
