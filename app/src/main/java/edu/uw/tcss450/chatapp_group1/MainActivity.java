@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
-                ).get(UserInfoViewModel.class);
+        ).get(UserInfoViewModel.class);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -172,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivityForResult(settingIntent, 1);
+            if (id == R.id.action_sign_out) {
+                signOut();
+            }
             return true;
-        if (id == R.id.action_sign_out) {
-            signOut();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
