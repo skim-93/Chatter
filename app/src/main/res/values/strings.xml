@@ -105,4 +105,7 @@
     <string name="shared_theme_pref">App Theme Preference</string>
     <string name="theme_pref">Theme Preference</string>
 
+    <string name="weather_stats">Stats</string>
+    <string name="weather_map">Map</string>
+
 </resources>
