@@ -19,6 +19,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -181,98 +182,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mPushMessageReceiver == null) {
-            mPushMessageReceiver = new MainPushMessageReceiver();
-        }
-        IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
-        registerReceiver(mPushMessageReceiver, iFilter);
-        //startLocationUpdates();
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mPushMessageReceiver != null){
-            unregisterReceiver(mPushMessageReceiver);
-        }
-        //stopLocationUpdates();
-
-    }
-
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    /**
-     * A BroadcastReceiver that listens for messages sent from PushReceiver
-     */
-    private class MainPushMessageReceiver extends BroadcastReceiver {
-        private ChatViewModel mModel =
-                new ViewModelProvider(MainActivity.this)
-                        .get(ChatViewModel.class);
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            NavController nc =
-                    Navigation.findNavController(
-                            MainActivity.this, R.id.nav_host_fragment);
-            NavDestination nd = nc.getCurrentDestination();
-            if (intent.hasExtra("chatMessage")) {
-                ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
-                //If the user is not on the chat screen, update the
-                // NewMessageCountView Model
-                if (nd.getId() != R.id.chatRoomFragment) {
-                    mNewMessageModel.increment();
-                }
-                //Inform the view model holding chatroom messages of the new
-                //message.
-                mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
-            }
-        }
-    }
-
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.drop_down, menu);
-        return true;
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivityForResult(settingIntent, 1);
-            if (id == R.id.action_sign_out) {
-                signOut();
-            }
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            recreate(); // Recreate activity to update color theme
-        }
-    }
-
-    private void signOut() {
-        SharedPreferences prefs = getSharedPreferences(
-                getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
-        //End the app completely
-        finishAndRemoveTask();
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -372,5 +281,97 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPushMessageReceiver == null) {
+            mPushMessageReceiver = new MainPushMessageReceiver();
+        }
+        IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
+        registerReceiver(mPushMessageReceiver, iFilter);
+        //startLocationUpdates();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPushMessageReceiver != null){
+            unregisterReceiver(mPushMessageReceiver);
+        }
+        //stopLocationUpdates();
+
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    /**
+     * A BroadcastReceiver that listens for messages sent from PushReceiver
+     */
+    private class MainPushMessageReceiver extends BroadcastReceiver {
+        private ChatViewModel mModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ChatViewModel.class);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NavController nc =
+                    Navigation.findNavController(
+                            MainActivity.this, R.id.nav_host_fragment);
+            NavDestination nd = nc.getCurrentDestination();
+            if (intent.hasExtra("chatMessage")) {
+                ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
+                //If the user is not on the chat screen, update the
+                // NewMessageCountView Model
+                if (nd.getId() != R.id.chatRoomFragment) {
+                    mNewMessageModel.increment();
+                }
+                //Inform the view model holding chatroom messages of the new
+                //message.
+                mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+            }
+        }
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.drop_down, menu);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(settingIntent, 1);
+            if (id == R.id.action_sign_out) {
+                signOut();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            recreate(); // Recreate activity to update color theme
+        }
+    }
+
+    private void signOut() {
+        SharedPreferences prefs = getSharedPreferences(
+                getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+        //End the app completely
+        finishAndRemoveTask();
+    }
 
 }
