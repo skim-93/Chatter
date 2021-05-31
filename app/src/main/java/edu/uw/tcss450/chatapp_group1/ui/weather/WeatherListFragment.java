@@ -42,7 +42,7 @@ public class WeatherListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
 
-        binding.buttonMap.setOnClickListener(button ->
+        binding.mapButton.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment())
         );
