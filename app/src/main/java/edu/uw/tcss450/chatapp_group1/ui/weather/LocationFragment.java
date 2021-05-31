@@ -1,9 +1,12 @@
 package edu.uw.tcss450.chatapp_group1.ui.weather;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -86,6 +89,16 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
             }
         });
         mMap.setOnMapClickListener(this);
+        mMap.setOnCameraMoveListener(this::onCameraMove);
 
+
+    }
+    private void onCameraMove(){
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
     }
 }
