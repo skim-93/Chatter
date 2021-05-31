@@ -50,7 +50,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         mModel = new ViewModelProvider(getActivity())
                 .get(LocationViewModel.class);
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
-                binding.textLatLong.setText(location.toString()));
+                binding.textLat.setText("latitude: " + String.valueOf(location.getLatitude())));
+        mModel.addLocationObserver(getViewLifecycleOwner(), location ->
+                binding.textLong.setText("longitude: " + String.valueOf(location.getLongitude())));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
