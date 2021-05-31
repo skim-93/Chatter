@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
+import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +50,7 @@ public class ContactRecyclerViewAdapter extends
         this.mFragmentManager = fragmentManager;
         this.mUserInfoViewModel = userModel;
         this.mContactListViewModel = viewModel;
+
     }
 
     /**
@@ -100,6 +102,9 @@ public class ContactRecyclerViewAdapter extends
                 ContactPopUpFragment popUp = new ContactPopUpFragment(mContact, mContactListViewModel,
                         mUserInfoViewModel, this);
                 popUp.show(mFragmentManager,"popUpDialog");
+                if(!popUp.isVisible()) {
+                    notifyDataSetChanged();
+                }
             });
         }
 
@@ -113,7 +118,14 @@ public class ContactRecyclerViewAdapter extends
             nameTextView.setText(name);
             usernameTextView.setText(mContact.getUserName());
         }
+
+        public void deleteContact(){
+            mContactList.remove(mContact);
+            notifyDataSetChanged();
+        }
     }
+
+
 
     /**
      * Getter for search filter
