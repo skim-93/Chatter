@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
         registerReceiver(mPushMessageReceiver, iFilter);
-        startLocationUpdates();
+        //startLocationUpdates();
     }
     @Override
     public void onPause() {
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         if (mPushMessageReceiver != null){
             unregisterReceiver(mPushMessageReceiver);
         }
-        stopLocationUpdates();
+        //stopLocationUpdates();
 
     }
 
