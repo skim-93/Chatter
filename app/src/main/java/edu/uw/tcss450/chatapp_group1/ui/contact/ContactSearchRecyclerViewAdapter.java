@@ -1,5 +1,6 @@
 package edu.uw.tcss450.chatapp_group1.ui.contact;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
@@ -28,6 +30,7 @@ public class ContactSearchRecyclerViewAdapter extends
     private UserInfoViewModel mUserModel;
     /**Initializer for contact list view model**/
     private ContactListViewModel mViewModel;
+
     /**
      * Constructor for search recycler view adapter
      * @param contacts list of contacts
@@ -36,10 +39,12 @@ public class ContactSearchRecyclerViewAdapter extends
      */
     public ContactSearchRecyclerViewAdapter(List<Contact> contacts, UserInfoViewModel userModel,
                                             ContactListViewModel viewModel) {
+//        searchFilter.filter(null);
         this.mContacts = contacts;
         this.mSearchContacts = new ArrayList<>(contacts);
         this.mUserModel = userModel;
         this.mViewModel = viewModel;
+
     }
 
     /**
@@ -64,10 +69,14 @@ public class ContactSearchRecyclerViewAdapter extends
      */
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        Contact currentItem = mContacts.get(position);
-        holder.usernameTextView.setText(currentItem.getEmail());
-        holder.nameTextView.setText(currentItem.getFirstName() + " " + currentItem.getLastName());
-        holder.searchAddButton.setOnClickListener(v -> holder.searchAddButton.setVisibility(View.GONE));
+            Contact currentItem = mContacts.get(position);
+            holder.usernameTextView.setText(currentItem.getEmail());
+            holder.nameTextView.setText(currentItem.getFirstName() + " " + currentItem.getLastName());
+            holder.searchAddButton.setOnClickListener(v -> {
+                holder.searchAddButton.setVisibility(View.GONE);
+                mViewModel.addFriendsList(mUserModel.getmJwt(), mContacts.get(position).getmMemberID());
+                notifyDataSetChanged();
+            });
     }
 
     /**
@@ -111,8 +120,11 @@ public class ContactSearchRecyclerViewAdapter extends
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Contact> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mSearchContacts);
+            FilterResults results = new FilterResults();
+            if (constraint == null || constraint.length() == 0 || constraint.toString()=="") {
+                  filteredList.clear();
+//                filteredList.addAll(mSearchContacts);
+
             } else {
                 String searchNewPerson = constraint.toString().toLowerCase().trim();
                 for (Contact contact : mSearchContacts) {
@@ -123,7 +135,6 @@ public class ContactSearchRecyclerViewAdapter extends
                     }
                 }
             }
-            FilterResults results = new FilterResults();
             results.values = filteredList;
             return results;
         }
