@@ -21,10 +21,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -84,13 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.shared_theme_pref),
                 Context.MODE_PRIVATE
         );
-        if (prefs.getString(getString(R.string.theme_pref),"")
-                .equals("Dark Red")) {
-            setTheme(R.style.Theme_DarkRed);
-        } else if (prefs.getString(getString(R.string.theme_pref),"")
-                .equals("Dark Orange")) {
-            setTheme(R.style.Theme_DarkOrange);
-        }
 
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -341,7 +336,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.drop_down, menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(Color.BLACK), 0,     spanString.length(), 0); //fix the color to white
+            item.setTitle(spanString);
+        }
         return true;
     }
 
@@ -350,9 +351,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivityForResult(settingIntent, 1);
-            if (id == R.id.action_sign_out) {
-                signOut();
-            }
+            return true;
+        }
+        if (id == R.id.action_sign_out) {
+            signOut();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -373,5 +375,4 @@ public class MainActivity extends AppCompatActivity {
         //End the app completely
         finishAndRemoveTask();
     }
-
 }

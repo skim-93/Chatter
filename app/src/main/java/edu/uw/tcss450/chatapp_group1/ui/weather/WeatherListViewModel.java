@@ -29,11 +29,16 @@ public class WeatherListViewModel extends AndroidViewModel {
     private MutableLiveData<List<WeatherData>> m24HourForecast;
     private MutableLiveData<WeatherData> mCurrentWeather;
 
+    /** Toggle the zipcode search bar. False = Hidden, True = Visible */
+    private MutableLiveData<Boolean> mToggleZipcode;
+
     public WeatherListViewModel(@NonNull Application application) {
         super(application);
         mCurrentWeather = new MutableLiveData<>();
         m24HourForecast = new MutableLiveData<>();
         mFiveDayForecast = new MutableLiveData<>();
+        mToggleZipcode = new MutableLiveData<>();
+        mToggleZipcode.setValue(false);
     }
 
     /**
@@ -54,6 +59,25 @@ public class WeatherListViewModel extends AndroidViewModel {
     public void addCurrentWeatherObserver(@NonNull LifecycleOwner owner,
                                           @NonNull Observer<? super WeatherData> observer) {
         mCurrentWeather.observe(owner, observer);
+    }
+
+    public void addToggleZipcodeObserver(@NonNull LifecycleOwner owner,
+                                          @NonNull Observer<? super Boolean> observer) {
+        mToggleZipcode.observe(owner, observer);
+    }
+
+    /**
+     * Toggle the zipcode search bar.
+     */
+    public void toggleZipcode() {
+        mToggleZipcode.setValue(!mToggleZipcode.getValue());
+    }
+
+    /**
+     * Get state of the zipcode search bar visibility.
+     */
+    public boolean getZipcodeSearchBarState() {
+        return mToggleZipcode.getValue();
     }
 
     /**
