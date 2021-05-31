@@ -85,7 +85,7 @@ public class ContactPopUpFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_contact_pop_up, null);
         //setting user name in popup (last, first)
         TextView userName = view.findViewById(R.id.contact_pop_up_name);
-        userName.setText( mContact.getLastName()+ ",  " + mContact.getFirstName());
+        userName.setText( mContact.getLastName()+ ",  " + mContact.getmMemberID());//getFirstName()
         //setting user email in popup
         TextView userEmail = view.findViewById(R.id.contact_pop_up_email);
         userEmail.setText(mContact.getEmail());
@@ -93,7 +93,9 @@ public class ContactPopUpFragment extends DialogFragment {
 
         Button deleteButton = view.findViewById(R.id.contact_pop_up_delete_button);
         deleteButton.setOnClickListener(v -> {
-            //connect later for deleting
+            mContactModel.deleteContact(mUserModel.getmJwt(), mContact.getmMemberID());
+            mUpdater.deleteContact();
+            dismiss();
         });
         builder.setView(view);
         return builder.create();
