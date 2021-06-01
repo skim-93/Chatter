@@ -1,10 +1,10 @@
 package edu.uw.tcss450.chatapp_group1.model;
 
-        import androidx.annotation.NonNull;
-        import androidx.lifecycle.LifecycleOwner;
-        import androidx.lifecycle.MutableLiveData;
-        import androidx.lifecycle.Observer;
-        import androidx.lifecycle.ViewModel;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 public class NewRequestCountViewModel extends ViewModel {
     private MutableLiveData<Integer> mNewRequestCount;
