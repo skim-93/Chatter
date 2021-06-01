@@ -28,6 +28,7 @@ public class WeatherListViewModel extends AndroidViewModel {
     private MutableLiveData<List<WeatherData>> mFiveDayForecast;
     private MutableLiveData<List<WeatherData>> m24HourForecast;
     private MutableLiveData<WeatherData> mCurrentWeather;
+    private MutableLiveData<String> mCurrentZipcode;
 
     /** Toggle the zipcode search bar. False = Hidden, True = Visible */
     private MutableLiveData<Boolean> mToggleZipcode;
@@ -39,6 +40,9 @@ public class WeatherListViewModel extends AndroidViewModel {
         mFiveDayForecast = new MutableLiveData<>();
         mToggleZipcode = new MutableLiveData<>();
         mToggleZipcode.setValue(false);
+        mCurrentZipcode = new MutableLiveData<>();
+        mCurrentZipcode.setValue("98030");
+        updateZipcode("98030");
     }
 
     /**
@@ -66,6 +70,11 @@ public class WeatherListViewModel extends AndroidViewModel {
         mToggleZipcode.observe(owner, observer);
     }
 
+    public void addZipcodeObserver(@NonNull LifecycleOwner owner,
+                                         @NonNull Observer<? super String> observer) {
+        mCurrentZipcode.observe(owner, observer);
+    }
+
     /**
      * Toggle the zipcode search bar.
      */
@@ -83,10 +92,9 @@ public class WeatherListViewModel extends AndroidViewModel {
     /**
      * based on the given zipcode make a request to the server to get the weather data
      * for the current weather
-     * @param zipcode
      */
     public void updateCurrentWeather() {
-        String url = "https://group1-tcss450-project.herokuapp.com/weather/current-weather/" + zipcode;
+        String url = "https://group1-tcss450-project.herokuapp.com/weather/current-weather/" + mCurrentZipcode.getValue();
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -106,10 +114,9 @@ public class WeatherListViewModel extends AndroidViewModel {
     /**
      * based on the given zipcode make a request to the server to get the weather data
      * for the hourly weather
-     * @param zipcode
      */
     public void update24HourForecast() {
-        String url = "https://group1-tcss450-project.herokuapp.com/weather/24-forecast/" + zipcode;
+        String url = "https://group1-tcss450-project.herokuapp.com/weather/24-forecast/" + mCurrentZipcode.getValue();
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -127,12 +134,29 @@ public class WeatherListViewModel extends AndroidViewModel {
     }
 
     /**
+     * Handle the case when zipcode is changed. Update all UI components with the new zipcode
+     */
+    public void updateZipcode(String zipcode) {
+        if (WeatherListFragment.isValidZipcode(zipcode)) {
+            mCurrentZipcode.setValue(zipcode);
+            update24HourForecast();
+            updateCurrentWeather();
+            updateFiveDayForecast();
+        } else {
+            Log.e("Weather List View Model", "Error! wrong zipcode");
+        }
+    }
+
+    public String getZipcode() {
+        return mCurrentZipcode.getValue();
+    }
+
+    /**
      * based on the given zipcode make a request to the server to get the weather data
      * for the daily weather
-     * @param zipcode
      */
     public void updateFiveDayForecast() {
-        String url = "https://group1-tcss450-project.herokuapp.com/weather/forecast/" + zipcode;
+        String url = "https://group1-tcss450-project.herokuapp.com/weather/forecast/" + mCurrentZipcode.getValue();
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
