@@ -79,6 +79,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
+        mMap.clear();
         currentLatitude = latLng.latitude;
         currentLongitude = latLng.longitude;
         Geocoder geocoder = new Geocoder(getActivity(), Locale.ENGLISH);
@@ -93,6 +94,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title("New Marker"));
+
         mMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
