@@ -70,7 +70,7 @@
             android:name="chatid"
             app:argType="integer" />
         <argument
-            android:name="throughChat"
+            android:name="fromAddChatMember"
             app:argType="boolean" />
     </fragment>
 </navigation>
