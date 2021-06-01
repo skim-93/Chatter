@@ -24,6 +24,8 @@ public class ContactListFragment extends Fragment {
 
     private ContactListViewModel mContactListViewModel;
     private UserInfoViewModel mUserInfoViewModel;
+    private int mChatId;
+    private boolean mFromAddChatMember;
 
     /**
      * On create for contact list fragment
@@ -59,9 +61,14 @@ public class ContactListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentContactListBinding binding = FragmentContactListBinding.bind(getView());
+        if (getArguments() != null && !getArguments().isEmpty()) {
+            ContactListFragmentArgs args = ContactListFragmentArgs.fromBundle(getArguments());
+            mChatId = args.getChatid();
+            mFromAddChatMember = args.getFromAddChatMember();
+        }
         mContactListViewModel.addContactFriendListObserver(getViewLifecycleOwner(), contactList -> {
                     ContactRecyclerViewAdapter adapter = new ContactRecyclerViewAdapter(contactList, this.getContext(),
-                        getChildFragmentManager(), mUserInfoViewModel, mContactListViewModel);
+                        getChildFragmentManager(), mUserInfoViewModel, mContactListViewModel, mChatId, mFromAddChatMember);
                     binding.contactListRoot.setAdapter(adapter);
                     //setup search tab for text listener
                     binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

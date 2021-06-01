@@ -55,13 +55,15 @@ public class ContactFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.pager);
         tabLayout.setupWithViewPager(viewPager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(),0);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(),1);
         //add menu with fragment to adapter
         adapter.addFrag(new ContactListFragment(),"FRIENDS");
         adapter.addFrag(new ContactRequestFragment(),"REQUEST");
         adapter.addFrag(new ContactSearchFragment(), "FIND NEW");
+
         //set background to no color
         tabLayout.setBackground(null);
+        tabLayout.setTabTextColors(getResources().getColor(R.color.colorOffWhite),getResources().getColor(R.color.brownOrange));
         //set adapter and initial menu position
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);

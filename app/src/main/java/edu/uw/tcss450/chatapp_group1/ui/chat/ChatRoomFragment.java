@@ -102,7 +102,7 @@ public class ChatRoomFragment extends Fragment {
         // setting the button to redirect to contacts
         binding.buttonAdd.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
-                        ChatRoomFragmentDirections.actionChatRoomFragmentToNavigationContact(mChatID, true)
+                        ChatRoomFragmentDirections.actionChatRoomFragmentToContactListFragment(mChatID, true)
                 ));
 
         // After a response is retrieved, reset the text in the editMessage field.
