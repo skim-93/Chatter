@@ -112,17 +112,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="231dp"
-            android:layout_marginBottom="11dp"
-            android:text="@string/button_map"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_zipcode_search"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <ImageButton
             android:id="@+id/button_zipcode_search"
             android:layout_width="wrap_content"

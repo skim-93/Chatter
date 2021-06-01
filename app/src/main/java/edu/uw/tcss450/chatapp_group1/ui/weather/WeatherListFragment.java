@@ -52,16 +52,10 @@ public class WeatherListFragment extends Fragment {
 
         binding.mapButton.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
-                        WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment())
+                        WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment()));
         binding.buttonZipcodeSearch.setOnClickListener(button ->
                 updateZipcodeSearchBar()
         );
-
-        binding.mapButton.setOnClickListener(button -> {
-            NavDirections directions = WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment();
-            Navigation.findNavController(getView()).navigate(directions);
-        });
-
         binding.enterZipcode.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
