@@ -54,6 +54,8 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentChatListBinding.bind(getView());
 
+        binding.listSwipeContainer.setRefreshing(true);
+
         binding.buttonAddChat.setOnClickListener(button -> {
             String title = binding.textChatTitle.getText().toString().trim();
             if (title.length() < 1){
@@ -64,11 +66,16 @@ public class ChatListFragment extends Fragment {
             }
         });
 
+        binding.listSwipeContainer.setOnRefreshListener(() -> {
+            mChatListModel.connectGet(mUserInfoViewModel.getmJwt());
+        });
+
         chatListRecyclerViewAdapter = new ChatListRecyclerViewAdapter(new ArrayList<>(), this);
 
         binding.listChatRoot.setAdapter(chatListRecyclerViewAdapter);
         mChatListModel.addChatListObserver(getViewLifecycleOwner(), chatRoomList -> {
             chatListRecyclerViewAdapter.setChatRooms(chatRoomList);
+            binding.listSwipeContainer.setRefreshing(false);
         });
     }
 
