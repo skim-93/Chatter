@@ -114,18 +114,18 @@ public class ContactRecyclerViewAdapter extends
          */
         private void setContact(final Contact contact) {
             mContact = contact;
-            final String name = mContact.getFirstName();
-            nameTextView.setText(name);
+            nameTextView.setText(mContact.getFirstName());
             usernameTextView.setText(mContact.getUserName());
         }
 
+        /**
+         * delete contact from the list
+         */
         public void deleteContact(){
             mContactList.remove(mContact);
             notifyDataSetChanged();
         }
     }
-
-
 
     /**
      * Getter for search filter
