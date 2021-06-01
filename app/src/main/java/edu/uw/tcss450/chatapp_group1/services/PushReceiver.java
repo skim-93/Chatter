@@ -47,7 +47,7 @@ public class PushReceiver extends BroadcastReceiver {
 
         int chatId = -1;
 
-        if(typeOfMessage=="msg"){
+        if(typeOfMessage.equals("msg")){
             try{
                 message = ChatMessage.createFromJsonString(intent.getStringExtra("message"));
                 chatId = intent.getIntExtra("chatid", -1);
@@ -102,7 +102,7 @@ public class PushReceiver extends BroadcastReceiver {
                 notificationManager.notify(1, builder.build());
             }
         }
-        else if (typeOfMessage=="request"){
+        if (typeOfMessage.equals("request")){
             try{
                 senderEmail = intent.getStringExtra("senderEmail");
                 senderid = intent.getIntExtra("senderid",-1);
@@ -142,7 +142,7 @@ public class PushReceiver extends BroadcastReceiver {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setAutoCancel(true)
                         .setSmallIcon(R.drawable.ic_contact_icon_24dp)
-                        .setContentTitle("Friend Request from: " + senderEmail)
+                        .setContentTitle("You got new friend request!")
                         .setContentText(senderEmail+" sent friend request")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(pendingIntent);
@@ -158,7 +158,5 @@ public class PushReceiver extends BroadcastReceiver {
                 notificationManager.notify(1, builder.build());
             }
         }
-
-
     }
 }
