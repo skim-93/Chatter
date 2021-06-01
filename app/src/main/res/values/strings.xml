@@ -44,7 +44,7 @@
     <string name="text_maximum_temp">78</string>
     <string name="text_temperature">70</string>
     <string name="text_weather_time">11:00 am</string>
-    <string name="text_weather_date">05-20</string>
+    <string name="text_weather_date">wednesday</string>
     <string name="text_daily_weather">daily weather</string>
     <string name="text_weekly_weather">weekly weather</string>
     <string name="recycler_view_hourly">recycler_view_hourly</string>
