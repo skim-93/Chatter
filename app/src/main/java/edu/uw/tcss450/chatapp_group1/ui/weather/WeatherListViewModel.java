@@ -85,7 +85,7 @@ public class WeatherListViewModel extends AndroidViewModel {
      * for the current weather
      * @param zipcode
      */
-    public void getCurrentWeather(String zipcode) {
+    public void updateCurrentWeather() {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/current-weather/" + zipcode;
 
         Request request = new JsonObjectRequest(
@@ -108,7 +108,7 @@ public class WeatherListViewModel extends AndroidViewModel {
      * for the hourly weather
      * @param zipcode
      */
-    public void get24HourForecast(String zipcode) {
+    public void update24HourForecast() {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/24-forecast/" + zipcode;
 
         Request request = new JsonObjectRequest(
@@ -131,7 +131,7 @@ public class WeatherListViewModel extends AndroidViewModel {
      * for the daily weather
      * @param zipcode
      */
-    public void getFiveDayForecast(String zipcode) {
+    public void updateFiveDayForecast() {
         String url = "https://group1-tcss450-project.herokuapp.com/weather/forecast/" + zipcode;
 
         Request request = new JsonObjectRequest(
