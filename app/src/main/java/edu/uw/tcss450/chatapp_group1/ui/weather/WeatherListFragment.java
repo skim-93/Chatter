@@ -36,6 +36,7 @@ public class WeatherListFragment extends Fragment {
         mModel.getCurrentWeather("98032");
         mModel.get24HourForecast("98032");
         mModel.getFiveDayForecast("98032");
+
     }
 
     @Override

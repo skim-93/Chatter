@@ -64,9 +64,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         //add this fragment as the OnMapReadyCallback -> See onMapReady()
         mapFragment.getMapAsync(this);
-
     }
-
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
@@ -77,7 +75,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         mMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
-
     }
 
     @Override
@@ -98,9 +95,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         });
         mMap.setOnMapClickListener(this);
         mMap.setOnCameraMoveListener(this::onCameraMove);
-
-
     }
+
     private void onCameraMove(){
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
