@@ -10,12 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.auth0.android.jwt.JWT;
 
@@ -27,6 +29,7 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
+import edu.uw.tcss450.chatapp_group1.ui.auth.register.RegisterFragmentDirections;
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
 /**
@@ -150,8 +153,14 @@ public class SignInFragment extends Fragment {
         mSignInModel.connect(
                 binding.editEmail.getText().toString(),
                 binding.editPassword.getText().toString());
+        validateEmailVerification();
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
+    }
+
+    private void validateEmailVerification() {
+        mSignInModel.checkUserVerified(
+                binding.editEmail.getText().toString());
     }
 
     private void navigateToResetPassword(View view) {
@@ -197,7 +206,15 @@ public class SignInFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
+                // Check if it was a verification response
                 try {
+                    String verifyResponse = response.getString("verify");
+                    if (verifyResponse.equals("false")) { // Navigate to email verification page
+                        navigateToEmailVerification();
+                    }
+                } catch (JSONException e) {}
+
+                    try {
                     mUserViewModel = new ViewModelProvider(getActivity(),
                             new UserInfoViewModel.UserInfoViewModelFactory(
                                     binding.editEmail.getText().toString(),
@@ -212,6 +229,19 @@ public class SignInFragment extends Fragment {
         } else {
             Log.d("JSON Response", "No Response");
         }
+    }
+
+    private void navigateToEmailVerification() {
+        Toast toast=Toast.makeText(getContext(),"Please verify email",Toast.LENGTH_SHORT);
+        toast.show();
+
+        // Navigate to email verification page
+        NavDirections directions = SignInFragmentDirections
+                .actionSignInFragmentToEmailVerificationFragment(
+                        binding.editEmail.getText().toString(),
+                        binding.editPassword.getText().toString()
+                );
+        Navigation.findNavController(getView()).navigate(directions);
     }
 
     @Override public void onStart() {
