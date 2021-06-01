@@ -3,6 +3,7 @@ package edu.uw.tcss450.chatapp_group1.ui.contact;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,16 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
@@ -34,6 +40,10 @@ public class ContactPopUpFragment extends DialogFragment {
     private final ContactRecyclerViewAdapter.ContactViewHolder mUpdater;
     /** Initializer for activity**/
     private Activity activity;
+    /** Initializer for chat id**/
+    private int mChatID;
+    /** Initializer for add chat boolean value**/
+    private boolean fromAddChatMember;
 
     /**
      * constructor for contactPopup
@@ -44,11 +54,15 @@ public class ContactPopUpFragment extends DialogFragment {
      */
     public ContactPopUpFragment(Contact contact, ContactListViewModel contactModel,
                                 UserInfoViewModel userInfoModel,
-                                ContactRecyclerViewAdapter.ContactViewHolder updater) {
+                                ContactRecyclerViewAdapter.ContactViewHolder updater,
+                                int chatId,
+                                boolean fromAddChatMember) {
         this.mContact = contact;
         this.mContactModel = contactModel;
         this.mUserModel = userInfoModel;
         mUpdater = updater;
+        this.mChatID = chatId;
+        this.fromAddChatMember = fromAddChatMember;
     }
 
     /**
@@ -95,10 +109,45 @@ public class ContactPopUpFragment extends DialogFragment {
         deleteButton.setOnClickListener(v -> {
             //connect later for deleting
         });
+
+        Button messageButton = view.findViewById(R.id.contact_pop_up_message_button);
+        messageButton.setEnabled(fromAddChatMember);
+        messageButton.setOnClickListener(v -> {
+            mContactModel.addContactMemberToChat(mUserModel.getmJwt(), mChatID, mContact.getmMemberID());
+        });
+
+        mContactModel.addResponseObserver(this.getActivity(), this::observeAddChatMember);
         builder.setView(view);
         return builder.create();
     }
 
+    /**
+     * Observer for when a user is added to a chat room.
+     * Displays a toast when a user is successfully added.
+     * @param response the json response
+     */
+    private void observeAddChatMember(final JSONObject response) {
+        if (response.length() > 0) {
+            try {
+                if (fromAddChatMember) {
+                    Toast.makeText(activity, response.getString("message"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d("JSON Response", "No Response");
+        }
+    }
+
+    @Override
+    // needed for displaying toast messages
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+        }
+    }
     /**
      * on create view for popup(dialog)
      * @param inflater layout inflater for contact popup
