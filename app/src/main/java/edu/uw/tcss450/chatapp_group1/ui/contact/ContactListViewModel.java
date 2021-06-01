@@ -42,11 +42,6 @@ public class ContactListViewModel extends AndroidViewModel {
      */
     public ContactListViewModel(@NonNull Application application) {
         super(application);
-        //Sample contact list generator
-//        ContactGenerator generator = new ContactGenerator();//
-        //using sample data for request because it doesn't have backend setup yet
-        //mContactList = new MutableLiveData<>(generator.getContactList());
-//        mRequestList = new MutableLiveData<>(generator.getContactList());
         mRequestList = new MutableLiveData<>(new ArrayList<>());
         mFriendContactList = new MutableLiveData<>(new ArrayList<>());
         mSearchContacts = new MutableLiveData<>(new ArrayList<>());
@@ -83,6 +78,7 @@ public class ContactListViewModel extends AndroidViewModel {
                                        @NonNull Observer<? super List<Contact>> observer) {
         mRequestList.observe(owner, observer);
     }
+
     /**
      * Request to get contact friend list from backend
      * @param jwt authorization token
@@ -168,8 +164,12 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * Delete existing contact method
+     * @param jwt parameter for user's jwt to backend
+     * @param memberID parameter for receiver's member id to backend
+     */
     public void deleteContact(String jwt, final int memberID) {
-//        String url = "https://10.2.2:5000/contacts/delete/"+memberID;
         String url = "https://group1-tcss450-project.herokuapp.com/contacts/delete/"+memberID;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
@@ -193,8 +193,12 @@ public class ContactListViewModel extends AndroidViewModel {
     }
 
 
+    /**
+     * Add friend list to create new contact
+     * @param jwt parameter for user's jwt to backend
+     * @param memberID parameter for receiver's member id
+     */
     public void addFriendsList(final String jwt, final int memberID) {
-//        String url = "https://10.2.2:5000/contacts/create";
         String url = "https://group1-tcss450-project.herokuapp.com/contacts/create";
         JSONObject body = new JSONObject();
         try {
@@ -227,6 +231,10 @@ public class ContactListViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Connect method to get contact request list
+     * @param jwt parameter for user's jwt
+     */
     public void connectContactRequestList(final String jwt) {
         String url = "https://group1-tcss450-project.herokuapp.com/contacts/request";
         Request request = new JsonObjectRequest(
@@ -252,6 +260,10 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * handle request success method to receive the json object from backend
+     * @param result json object to save the result
+     */
     private void handleRequestSuccess(final JSONObject result) {
         ArrayList<Contact> temp = new ArrayList<>();
         try {
@@ -273,6 +285,7 @@ public class ContactListViewModel extends AndroidViewModel {
         }
         mRequestList.setValue(temp);
     }
+
     /**
      * method to handle success search feedback for backend
      * @param result json object for search contact list
