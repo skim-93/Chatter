@@ -39,12 +39,10 @@ public class ContactSearchRecyclerViewAdapter extends
      */
     public ContactSearchRecyclerViewAdapter(List<Contact> contacts, UserInfoViewModel userModel,
                                             ContactListViewModel viewModel) {
-//        searchFilter.filter(null);
         this.mContacts = contacts;
         this.mSearchContacts = new ArrayList<>(contacts);
         this.mUserModel = userModel;
         this.mViewModel = viewModel;
-
     }
 
     /**
@@ -123,8 +121,6 @@ public class ContactSearchRecyclerViewAdapter extends
             FilterResults results = new FilterResults();
             if (constraint == null || constraint.length() == 0 || constraint.toString()=="") {
                   filteredList.clear();
-//                filteredList.addAll(mSearchContacts);
-
             } else {
                 String searchNewPerson = constraint.toString().toLowerCase().trim();
                 for (Contact contact : mSearchContacts) {
