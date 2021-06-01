@@ -32,6 +32,10 @@ public class ContactRecyclerViewAdapter extends
     private final UserInfoViewModel mUserInfoViewModel;
     /**Initializer for ocntact list view model**/
     private final ContactListViewModel mContactListViewModel;
+    /** Initializer for chat id**/
+    private int mChatId;
+    /** Initializer for add chat boolean value**/
+    private boolean mFromAddChatMember;
 
     /**
      * contact recycler view adapter constructor
@@ -42,13 +46,17 @@ public class ContactRecyclerViewAdapter extends
      * @param viewModel contact list view model
      */
     public ContactRecyclerViewAdapter(List<Contact> contacts, Context context, FragmentManager fragmentManager, UserInfoViewModel userModel,
-                                      ContactListViewModel viewModel) {
+                                      ContactListViewModel viewModel,
+                                      int chatId,
+                                      boolean fromAddChatMember) {
         this.mContactList = contacts;
         this.mContext = context;
         this.mSearchContacts = new ArrayList<>(contacts);
         this.mFragmentManager = fragmentManager;
         this.mUserInfoViewModel = userModel;
         this.mContactListViewModel = viewModel;
+        this.mChatId = chatId;
+        this.mFromAddChatMember = fromAddChatMember;
     }
 
     /**
@@ -98,7 +106,7 @@ public class ContactRecyclerViewAdapter extends
 
             v.setOnClickListener(view -> {
                 ContactPopUpFragment popUp = new ContactPopUpFragment(mContact, mContactListViewModel,
-                        mUserInfoViewModel, this);
+                        mUserInfoViewModel, this, mChatId, mFromAddChatMember);
                 popUp.show(mFragmentManager,"popUpDialog");
             });
         }
