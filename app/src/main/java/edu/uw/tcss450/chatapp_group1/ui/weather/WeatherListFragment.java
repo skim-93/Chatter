@@ -33,9 +33,9 @@ public class WeatherListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
-        mModel.getCurrentWeather("98403");
-        mModel.get24HourForecast("98403");
-        mModel.getFiveDayForecast("98403");
+        mModel.getCurrentWeather("98032");
+        mModel.get24HourForecast("98032");
+        mModel.getFiveDayForecast("98032");
     }
 
     @Override
@@ -50,6 +50,9 @@ public class WeatherListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentWeatherListBinding.bind(getView());
 
+        binding.mapButton.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment())
         binding.buttonZipcodeSearch.setOnClickListener(button ->
                 updateZipcodeSearchBar()
         );
