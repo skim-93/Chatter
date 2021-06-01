@@ -2,26 +2,34 @@ package edu.uw.tcss450.chatapp_group1.ui.auth.signin;
 
 import static edu.uw.tcss450.chatapp_group1.utils.PasswordValidator.*;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.auth0.android.jwt.JWT;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 
+import edu.uw.tcss450.chatapp_group1.ui.auth.register.RegisterFragmentDirections;
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
 /**
@@ -50,7 +58,7 @@ public class SignInFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mSignInModel = new ViewModelProvider(getActivity())
                 .get(SignInViewModel.class);
-        getActivity().setTitle("Sign In");
+        getActivity().setTitle("Chatter");
 
         mPushyTokenViewModel = new ViewModelProvider(getActivity())
                 .get(PushyTokenViewModel.class);
@@ -123,7 +131,6 @@ public class SignInFragment extends Fragment {
         }
     }
 
-
     private void attemptSignIn(final View button) {
         validateEmail();
     }
@@ -146,8 +153,14 @@ public class SignInFragment extends Fragment {
         mSignInModel.connect(
                 binding.editEmail.getText().toString(),
                 binding.editPassword.getText().toString());
+        validateEmailVerification();
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
+    }
+
+    private void validateEmailVerification() {
+        mSignInModel.checkUserVerified(
+                binding.editEmail.getText().toString());
     }
 
     private void navigateToResetPassword(View view) {
@@ -162,9 +175,19 @@ public class SignInFragment extends Fragment {
      * @param jwt the JSON Web Token supplied by the server
      */
     private void navigateToSuccess(final String email, final String jwt) {
+        if (binding.switchSignin.isChecked()) {
+            SharedPreferences prefs = getActivity().getSharedPreferences(
+                    getString(R.string.keys_shared_prefs),
+                    Context.MODE_PRIVATE);
+            //Store the credentials in SharedPrefs
+            prefs.edit().putString(getString(R.string.keys_prefs_jwt), jwt).apply(); }
+
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
                         .actionLoginFragmentToMainActivity(email, jwt));
+
+        //Remove THIS activity from the Task list. Pops off the backstack
+        getActivity().finish();
     }
 
     /**
@@ -183,17 +206,21 @@ public class SignInFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
+                // Check if it was a verification response
                 try {
+                    String verifyResponse = response.getString("verify");
+                    if (verifyResponse.equals("false")) { // Navigate to email verification page
+                        navigateToEmailVerification();
+                    }
+                } catch (JSONException e) {}
+
+                    try {
                     mUserViewModel = new ViewModelProvider(getActivity(),
                             new UserInfoViewModel.UserInfoViewModelFactory(
                                     binding.editEmail.getText().toString(),
                                     response.getString("token")
                             )).get(UserInfoViewModel.class);
                     sendPushyToken();
-
-//                    navigateToSuccess(
-//                            binding.editEmail.getText().toString(),
-//                            response.getString("token") );
 
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
@@ -204,4 +231,37 @@ public class SignInFragment extends Fragment {
         }
     }
 
+    private void navigateToEmailVerification() {
+        Toast toast=Toast.makeText(getContext(),"Please verify email",Toast.LENGTH_SHORT);
+        toast.show();
+
+        // Navigate to email verification page
+        NavDirections directions = SignInFragmentDirections
+                .actionSignInFragmentToEmailVerificationFragment(
+                        binding.editEmail.getText().toString(),
+                        binding.editPassword.getText().toString()
+                );
+        Navigation.findNavController(getView()).navigate(directions);
+    }
+
+    @Override public void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(
+                getString(R.string.keys_shared_prefs),
+                Context.MODE_PRIVATE);
+
+        if (prefs.contains(getString(R.string.keys_prefs_jwt))) {
+            String token = prefs.getString(getString(R.string.keys_prefs_jwt), "");
+            JWT jwt = new JWT(token);
+            // Check to see if the web token is still valid or not. To make a JWT expire after a
+            // longer or shorter time period, change the expiration time when the JWT is
+            // created on the web service.
+            if(!jwt.isExpired(0)) {
+                String email = jwt.getClaim("email").asString();
+                navigateToSuccess(email, token);
+                return;
+            }
+        }
+    }
 }

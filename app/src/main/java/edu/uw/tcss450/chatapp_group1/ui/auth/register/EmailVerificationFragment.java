@@ -89,6 +89,9 @@ public class EmailVerificationFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(passwordDirections);
             return;
         }
+        // Hit endpoint so that the user is now verified
+        mVerificationModel.verifyUserRequest(args.getEmail());
+
         directions.setEmail(args.getEmail());
         directions.setPassword(args.getPassword());
         Navigation.findNavController(getView()).navigate(directions);
