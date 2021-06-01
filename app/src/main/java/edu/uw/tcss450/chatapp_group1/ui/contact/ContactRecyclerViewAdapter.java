@@ -44,6 +44,8 @@ public class ContactRecyclerViewAdapter extends
      * @param fragmentManager fragment manager
      * @param userModel user info view model
      * @param viewModel contact list view model
+     * @param chatId the id of the chat room
+     * @param fromAddChatMember if navigated to from add chat member button
      */
     public ContactRecyclerViewAdapter(List<Contact> contacts, Context context, FragmentManager fragmentManager, UserInfoViewModel userModel,
                                       ContactListViewModel viewModel,
