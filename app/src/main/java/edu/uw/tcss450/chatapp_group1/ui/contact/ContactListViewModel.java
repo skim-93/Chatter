@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
+
 public class ContactListViewModel extends AndroidViewModel {
     /**Initializer for contact list mutable live data**/
     private MutableLiveData<List<Contact>> mFriendContactList;
@@ -77,6 +79,16 @@ public class ContactListViewModel extends AndroidViewModel {
         public void addRequestListObserver(@NonNull LifecycleOwner owner,
                                        @NonNull Observer<? super List<Contact>> observer) {
         mRequestList.observe(owner, observer);
+    }
+
+    /**
+     * Add contact response observer
+     * @param owner life cycle owner
+     * @param observer observer for list<Contact>
+     */
+    public void addResponseObserver(@NonNull LifecycleOwner owner,
+                                    @NonNull Observer<? super JSONObject> observer) {
+        mResponse.observe(owner, observer);
     }
 
     /**
@@ -346,21 +358,58 @@ public class ContactListViewModel extends AndroidViewModel {
     }
 
     public void acceptRequest(String jwt, int memberID) {
-        String url = "https://group1-tcss450-project.herokuapp.com/contacts/accept";
+       String url = "https://group1-tcss450-project.herokuapp.com/contacts/accept";
+       JSONObject body = new JSONObject();
+       try {
+           body.put("memberId", memberID);
+       } catch (JSONException e) {
+           e.printStackTrace();
+       }
+
+       Request request = new JsonObjectRequest(
+               Request.Method.POST,
+               url,
+               body,
+               mResponse::setValue,
+               this::handleError
+       ) {
+           @Override
+           public Map<String, String> getHeaders() {
+               Map<String, String> headers = new HashMap<>();
+               headers.put("Authorization", jwt);
+               return headers;
+           }
+       };
+       request.setRetryPolicy(new DefaultRetryPolicy(
+               10_000,
+               DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+               DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+       //Instantiate the RequestQueue and add the request to the queue
+       Volley.newRequestQueue(getApplication().getApplicationContext())
+               .add(request);
+   }
+
+   /**
+     * Add a contact member to the current chat room
+     * @param jwt user jwt
+     * @param chatID chat id of room
+     * @param memberID id of member to add
+     */
+    public void addContactMemberToChat(final String jwt, int chatID, int memberID) {
+        String url = "https://group1-tcss450-project.herokuapp.com/chatmembers/" + chatID  + "/" + memberID;
         JSONObject body = new JSONObject();
         try {
-            body.put("memberId", memberID);
+            body.put("memberid", memberID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         Request request = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.PUT,
                 url,
-                body,
+                body, // the push token in JSON body
                 mResponse::setValue,
-                this::handleError
-        ) {
+                this::handleAddContactMemberToChatError) {
+
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -372,8 +421,15 @@ public class ContactListViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
-        Volley.newRequestQueue(getApplication().getApplicationContext())
-                .add(request);
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    /**
+     * handle connection error to chat back-end
+     * @param error the error
+     */
+    private void handleAddContactMemberToChatError(final VolleyError error) {
+        Log.e("CONNECTION ERROR", "No Chat Info");
     }
 }
