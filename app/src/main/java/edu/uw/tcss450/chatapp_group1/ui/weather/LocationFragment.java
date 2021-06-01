@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                     mWeatherModel.updateZipcode(currentZipcode);
                 }
         );
+        binding.statsButton.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        LocationFragmentDirections.actionLocationFragmentToNavigationWeather()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
