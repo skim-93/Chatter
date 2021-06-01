@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 //This will need some extra logic for your project as it should have
                 //multiple chat rooms.
                 mNewMessageModel.reset();
-            } else if (destination.getId() == R.id.navigation_contact){
+            }
+            if (destination.getId() == R.id.navigation_contact){
                 mNewRequestModel.reset();
             }
         });
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
         mNewRequestModel.addRequestCountObserver(this,count->{
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
-            badge.setMaxCharacterCount(5);
+            badge.setMaxCharacterCount(2);
             if (count > 0) {
                 //new messages! update and show the notification badge.
                 badge.setNumber(count);
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         private ContactListViewModel mModel =
                 new ViewModelProvider(MainActivity.this)
                         .get(ContactListViewModel.class);
-
+        private UserInfoViewModel mUserinfo = new ViewModelProvider(MainActivity.this).get(UserInfoViewModel.class);
         @Override
         public void onReceive(Context context, Intent intent) {
             NavController nc =
@@ -192,12 +193,10 @@ public class MainActivity extends AppCompatActivity {
                             MainActivity.this, R.id.nav_host_fragment);
             NavDestination nd = nc.getCurrentDestination();
             if (intent.hasExtra("senderEmail")) {
-                //If the user is not on the chat screen, update the
-                // NewMessageCountView Model
                 if (nd.getId() != R.id.navigation_contact) {
                     mNewRequestModel.increment();
                 }
-                // need to check
+                mModel.addFriendsList(mUserinfo.getmJwt(), intent.getIntExtra("senderid", -1));
             }
         }
     }
