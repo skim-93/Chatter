@@ -40,6 +40,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.uw.tcss450.chatapp_group1.databinding.ActivityMainBinding;
 import edu.uw.tcss450.chatapp_group1.model.NewMessageCountViewModel;
+import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 import edu.uw.tcss450.chatapp_group1.services.PushReceiver;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatMessage;
@@ -374,6 +375,16 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
         //End the app completely
-        finishAndRemoveTask();
+        PushyTokenViewModel model = new ViewModelProvider(this)
+                .get(PushyTokenViewModel.class);
+
+        //when we hear back from the web service quit
+        model.addResponseObserver(this, result -> finishAndRemoveTask());
+
+        model.deleteTokenFromWebservice(
+                new ViewModelProvider(this)
+                        .get(UserInfoViewModel.class)
+                        .getmJwt()
+        );
     }
 }
