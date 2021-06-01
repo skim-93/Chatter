@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,10 +128,16 @@ public class ContactPopUpFragment extends DialogFragment {
      * @param response the json response
      */
     private void observeAddChatMember(final JSONObject response) {
+        int toast_duration = Toast.LENGTH_SHORT;
+        Toast toast;
+        CharSequence message;
         if (response.length() > 0) {
             try {
+                message = response.getString("message");
+
                 if (fromAddChatMember) {
-                    Toast.makeText(activity, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(activity, message, toast_duration);
+                    toast.show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
