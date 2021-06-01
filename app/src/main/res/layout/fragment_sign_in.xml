@@ -107,7 +107,7 @@
         android:checked="true"
         android:text="Stay Signed in"
         android:textColor="@color/white"
-        android:thumbTint="#FB7200"
+        android:thumbTint="#FFFFFF"
         android:trackTint="#FBFBFB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
