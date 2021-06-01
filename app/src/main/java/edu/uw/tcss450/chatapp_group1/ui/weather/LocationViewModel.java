@@ -30,5 +30,4 @@ public class LocationViewModel extends ViewModel {
     public Location getCurrentLocation() {
         return new Location(mLocation.getValue());
     }
-
 }
