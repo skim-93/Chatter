@@ -95,4 +95,23 @@ public class SignInViewModel extends AndroidViewModel {
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
+
+    public void checkUserVerified(final String email) {
+        String url = getApplication().getResources().getString(R.string.base_url) +
+                "verification/check-verify/" + email;
+        Request request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,//no body for this get request
+                mResponse::setValue,
+                this::handleError) {
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
 }
