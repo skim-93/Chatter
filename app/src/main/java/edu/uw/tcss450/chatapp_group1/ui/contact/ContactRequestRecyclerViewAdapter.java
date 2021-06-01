@@ -40,7 +40,6 @@ public class ContactRequestRecyclerViewAdapter extends
      */
     public ContactRequestRecyclerViewAdapter(List<Contact> contacts, Context context,UserInfoViewModel userModel,
                                              ContactListViewModel viewModel) {
-        ContactGenerator generator = new ContactGenerator();
         this.mFriendRequest = contacts;
         this.mSearchContacts = new ArrayList<>(contacts);
         this.mContext = context;
@@ -105,21 +104,25 @@ public class ContactRequestRecyclerViewAdapter extends
             //set on click listener for accept button
             contact_request_accept_button.setOnClickListener(v -> {
                 mViewModel.acceptRequest(mInfoModel.getmJwt(), mRequest.getmMemberID());
-                holder.contact_request_accept_button.setVisibility(View.GONE);
-                holder.contact_request_decline_button.setVisibility(View.GONE);
                 mFriendRequest.remove(mRequest);
+                holder.deleteContact();
                 notifyDataSetChanged();
             });
             //set on click listener for decline button
             contact_request_decline_button.setOnClickListener(v -> {
                 mViewModel.deleteContact(mInfoModel.getmJwt(), mRequest.getmMemberID());
-                holder.contact_request_accept_button.setVisibility(View.GONE);
-                holder.contact_request_decline_button.setVisibility(View.GONE);
                 mFriendRequest.remove(mRequest);
+                holder.deleteContact();
                 notifyDataSetChanged();
             });
         }
+
+        public void deleteContact(){
+            mFriendRequest.remove(mRequest);
+            notifyDataSetChanged();
+        }
     }
+
 
     /**
      * Getter for search filter
