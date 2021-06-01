@@ -21,12 +21,11 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class ContactRequestFragment extends Fragment {
-    /**Initializer for contact request view model**/
-    private ContactListViewModel mModel;
     /**Initializer for contact list view model**/
     private ContactListViewModel mContactListViewModel;
     /**Initializer for user info view model**/
     private UserInfoViewModel mUserInfoViewModel;
+
     /**
      * on create for contact request fragment
      * @param savedInstanceState saved instance state bundle
@@ -37,7 +36,7 @@ public class ContactRequestFragment extends Fragment {
 //        mModel = new ViewModelProvider(getActivity()).get(ContactListViewModel.class);
         mContactListViewModel = new ViewModelProvider(getActivity()).get(ContactListViewModel.class);
         mUserInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
-
+        mContactListViewModel.connectContactRequestList(mUserInfoViewModel.getmJwt());
     }
 
     /**

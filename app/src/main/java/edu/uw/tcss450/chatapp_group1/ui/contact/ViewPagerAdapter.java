@@ -16,10 +16,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     /**
      * view pager adapter generator
      * @param getChildFragmentManager fragment manager
-     * @param i int initializer
+     * @param behavior int initializer
      */
-    public ViewPagerAdapter(@NonNull FragmentManager getChildFragmentManager, int i) {
-        super(getChildFragmentManager, i);
+    public ViewPagerAdapter(@NonNull FragmentManager getChildFragmentManager, int behavior) {
+        super(getChildFragmentManager, behavior);
     }
 
     /**
@@ -60,6 +60,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public void addFrag(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
+    }
+
+    /**
+     * Getter for fragment position
+     * @param object object
+     * @return position_None
+     */
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
     }
 
 }

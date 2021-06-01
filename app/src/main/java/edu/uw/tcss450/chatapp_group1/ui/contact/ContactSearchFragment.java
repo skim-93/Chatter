@@ -1,15 +1,18 @@
 package edu.uw.tcss450.chatapp_group1.ui.contact;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.autofill.AutofillValue;
 import android.widget.SearchView;
 
 import edu.uw.tcss450.chatapp_group1.R;
@@ -63,14 +66,14 @@ public class ContactSearchFragment extends Fragment {
                     ContactSearchRecyclerViewAdapter adapter = new ContactSearchRecyclerViewAdapter(contactList, mUserInfoViewModel, mContactListViewModel);
                     binding.contactListRoot.setAdapter(adapter);
                     //setup search tab for text listener
+                    adapter.getFilter().filter(null);
                     binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
                         public boolean onQueryTextSubmit(String query) {
-                            return false;
-                        }
+                            adapter.getFilter().filter(query);
+                            return false; }
                         @Override
                         public boolean onQueryTextChange(String newText) {
-                            adapter.getFilter().filter(newText);
                             return false;
                         }
                     });

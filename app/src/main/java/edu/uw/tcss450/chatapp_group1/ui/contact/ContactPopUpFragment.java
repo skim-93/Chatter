@@ -105,10 +105,11 @@ public class ContactPopUpFragment extends DialogFragment {
         TextView userEmail = view.findViewById(R.id.contact_pop_up_email);
         userEmail.setText(mContact.getEmail());
         //add button for deleting contact card from friend list
-
         Button deleteButton = view.findViewById(R.id.contact_pop_up_delete_button);
         deleteButton.setOnClickListener(v -> {
-            //connect later for deleting
+            mContactModel.deleteContact(mUserModel.getmJwt(), mContact.getmMemberID());
+            mUpdater.deleteContact();
+            dismiss();
         });
 
         Button messageButton = view.findViewById(R.id.contact_pop_up_message_button);

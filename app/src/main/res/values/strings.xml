@@ -44,7 +44,7 @@
     <string name="text_maximum_temp">78</string>
     <string name="text_temperature">70</string>
     <string name="text_weather_time">11:00 am</string>
-    <string name="text_weather_date">05-20</string>
+    <string name="text_weather_date">wednesday</string>
     <string name="text_daily_weather">daily weather</string>
     <string name="text_weekly_weather">weekly weather</string>
     <string name="recycler_view_hourly">recycler_view_hourly</string>
@@ -104,6 +104,9 @@
 
     <string name="shared_theme_pref">App Theme Preference</string>
     <string name="theme_pref">Theme Preference</string>
+    <string name="label_location">Current location</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="button_map">map</string>
 
     <string name="weather_stats">Stats</string>
     <string name="weather_map">Map</string>

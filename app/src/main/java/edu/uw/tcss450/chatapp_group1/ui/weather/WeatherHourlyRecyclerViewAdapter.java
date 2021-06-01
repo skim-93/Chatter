@@ -57,7 +57,6 @@ public class WeatherHourlyRecyclerViewAdapter extends
             binding = FragmentWeatherHourlyCardBinding.bind(view);
         }
 
-
         /**
          * helps to set the hourly weather components
          * @param weather

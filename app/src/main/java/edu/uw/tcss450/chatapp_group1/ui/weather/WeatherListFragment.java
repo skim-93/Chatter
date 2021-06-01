@@ -2,8 +2,6 @@ package edu.uw.tcss450.chatapp_group1.ui.weather;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
@@ -33,9 +29,6 @@ public class WeatherListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
-        mModel.getCurrentWeather("98403");
-        mModel.get24HourForecast("98403");
-        mModel.getFiveDayForecast("98403");
     }
 
     @Override
@@ -50,15 +43,12 @@ public class WeatherListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentWeatherListBinding.bind(getView());
 
+        binding.mapButton.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment()));
         binding.buttonZipcodeSearch.setOnClickListener(button ->
                 updateZipcodeSearchBar()
         );
-
-        binding.mapButton.setOnClickListener(button -> {
-            NavDirections directions = WeatherListFragmentDirections.actionNavigationWeatherToWeatherMapFragment();
-            Navigation.findNavController(getView()).navigate(directions);
-        });
-
         binding.enterZipcode.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -69,9 +59,7 @@ public class WeatherListFragment extends Fragment {
                         Toast toast = Toast.makeText(getContext(), "Invalid Zipcode!", Toast.LENGTH_SHORT);
                         toast.show();
                     } else {
-                        mModel.getCurrentWeather(zipcode);
-                        mModel.get24HourForecast(zipcode);
-                        mModel.getFiveDayForecast(zipcode);
+                        mModel.updateZipcode(zipcode);
                     }
                     hideKeyboard(getActivity());
                     updateZipcodeSearchBar();
@@ -118,7 +106,7 @@ public class WeatherListFragment extends Fragment {
         }
     }
 
-    private static boolean isValidZipcode(String zipcode) {
+    public static boolean isValidZipcode(String zipcode) {
         if (zipcode.length() != 5 || !onlyDigits(zipcode, zipcode.length())) {
             return false;
         }

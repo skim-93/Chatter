@@ -158,5 +158,4 @@ public class RegisterFragment extends Fragment {
             Log.d("JSON Response", "No Response");
         }
     }
-
 }

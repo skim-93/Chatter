@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
+import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,6 +111,9 @@ public class ContactRecyclerViewAdapter extends
                 ContactPopUpFragment popUp = new ContactPopUpFragment(mContact, mContactListViewModel,
                         mUserInfoViewModel, this, mChatId, mFromAddChatMember);
                 popUp.show(mFragmentManager,"popUpDialog");
+                if(!popUp.isVisible()) {
+                    notifyDataSetChanged();
+                }
             });
         }
 
@@ -119,9 +123,16 @@ public class ContactRecyclerViewAdapter extends
          */
         private void setContact(final Contact contact) {
             mContact = contact;
-            final String name = mContact.getFirstName();
-            nameTextView.setText(name);
+            nameTextView.setText(mContact.getFirstName());
             usernameTextView.setText(mContact.getUserName());
+        }
+
+        /**
+         * delete contact from the list
+         */
+        public void deleteContact(){
+            mContactList.remove(mContact);
+            notifyDataSetChanged();
         }
     }
 
