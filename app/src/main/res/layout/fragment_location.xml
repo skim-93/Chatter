@@ -19,12 +19,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/forecast_button"
             android:layout_width="wrap_content"
-            app:strokeColor="@color/white"
-            android:id="@+id/stats_button"
-            app:strokeWidth="2dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="90dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/darkGray"
             android:text="@string/weather_stats"
@@ -32,22 +30,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/map_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></com.google.android.material.button.MaterialButton>
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp"></com.google.android.material.button.MaterialButton>
 
         <com.google.android.material.button.MaterialButton
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
             android:id="@+id/map_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="100dp"
+            android:layout_marginEnd="90dp"
+            android:backgroundTint="@color/darkGray"
             android:text="@string/weather_map"
             android:textColor="@color/white"
-            android:backgroundTint="@color/darkGray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"></com.google.android.material.button.MaterialButton>
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp"></com.google.android.material.button.MaterialButton>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

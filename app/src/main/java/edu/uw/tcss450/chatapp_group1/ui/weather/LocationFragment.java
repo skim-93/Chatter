@@ -72,7 +72,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                     mWeatherModel.updateZipcode(currentZipcode);
                 }
         );
-        binding.statsButton.setOnClickListener(button ->
+        binding.forecastButton.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         LocationFragmentDirections.actionLocationFragmentToNavigationWeather()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
