@@ -84,7 +84,7 @@
         android:layout_marginEnd="160dp"
         android:contentDescription="@string/text_home_welcome"
         android:cropToPadding="false"
-        android:src="@drawable/ic_chatter_logo"
+        android:src="@drawable/ic_chatter_logo_white_thick_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_weather" />
