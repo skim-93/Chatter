@@ -26,6 +26,8 @@ import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
 public class HomeFragment extends Fragment {
     private WeatherListViewModel mModel;
     private FragmentHomeBinding binding;
+    private UserInfoViewModel mUserInfo;
+
 
 
     @Override
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
+        mUserInfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -47,18 +50,14 @@ public class HomeFragment extends Fragment {
             binding.textTemperature.setText(weatherData.getmTemperature());
             binding.textCondition.setText(weatherData.getmDescription());
         });
-//        UserInfoViewModel model = new ViewModelProvider(getActivity())
-//                .get(UserInfoViewModel.class);
+
 
         binding.changePWBtn.setOnClickListener(this::navigateToResetPassword);
-
-
-
     }
 
     private void navigateToResetPassword(View view) {
         Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionNavigationHomeToInAppChangePasswordFragment(
-                ""
+                mUserInfo.getEmail()
         ));
     }
 
