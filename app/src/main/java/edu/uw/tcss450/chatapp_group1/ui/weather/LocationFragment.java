@@ -11,10 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -65,11 +67,14 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 binding.textLat.setText("latitude: " + String.valueOf(location.getLatitude())));
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
                 binding.textLong.setText("longitude: " + String.valueOf(location.getLongitude())));
-
+        binding.buttonSetLocation.setEnabled(false);
         binding.buttonSetLocation.setOnClickListener(button -> {
                     mWeatherModel.updateZipcode(currentZipcode);
                 }
         );
+        binding.statsButton.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        LocationFragmentDirections.actionLocationFragmentToNavigationWeather()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -79,6 +84,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
+        mMap.clear();
+        Button button = (Button) getView().findViewById(R.id.button_setLocation);
+        button.setEnabled(true);
         currentLatitude = latLng.latitude;
         currentLongitude = latLng.longitude;
         Geocoder geocoder = new Geocoder(getActivity(), Locale.ENGLISH);
@@ -93,6 +101,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title("New Marker"));
+
         mMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
