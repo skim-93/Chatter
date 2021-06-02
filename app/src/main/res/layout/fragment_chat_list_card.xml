@@ -18,7 +18,7 @@
         android:id="@+id/layout_inner"
         android:layout_width="match_parent"
         android:layout_height="142dp"
-        android:background="@color/cardview_dark_background">
+        android:background="#D8D8D8">
 
 
         <Button
@@ -41,6 +41,7 @@
             style="@android:style/Widget.Material.Light.ActionBar.Solid"
             android:layout_width="0dp"
             android:layout_height="52dp"
+            android:background="?attr/colorPrimary"
             android:text="CHAT ROOM NAME"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
