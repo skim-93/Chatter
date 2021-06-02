@@ -5,15 +5,20 @@
     android:id="@+id/chatlist_card_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="5dp">
+    android:layout_margin="8dp"
+    android:background="@color/cardview_dark_background"
+    android:backgroundTint="@color/darkGray"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp"
+    app:cardMaxElevation="2dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/layout_inner"
         android:layout_width="match_parent"
-        android:layout_height="142dp">
+        android:layout_height="142dp"
+        android:background="@color/cardview_dark_background">
 
 
         <Button
@@ -34,8 +39,8 @@
         <TextView
             android:id="@+id/text_chatRoom_title"
             style="@android:style/Widget.Material.Light.ActionBar.Solid"
-            android:layout_width="393dp"
-            android:layout_height="59dp"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
             android:text="CHAT ROOM NAME"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
