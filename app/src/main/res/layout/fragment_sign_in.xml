@@ -85,7 +85,8 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_to_register" />
+        app:layout_constraintTop_toBottomOf="@+id/button_to_register"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <ImageView
         android:id="@+id/image_chatter_logo"
