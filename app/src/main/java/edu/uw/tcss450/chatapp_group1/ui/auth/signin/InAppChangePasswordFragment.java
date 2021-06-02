@@ -34,7 +34,7 @@ import static edu.uw.tcss450.chatapp_group1.utils.PasswordValidator.checkPwdUppe
 public class InAppChangePasswordFragment extends Fragment {
 
     private FragmentChangePasswordBinding binding;
-    private ChangePasswordViewModel mSetPasswordViewModel;
+    private InAppChangePasswordViewModel mSetPasswordViewModel;
 
     private String mEmail;
 
@@ -50,7 +50,7 @@ public class InAppChangePasswordFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSetPasswordViewModel = new ViewModelProvider(getActivity())
-                .get(ChangePasswordViewModel.class);
+                .get(InAppChangePasswordViewModel.class);
 
     }
 
