@@ -27,7 +27,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -96,6 +95,13 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.shared_theme_pref),
                 Context.MODE_PRIVATE
         );
+        if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Red")) {
+            setTheme(R.style.Theme_DarkRed);
+        } else if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Orange")) {
+            setTheme(R.style.Theme_DarkOrange);
+        }
 
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -201,9 +207,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         createLocationRequest();
-
-
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
