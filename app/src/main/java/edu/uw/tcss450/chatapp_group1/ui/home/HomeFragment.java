@@ -32,9 +32,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentHomeBinding.inflate(inflater);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
-        mUserInfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -49,12 +47,5 @@ public class HomeFragment extends Fragment {
             binding.textTemperature.setText(weatherData.getmTemperature());
             binding.textCondition.setText(weatherData.getmDescription());
         });
-        binding.changePWBtn.setOnClickListener(this::navigateToResetPassword);
-    }
-
-    private void navigateToResetPassword(View view) {
-        Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionNavigationHomeToInAppChangePasswordFragment(
-                mUserInfo.getEmail()
-        ));
     }
 }

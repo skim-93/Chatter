@@ -24,6 +24,7 @@ import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
 
 public class ChangePasswordViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mResponse;
+    private String mEmail;
 
     public ChangePasswordViewModel(@NonNull Application application) {
         super(application);
@@ -58,6 +59,14 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                 Log.e("JSON PARSE", "JSON Parse Error in handleError");
             }
         }
+    }
+
+    public void setmEmail(String email) {
+        this.mEmail = email;
+    }
+
+    public String getmEmail() {
+        return mEmail;
     }
 
     public void connect(final String email, final String newPassword) {
