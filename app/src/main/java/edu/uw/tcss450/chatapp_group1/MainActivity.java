@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
     //The ViewModel that will store the current location
     private LocationViewModel mLocationModel;
 
+    /** Arguments needed to get the user email **/
+    private MainActivityArgs args;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+        args = MainActivityArgs.fromBundle(getIntent().getExtras());
 
         new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
@@ -423,6 +426,12 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_sign_out) {
             signOut();
+            return true;
+        }
+        if (id == R.id.action_change_password) {
+            Intent changePasswordIntent = new Intent(MainActivity.this, ChangePassword.class);
+            changePasswordIntent.putExtra("email", args.getEmail());
+            startActivityForResult(changePasswordIntent, 1);
             return true;
         }
         return super.onOptionsItemSelected(item);
