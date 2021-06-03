@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import edu.uw.tcss450.chatapp_group1.ui.auth.signin.ChangePasswordViewModel;
 
@@ -34,5 +35,21 @@ public class ChangePassword extends AppCompatActivity {
         ChangePasswordViewModel mModel = new ViewModelProvider(this)
                 .get(ChangePasswordViewModel.class);
         mModel.setmEmail(intent.getStringExtra("email"));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

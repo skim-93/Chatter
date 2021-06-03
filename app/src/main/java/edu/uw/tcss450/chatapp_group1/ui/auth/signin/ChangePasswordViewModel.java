@@ -72,6 +72,8 @@ public class ChangePasswordViewModel extends AndroidViewModel {
     public void connect(final String email, final String newPassword) {
         String url = "https://group1-tcss450-project.herokuapp.com/verification/change-password";
 
+        Log.d("Change Password View Model", "Email: " + email +", Password: " + newPassword);
+
         JSONObject body = new JSONObject();
         try {
             body.put("email", email);

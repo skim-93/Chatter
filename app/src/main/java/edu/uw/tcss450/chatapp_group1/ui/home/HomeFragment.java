@@ -26,8 +26,6 @@ import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
  */
 public class HomeFragment extends Fragment {
     private WeatherListViewModel mModel;
-    private FragmentHomeBinding binding;
-    private UserInfoViewModel mUserInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

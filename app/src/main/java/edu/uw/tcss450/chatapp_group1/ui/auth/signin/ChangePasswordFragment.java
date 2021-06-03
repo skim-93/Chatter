@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.tcss450.chatapp_group1.ChangePassword;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChangePasswordBinding;
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
@@ -50,7 +52,8 @@ public class ChangePasswordFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mSetPasswordViewModel = new ViewModelProvider(getActivity())
                 .get(ChangePasswordViewModel.class);
-
+        ChangePasswordFragmentArgs args = ChangePasswordFragmentArgs.fromBundle(getArguments());
+        mSetPasswordViewModel.setmEmail(args.getEmail());
     }
 
     @Override
@@ -70,8 +73,6 @@ public class ChangePasswordFragment extends Fragment {
 
         binding.cancelButton2.setOnClickListener(this::navigateBackToSignIn);
         binding.submitPasswordsButton.setOnClickListener(this::checkPasswords);
-
-        Log.d("temp", "here1");
     }
 
     /**
@@ -89,7 +90,13 @@ public class ChangePasswordFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                navigateBackToSignIn(null);
+                if (getActivity() instanceof ChangePassword) {
+                    Toast toast = Toast.makeText(getContext(), "Success! Password changed successfully"
+                            , Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    navigateBackToSignIn(null);
+                }
                 ((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
             }
         } else {
