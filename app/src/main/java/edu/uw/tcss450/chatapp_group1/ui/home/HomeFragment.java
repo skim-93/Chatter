@@ -29,12 +29,9 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private UserInfoViewModel mUserInfo;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentHomeBinding.inflate(inflater);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
         mUserInfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
@@ -52,7 +49,6 @@ public class HomeFragment extends Fragment {
             binding.textTemperature.setText(weatherData.getmTemperature());
             binding.textCondition.setText(weatherData.getmDescription());
         });
-
         binding.changePWBtn.setOnClickListener(this::navigateToResetPassword);
     }
 
@@ -61,6 +57,4 @@ public class HomeFragment extends Fragment {
                 mUserInfo.getEmail()
         ));
     }
-
-
 }

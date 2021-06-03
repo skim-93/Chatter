@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 100000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 600000;
 
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                 for (Location location : locationResult.getLocations()) {
                     // Update UI with location data
                     // ...
-                    Log.d("LOCATION UPDATE!", location.toString());
                     if (mLocationModel == null) {
                         mLocationModel = new ViewModelProvider(MainActivity.this)
                                 .get(LocationViewModel.class);
@@ -217,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         };
-
         createLocationRequest();
     }
 
@@ -229,24 +227,19 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     // permission was granted, yay! Do the
                     // locations-related task you need to do.
                     requestLocation();
-
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     Log.d("PERMISSION DENIED", "Nothing to see or do here.");
-
                     //Shut down the app. In production release, you would let the user
                     //know why the app is shutting down...maybe ask for permission again?
                     finishAndRemoveTask();
                 }
                 return;
             }
-
             // other 'case' lines to check for other
             // permissions this app might request
         }
@@ -256,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
             Log.d("REQUEST LOCATION", "User did NOT allow permission to request location!");
         } else {
             mFusedLocationClient.getLastLocation()
@@ -265,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                Log.d("LOCATION", location.toString());
                                 if (mLocationModel == null) {
                                     mLocationModel = new ViewModelProvider(MainActivity.this)
                                             .get(LocationViewModel.class);
@@ -335,7 +326,6 @@ public class MainActivity extends AppCompatActivity {
             List<Address> addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
             Address returnAddress = addresses.get(0);
             currentZipcode = returnAddress.getPostalCode();
-            Log.d("LOCATION FROM MainActivity/getCurrentZip", currentZipcode);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -364,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter irFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_REQUEST);
         registerReceiver(mPushRequestReceiver, irFilter);
-        //startLocationUpdates();
+        startLocationUpdates();
     }
     @Override
     public void onPause() {
@@ -376,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
         if (mPushRequestReceiver != null){
             unregisterReceiver(mPushRequestReceiver);
         }
-        //stopLocationUpdates();
+        stopLocationUpdates();
     }
 
     public void setActionBarTitle(String title) {
