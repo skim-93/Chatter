@@ -43,26 +43,21 @@ public class WeatherData implements Serializable {
     public String getmIcon() {
         return mIcon;
     }
-
     public String getmTemperature() {
-        return mTemperature + "°";
+        return (int)Math.round(mTemperature) + "°";
     }
     public String getmCity() {
         return mCity;
     }
-
     public String getmDescription() {
         return mDescription;
     }
-
     public String getmTime() {
         return mTime;
     }
-
     public String  getmMinTemperature() {
         return (int)Math.round(mMinTemp) + "°";
     }
-
     public String  getmMaxTemperature() {
         return (int)Math.round(mMaxTemp) + "°";
     }

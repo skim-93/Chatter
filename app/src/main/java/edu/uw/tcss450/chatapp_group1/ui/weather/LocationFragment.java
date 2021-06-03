@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +74,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                     mWeatherModel.updateZipcode(currentZipcode);
                 }
         );
-        binding.statsButton.setOnClickListener(button ->
+        binding.forecastButton.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         LocationFragmentDirections.actionLocationFragmentToNavigationWeather()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -87,8 +89,11 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         mMap.clear();
         Button button = (Button) getView().findViewById(R.id.button_setLocation);
         button.setEnabled(true);
+        FragmentLocationBinding binding = FragmentLocationBinding.bind(getView());
         currentLatitude = latLng.latitude;
         currentLongitude = latLng.longitude;
+        binding.textLat.setText("latitude: " + String.valueOf(currentLatitude));
+        binding.textLong.setText("longitude: " + String.valueOf(currentLongitude));
         Geocoder geocoder = new Geocoder(getActivity(), Locale.ENGLISH);
         try {
             List<Address> addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);

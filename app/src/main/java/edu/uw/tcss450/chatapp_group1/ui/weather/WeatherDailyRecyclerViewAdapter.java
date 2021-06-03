@@ -34,7 +34,6 @@ public class WeatherDailyRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         holder.setWeather(mWeathers.get(position));
-
     }
 
     @Override
