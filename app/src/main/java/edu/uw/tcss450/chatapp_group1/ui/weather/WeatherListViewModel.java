@@ -29,7 +29,6 @@ public class WeatherListViewModel extends AndroidViewModel {
     private MutableLiveData<List<WeatherData>> m24HourForecast;
     private MutableLiveData<WeatherData> mCurrentWeather;
     private MutableLiveData<String> mCurrentZipcode;
-
     /** Toggle the zipcode search bar. False = Hidden, True = Visible */
     private MutableLiveData<Boolean> mToggleZipcode;
 
@@ -41,8 +40,8 @@ public class WeatherListViewModel extends AndroidViewModel {
         mToggleZipcode = new MutableLiveData<>();
         mToggleZipcode.setValue(false);
         mCurrentZipcode = new MutableLiveData<>();
-        mCurrentZipcode.setValue("98030");
-        updateZipcode("98030");
+        mCurrentZipcode.setValue("98403");
+        updateZipcode("98403");
     }
 
     /**

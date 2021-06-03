@@ -38,7 +38,6 @@ public class WeatherHourlyRecyclerViewAdapter extends
     @Override
     public int getItemCount() {
         return mWeathers.size();
-
     }
 
     /**

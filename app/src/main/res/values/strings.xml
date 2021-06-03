@@ -55,6 +55,12 @@
     <string name="button_forecast">button forecast</string>
     <string name="full_day">hourly weather</string>
     <string name="todo">todo</string>
+    <string name="label_location">Current location</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="button_map">map</string>
+    <string name="weather_stats">Forecast</string>
+    <string name="weather_map">Map</string>
+
 
     <!--    contacts-->
     <string name="text_first_name_contact">First Name</string>
@@ -104,6 +110,7 @@
 
     <string name="shared_theme_pref">App Theme Preference</string>
     <string name="theme_pref">Theme Preference</string>
+
     <string name="label_location">Current location</string>
     <string name="title_activity_maps">Map</string>
     <string name="button_map">map</string>
