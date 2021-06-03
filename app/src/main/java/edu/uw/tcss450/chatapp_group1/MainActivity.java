@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +40,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import edu.uw.tcss450.chatapp_group1.databinding.ActivityMainBinding;
 import edu.uw.tcss450.chatapp_group1.model.NewMessageCountViewModel;
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
@@ -45,6 +51,7 @@ import edu.uw.tcss450.chatapp_group1.services.PushReceiver;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatMessage;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatViewModel;
 import edu.uw.tcss450.chatapp_group1.ui.weather.LocationViewModel;
+import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
     //The ViewModel that will store the current location
     private LocationViewModel mLocationModel;
-
+    private WeatherListViewModel mWeatherModel;
+    private double currentLatitude;
+    private double currentLongitude;
+    private String currentZipcode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = getSharedPreferences(
@@ -170,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
                                 .get(LocationViewModel.class);
                     }
                     mLocationModel.setLocation(location);
+                    mWeatherModel = new ViewModelProvider(MainActivity.this)
+                            .get(WeatherListViewModel.class);
+                    mWeatherModel.updateZipcode(getCurrentZip());
                 }
             };
         };
-
-        createLocationRequest();
-
 
     }
     @Override
@@ -228,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
                                             .get(LocationViewModel.class);
                                 }
                                 mLocationModel.setLocation(location);
+                                mWeatherModel = new ViewModelProvider(MainActivity.this)
+                                        .get(WeatherListViewModel.class);
+                                mWeatherModel.updateZipcode(getCurrentZip());
                             }
                         }
                     });
@@ -277,7 +290,24 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
-
+    /**
+     * method thats responsible for changing Latitude and longitude to zipcode
+     * @return currentZipCode
+     */
+    public String getCurrentZip(){
+        currentLatitude = mLocationModel.getCurrentLocation().getLatitude();
+        currentLongitude = mLocationModel.getCurrentLocation().getLongitude();
+        Geocoder geocoder = new Geocoder(getBaseContext(), Locale.ENGLISH);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
+            Address returnAddress = addresses.get(0);
+            currentZipcode = returnAddress.getPostalCode();
+            Log.d("LOCATION FROM MainActivity/getCurrentZip", currentZipcode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return currentZipcode;
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

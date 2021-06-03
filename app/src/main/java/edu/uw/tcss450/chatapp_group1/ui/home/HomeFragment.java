@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentHomeBinding;
+import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
 
 /**
@@ -24,6 +25,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -39,7 +41,5 @@ public class HomeFragment extends Fragment {
             binding.textTemperature.setText(weatherData.getmTemperature());
             binding.textCondition.setText(weatherData.getmDescription());
         });
-//        UserInfoViewModel model = new ViewModelProvider(getActivity())
-//                .get(UserInfoViewModel.class);
     }
 }

@@ -1,18 +1,22 @@
 package edu.uw.tcss450.chatapp_group1.ui.weather;
 
+import android.app.Application;
 import android.location.Location;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
-public class LocationViewModel extends ViewModel {
+public class LocationViewModel extends AndroidViewModel {
     private MutableLiveData<Location> mLocation;
+    /** Toggle the zipcode search bar. False = Hidden, True = Visible */
+    private MutableLiveData<Boolean> mToggleZipcode;
 
-    public LocationViewModel() {
+    public LocationViewModel(@NonNull Application application) {
+        super(application);
         mLocation = new MediatorLiveData<>();
     }
 
