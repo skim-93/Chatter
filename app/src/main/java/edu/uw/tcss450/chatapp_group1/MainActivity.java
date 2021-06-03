@@ -29,7 +29,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -46,12 +45,17 @@ import java.util.Locale;
 
 import edu.uw.tcss450.chatapp_group1.databinding.ActivityMainBinding;
 import edu.uw.tcss450.chatapp_group1.model.NewMessageCountViewModel;
+import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
+import edu.uw.tcss450.chatapp_group1.model.NewRequestCountViewModel;
+
 import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 import edu.uw.tcss450.chatapp_group1.services.PushReceiver;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatMessage;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatViewModel;
+import edu.uw.tcss450.chatapp_group1.ui.contact.ContactListViewModel;
 import edu.uw.tcss450.chatapp_group1.ui.weather.LocationViewModel;
 import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private MainPushMessageReceiver mPushMessageReceiver;
+    private MainPushRequestReceiver mPushRequestReceiver;
     private NewMessageCountViewModel mNewMessageModel;
+    private NewRequestCountViewModel mNewRequestModel;
+
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -97,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.shared_theme_pref),
                 Context.MODE_PRIVATE
         );
+        if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Red")) {
+            setTheme(R.style.Theme_DarkRed);
+        } else if (prefs.getString(getString(R.string.theme_pref),"")
+                .equals("Dark Orange")) {
+            setTheme(R.style.Theme_DarkOrange);
+        }
 
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -119,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
+        mNewRequestModel = new ViewModelProvider(this).get(NewRequestCountViewModel.class);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.chatRoomFragment) {
@@ -127,9 +142,25 @@ public class MainActivity extends AppCompatActivity {
                 //multiple chat rooms.
                 mNewMessageModel.reset();
             }
+            if (destination.getId() == R.id.navigation_contact){
+                mNewRequestModel.reset();
+            }
         });
         mNewMessageModel.addMessageCountObserver(this, count -> {
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_chat);
+            badge.setMaxCharacterCount(2);
+            if (count > 0) {
+                //new messages! update and show the notification badge.
+                badge.setNumber(count);
+                badge.setVisible(true);
+            } else {
+                //user did some action to clear the new messages, remove the badge
+                badge.clearNumber();
+                badge.setVisible(false);
+            }
+        });
+        mNewRequestModel.addRequestCountObserver(this,count->{
+            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
                 //new messages! update and show the notification badge.
@@ -187,7 +218,9 @@ public class MainActivity extends AppCompatActivity {
             };
         };
 
+        createLocationRequest();
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -315,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -323,6 +357,13 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
         registerReceiver(mPushMessageReceiver, iFilter);
+
+
+        if (mPushRequestReceiver ==null){
+            mPushRequestReceiver = new MainPushRequestReceiver();
+        }
+        IntentFilter irFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_REQUEST);
+        registerReceiver(mPushRequestReceiver, irFilter);
         //startLocationUpdates();
     }
     @Override
@@ -331,8 +372,11 @@ public class MainActivity extends AppCompatActivity {
         if (mPushMessageReceiver != null){
             unregisterReceiver(mPushMessageReceiver);
         }
-        //stopLocationUpdates();
 
+        if (mPushRequestReceiver != null){
+            unregisterReceiver(mPushRequestReceiver);
+        }
+        //stopLocationUpdates();
     }
 
     public void setActionBarTitle(String title) {
@@ -366,7 +410,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+
+    /**
+     * A BroadcastReceiver that listens for request sent from PushReceiver
+     */
+    private class MainPushRequestReceiver extends BroadcastReceiver {
+        private ContactListViewModel mModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ContactListViewModel.class);
+        private UserInfoViewModel mUserinfo = new ViewModelProvider(MainActivity.this).get(UserInfoViewModel.class);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NavController nc =
+                    Navigation.findNavController(
+                            MainActivity.this, R.id.nav_host_fragment);
+            NavDestination nd = nc.getCurrentDestination();
+            if (intent.hasExtra("senderEmail")) {
+                if (nd.getId() != R.id.navigation_contact) {
+                    mNewRequestModel.increment();
+                }
+                mModel.addFriendsList(mUserinfo.getmJwt(), intent.getIntExtra("senderid", -1));
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         for(int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
@@ -404,6 +473,16 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
         //End the app completely
-        finishAndRemoveTask();
+        PushyTokenViewModel model = new ViewModelProvider(this)
+                .get(PushyTokenViewModel.class);
+
+        //when we hear back from the web service quit
+        model.addResponseObserver(this, result -> finishAndRemoveTask());
+
+        model.deleteTokenFromWebservice(
+                new ViewModelProvider(this)
+                        .get(UserInfoViewModel.class)
+                        .getmJwt()
+        );
     }
 }
