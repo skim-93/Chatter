@@ -1,6 +1,5 @@
-<PreferenceScreen
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
     <ListPreference
         app:defaultValue="dark_orange"
@@ -9,4 +8,5 @@
         app:key="theme"
         app:title="@string/theme_title"
         app:useSimpleSummaryProvider="true" />
+
 </PreferenceScreen>
