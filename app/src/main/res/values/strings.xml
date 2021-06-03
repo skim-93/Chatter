@@ -110,5 +110,6 @@
 
     <string name="weather_stats">Stats</string>
     <string name="weather_map">Map</string>
+    <string name='action_change_password'>Change Password</string>
 
 </resources>
