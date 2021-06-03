@@ -14,12 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.uw.tcss450.chatapp_group1.R;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChangePasswordBinding;
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
@@ -38,8 +36,6 @@ public class ChangePasswordFragment extends Fragment {
 
     private FragmentChangePasswordBinding binding;
     private ChangePasswordViewModel mSetPasswordViewModel;
-
-    private String mEmail;
 
     private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.passwordField2.getText().toString()))
@@ -74,10 +70,6 @@ public class ChangePasswordFragment extends Fragment {
 
         binding.cancelButton2.setOnClickListener(this::navigateBackToSignIn);
         binding.submitPasswordsButton.setOnClickListener(this::checkPasswords);
-
-        ChangePasswordFragmentArgs args = ChangePasswordFragmentArgs.fromBundle(getArguments());
-
-        mEmail = args.getEmail();
 
         Log.d("temp", "here1");
     }
@@ -120,7 +112,7 @@ public class ChangePasswordFragment extends Fragment {
      * Sends a request to set the given user with the given temporary password to the given new password
      */
     private void attemptToSetPassword() {
-        mSetPasswordViewModel.connect(mEmail, binding.passwordField1.getText().toString());
+        mSetPasswordViewModel.connect(mSetPasswordViewModel.getmEmail(), binding.passwordField1.getText().toString());
     }
 
     /**
@@ -130,7 +122,7 @@ public class ChangePasswordFragment extends Fragment {
     private void navigateBackToSignIn(View view) {
         ChangePasswordFragmentDirections.ActionChangePasswordFragmentToSignInFragment direction =
                 ChangePasswordFragmentDirections.actionChangePasswordFragmentToSignInFragment();
-        direction.setEmail(mEmail);
+        direction.setEmail(mSetPasswordViewModel.getmEmail());
         direction.setPassword(binding.passwordField1.getText().toString());
         Navigation.findNavController(getView()).navigate(direction);
     }
