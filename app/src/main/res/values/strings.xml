@@ -111,12 +111,7 @@
     <string name="shared_theme_pref">App Theme Preference</string>
     <string name="theme_pref">Theme Preference</string>
 
-    <string name="label_location">Current location</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="button_map">map</string>
 
-    <string name="weather_stats">Stats</string>
-    <string name="weather_map">Map</string>
     <string name='action_change_password'>Change Password</string>
     <string name="change_password">Change Password Fragment Tag</string>
 
