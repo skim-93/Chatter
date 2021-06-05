@@ -10,6 +10,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -38,12 +39,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import edu.uw.tcss450.chatapp_group1.databinding.ActivityMainBinding;
+import edu.uw.tcss450.chatapp_group1.model.NewAcceptCountViewModel;
 import edu.uw.tcss450.chatapp_group1.model.NewMessageCountViewModel;
 import edu.uw.tcss450.chatapp_group1.model.PushyTokenViewModel;
 import edu.uw.tcss450.chatapp_group1.model.NewRequestCountViewModel;
@@ -52,23 +55,28 @@ import edu.uw.tcss450.chatapp_group1.model.UserInfoViewModel;
 import edu.uw.tcss450.chatapp_group1.services.PushReceiver;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatMessage;
 import edu.uw.tcss450.chatapp_group1.ui.chat.ChatViewModel;
+import edu.uw.tcss450.chatapp_group1.ui.contact.ContactFragment;
 import edu.uw.tcss450.chatapp_group1.ui.contact.ContactListViewModel;
+import edu.uw.tcss450.chatapp_group1.ui.contact.ViewPagerAdapter;
 import edu.uw.tcss450.chatapp_group1.ui.weather.LocationViewModel;
 import edu.uw.tcss450.chatapp_group1.ui.weather.WeatherListViewModel;
+
+import static com.google.android.material.tabs.TabLayout.*;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private UserInfoViewModel mModel;
-
+    TabLayout tabLayout;
     private ActivityMainBinding binding;
-
     private MainPushMessageReceiver mPushMessageReceiver;
     private MainPushRequestReceiver mPushRequestReceiver;
+    private MainPushAcceptReceiver mainPushAcceptReceiver;
     private NewMessageCountViewModel mNewMessageModel;
     private NewRequestCountViewModel mNewRequestModel;
-
+    private NewAcceptCountViewModel mNewAcceptModel;
+    private ContactListViewModel mViewmodel;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -97,12 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
     /** Arguments needed to get the user email **/
     private MainActivityArgs args;
-
+    private ContactFragment mContactFragment;
     private WeatherListViewModel mWeatherModel;
     private double currentLatitude;
     private double currentLongitude;
     private String currentZipcode;
-  
+    private int menuItemId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = getSharedPreferences(
@@ -139,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
         mNewRequestModel = new ViewModelProvider(this).get(NewRequestCountViewModel.class);
+        mNewAcceptModel = new ViewModelProvider(this).get(NewAcceptCountViewModel.class);
+        mViewmodel = new ViewModelProvider(this).get(ContactListViewModel.class);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.chatRoomFragment) {
@@ -165,6 +176,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mNewRequestModel.addRequestCountObserver(this,count->{
+            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
+            badge.setMaxCharacterCount(2);
+            if (count > 0) {
+                //new messages! update and show the notification badge.
+                badge.setNumber(count);
+                badge.setVisible(true);
+            } else {
+                //user did some action to clear the new messages, remove the badge
+                badge.clearNumber();
+                badge.setVisible(false);
+            }
+        });
+
+        mNewAcceptModel.addAcceptCountObserver(this,count->{
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
@@ -219,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                             .get(WeatherListViewModel.class);
                     mWeatherModel.updateZipcode(getCurrentZip());
                 }
-            };
+            }
         };
         createLocationRequest();
     }
@@ -353,12 +378,18 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
         registerReceiver(mPushMessageReceiver, iFilter);
 
-
         if (mPushRequestReceiver ==null){
             mPushRequestReceiver = new MainPushRequestReceiver();
         }
         IntentFilter irFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_REQUEST);
         registerReceiver(mPushRequestReceiver, irFilter);
+
+        if( mainPushAcceptReceiver ==null){
+            mainPushAcceptReceiver = new MainPushAcceptReceiver();
+        }
+        IntentFilter iaFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_ACCEPT);
+        registerReceiver(mainPushAcceptReceiver, iaFilter);
+
         startLocationUpdates();
     }
     @Override
@@ -370,6 +401,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (mPushRequestReceiver != null){
             unregisterReceiver(mPushRequestReceiver);
+        }
+
+        if (mainPushAcceptReceiver !=null){
+            unregisterReceiver(mainPushAcceptReceiver);
         }
         stopLocationUpdates();
     }
@@ -405,7 +440,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * A BroadcastReceiver that listens for request sent from PushReceiver
      */
@@ -424,7 +458,36 @@ public class MainActivity extends AppCompatActivity {
                 if (nd.getId() != R.id.navigation_contact) {
                     mNewRequestModel.increment();
                 }
+                if (nd.getId() == R.id.navigation_contact) {
+                    mViewmodel.connectContactRequestList(mUserinfo.getmJwt());
+                }
                 mModel.addFriendsList(mUserinfo.getmJwt(), intent.getIntExtra("senderid", -1));
+            }
+        }
+    }
+
+    /**
+     * A BroadcastReceiver that listens for accept sent from PushReceiver
+     */
+    private class MainPushAcceptReceiver extends BroadcastReceiver {
+        private ContactListViewModel mModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ContactListViewModel.class);
+        private UserInfoViewModel mUserinfo = new ViewModelProvider(MainActivity.this).get(UserInfoViewModel.class);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NavController nc =
+                    Navigation.findNavController(
+                            MainActivity.this, R.id.nav_host_fragment);
+            NavDestination nd = nc.getCurrentDestination();
+            if (intent.hasExtra("acceptorEmail")) {
+                if (nd.getId() != R.id.navigation_contact) {
+                    mNewRequestModel.increment();
+                }
+                if (nd.getId() == R.id.navigation_contact) {
+                    mViewmodel.connectContactFriendList(mUserinfo.getmJwt());
+                }
+                mModel.addFriendsList(mUserinfo.getmJwt(), intent.getIntExtra("acceptorid", -1));
             }
         }
     }
