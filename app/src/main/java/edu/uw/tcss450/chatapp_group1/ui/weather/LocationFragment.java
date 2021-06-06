@@ -69,6 +69,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 binding.textLat.setText("latitude: " + String.valueOf(location.getLatitude())));
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
                 binding.textLong.setText("longitude: " + String.valueOf(location.getLongitude())));
+        currentZipcode = mModel.getZipcode();
         binding.forecastButton.setOnClickListener(button -> {
             mWeatherModel.updateZipcode(currentZipcode);
             Navigation.findNavController(getView()).navigate(

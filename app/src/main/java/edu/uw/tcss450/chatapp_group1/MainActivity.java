@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                 .get(LocationViewModel.class);
                     }
                     mLocationModel.setLocation(location);
+                    mLocationModel.setZipcode(getCurrentZip());
                     mWeatherModel = new ViewModelProvider(MainActivity.this)
                             .get(WeatherListViewModel.class);
                     mWeatherModel.updateZipcode(getCurrentZip());
@@ -262,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                             .get(LocationViewModel.class);
                                 }
                                 mLocationModel.setLocation(location);
+                                mLocationModel.setZipcode(getCurrentZip());
                                 mWeatherModel = new ViewModelProvider(MainActivity.this)
                                         .get(WeatherListViewModel.class);
                                 mWeatherModel.updateZipcode(getCurrentZip());
@@ -354,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter irFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_REQUEST);
         registerReceiver(mPushRequestReceiver, irFilter);
-        startLocationUpdates();
+        //startLocationUpdates();
     }
     @Override
     public void onPause() {
@@ -366,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
         if (mPushRequestReceiver != null){
             unregisterReceiver(mPushRequestReceiver);
         }
-        stopLocationUpdates();
+        //stopLocationUpdates();
     }
 
     public void setActionBarTitle(String title) {

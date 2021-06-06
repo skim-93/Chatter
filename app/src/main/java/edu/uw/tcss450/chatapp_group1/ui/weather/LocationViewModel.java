@@ -14,6 +14,7 @@ public class LocationViewModel extends AndroidViewModel {
     private MutableLiveData<Location> mLocation;
     /** Toggle the zipcode search bar. False = Hidden, True = Visible */
     private MutableLiveData<Boolean> mToggleZipcode;
+    private String mZipcode;
 
     public LocationViewModel(@NonNull Application application) {
         super(application);
@@ -33,5 +34,13 @@ public class LocationViewModel extends AndroidViewModel {
 
     public Location getCurrentLocation() {
         return new Location(mLocation.getValue());
+    }
+
+    public void setZipcode(String zip){
+        mZipcode = zip;
+    }
+
+    public String getZipcode(){
+        return mZipcode;
     }
 }

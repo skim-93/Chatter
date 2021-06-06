@@ -24,11 +24,13 @@ import edu.uw.tcss450.chatapp_group1.databinding.FragmentWeatherListBinding;
 public class WeatherListFragment extends Fragment {
     private WeatherListViewModel mModel;
     private FragmentWeatherListBinding binding;
+    private LocationViewModel mLocation;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
+        mLocation = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
     }
 
     @Override
@@ -42,7 +44,6 @@ public class WeatherListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentWeatherListBinding.bind(getView());
-
         binding.mapButton.setOnClickListener(button ->
                 Navigation.findNavController(getView()).navigate(
                         WeatherListFragmentDirections.actionNavigationWeatherToLocationFragment()));
@@ -124,5 +125,11 @@ public class WeatherListFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mModel.updateZipcode(mLocation.getZipcode());
     }
 }
