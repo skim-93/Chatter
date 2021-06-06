@@ -71,7 +71,7 @@ public class ChangePasswordFragment extends Fragment {
                 getViewLifecycleOwner(),
                 this::observeSignInResponse);
 
-        binding.cancelButton2.setOnClickListener(this::navigateBackToSignIn);
+        //binding.cancelButton2.setOnClickListener(this::navigateBackToSignIn);
         binding.submitPasswordsButton.setOnClickListener(this::checkPasswords);
     }
 
