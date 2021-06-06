@@ -24,8 +24,10 @@ public class PushReceiver extends BroadcastReceiver {
 
     public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
     public static final String RECEIVED_NEW_REQUEST = "new request from pushy";
+    public static final String RECEIVED_NEW_ACCEPT = "new accept from pushy";
 
     private static final String CHANNEL_ID = "1";
+    private String acceptorEmail;
 
 
     @Override
@@ -42,6 +44,8 @@ public class PushReceiver extends BroadcastReceiver {
         String typeOfMessage = intent.getStringExtra("type");
         ChatMessage message = null;
         String senderEmail = null;
+        String acceptorEmail = null;
+        int acceptorid = -1;
         int senderid = -1;
         int receiverid = -1;
 
@@ -144,6 +148,61 @@ public class PushReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.drawable.ic_contact_icon_24dp)
                         .setContentTitle("You got new friend request!")
                         .setContentText(senderEmail+" sent friend request")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent);
+
+                // Automatically configure a ChatMessageNotification Channel for devices running Android O+
+                Pushy.setNotificationChannel(builder, context);
+
+                // Get an instance of the NotificationManager service
+                NotificationManager notificationManager =
+                        (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+
+                // Build the notification and display it
+                notificationManager.notify(1, builder.build());
+            }
+        }
+        if (typeOfMessage.equals("accept")){
+            try{
+                acceptorEmail = intent.getStringExtra("acceptorEmail");
+                acceptorid = intent.getIntExtra("acceptorid",-1);
+                receiverid = intent.getIntExtra("receiver",-1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+            ActivityManager.getMyMemoryState(appProcessInfo);
+
+            if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                //app is in the foreground so send the message to the active Activities
+                Log.d("PUSHY", "Request received in foreground: " + acceptorEmail);
+
+                //create an Intent to broadcast a message to other parts of the app.
+                Intent i = new Intent(RECEIVED_NEW_ACCEPT);
+                i.putExtra("acceptorEmail", acceptorEmail);
+                i.putExtra("acceptorid", acceptorid);
+                i.putExtra("receiverid", receiverid);
+                i.putExtras(intent.getExtras());
+                context.sendBroadcast(i);
+
+            } else {
+                //app is in the background so create and post a notification
+                Log.d("PUSHY", "Request received in background: " + acceptorEmail);
+
+                Intent i = new Intent(context, AuthActivity.class);
+                i.putExtras(intent.getExtras());
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                        i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                //research more on notifications the how to display them
+                //https://developer.android.com/guide/topics/ui/notifiers/notifications
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setAutoCancel(true)
+                        .setSmallIcon(R.drawable.ic_contact_icon_24dp)
+                        .setContentTitle("You have a new friend!")
+                        .setContentText(acceptorEmail+" accept your friend request")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(pendingIntent);
 
