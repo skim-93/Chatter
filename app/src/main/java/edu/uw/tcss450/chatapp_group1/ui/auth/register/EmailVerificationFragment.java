@@ -85,7 +85,6 @@ public class EmailVerificationFragment extends Fragment {
         if (args.getPassword().equals("RECOVER")) { // Navigate to password recovery
             EmailVerificationFragmentDirections.ActionEmailVerificationFragmentToChangePasswordFragment passwordDirections =
                     EmailVerificationFragmentDirections.actionEmailVerificationFragmentToChangePasswordFragment(args.getEmail());
-
             Navigation.findNavController(getView()).navigate(passwordDirections);
             return;
         }

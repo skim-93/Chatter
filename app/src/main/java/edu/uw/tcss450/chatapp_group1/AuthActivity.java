@@ -65,10 +65,6 @@ public class AuthActivity extends AppCompatActivity {
             startActivityForResult(settingIntent, 1);
             return true;
         }
-        if (id == R.id.action_sign_out) {
-            signOut();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -78,13 +74,5 @@ public class AuthActivity extends AppCompatActivity {
         if (requestCode == 1) { // Check if coming from Settings Activity
             recreate(); // Update the Color theme by recreating activity
         }
-    }
-
-    private void signOut() {
-        SharedPreferences prefs = getSharedPreferences(
-                getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
-        //End the app completely
-        finishAndRemoveTask();
     }
 }

@@ -1,12 +1,15 @@
 package edu.uw.tcss450.chatapp_group1.ui.auth.signin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,7 @@ import androidx.navigation.Navigation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.tcss450.chatapp_group1.ChangePassword;
 import edu.uw.tcss450.chatapp_group1.databinding.FragmentChangePasswordBinding;
 import edu.uw.tcss450.chatapp_group1.utils.PasswordValidator;
 
@@ -35,8 +39,7 @@ public class InAppChangePasswordFragment extends Fragment {
 
     private FragmentChangePasswordBinding binding;
     private InAppChangePasswordViewModel mSetPasswordViewModel;
-
-    private String mEmail;
+    private ChangePasswordViewModel mPasswordModel;
 
     private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.passwordField2.getText().toString()))
@@ -51,7 +54,8 @@ public class InAppChangePasswordFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mSetPasswordViewModel = new ViewModelProvider(getActivity())
                 .get(InAppChangePasswordViewModel.class);
-
+        mPasswordModel = new ViewModelProvider(getActivity())
+                .get(ChangePasswordViewModel.class);
     }
 
     @Override
@@ -70,14 +74,8 @@ public class InAppChangePasswordFragment extends Fragment {
                 getViewLifecycleOwner(),
                 this::observeSignInResponse);
 
-        binding.cancelButton2.setOnClickListener(this::navigateBackToHomePage);
+        //binding.cancelButton2.setOnClickListener(this::navigateBackToHomePage);
         binding.submitPasswordsButton.setOnClickListener(this::checkPasswords);
-
-        InAppChangePasswordFragmentArgs args = InAppChangePasswordFragmentArgs.fromBundle(getArguments());
-
-        mEmail = args.getEmail();
-
-        Log.d("temp", "here1");
     }
 
     /**
@@ -95,7 +93,13 @@ public class InAppChangePasswordFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                navigateBackToHomePage(null);
+                if (getActivity() instanceof ChangePassword) {
+                    Toast toast = Toast.makeText(getContext(), "Success! Password changed successfully"
+                            , Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    navigateBackToHomePage(null);
+                }
                 ((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
             }
         } else {
@@ -118,7 +122,7 @@ public class InAppChangePasswordFragment extends Fragment {
      * Sends a request to set the given user with the given temporary password to the given new password
      */
     private void attemptToSetPassword() {
-        mSetPasswordViewModel.connect(mEmail, binding.passwordField1.getText().toString());
+        mSetPasswordViewModel.connect(mPasswordModel.getmEmail(), binding.passwordField1.getText().toString());
     }
 
     /**
@@ -126,7 +130,6 @@ public class InAppChangePasswordFragment extends Fragment {
      * @param view See above
      */
     private void navigateBackToHomePage(View view) {
-
         Navigation.findNavController(getView()).navigate(InAppChangePasswordFragmentDirections.actionInAppChangePasswordFragmentToNavigationHome() );
     }
 }

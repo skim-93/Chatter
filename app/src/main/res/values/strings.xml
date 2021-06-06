@@ -111,4 +111,8 @@
     <string name="shared_theme_pref">App Theme Preference</string>
     <string name="theme_pref">Theme Preference</string>
 
+
+    <string name='action_change_password'>Change Password</string>
+    <string name="change_password">Change Password Fragment Tag</string>
+
 </resources>

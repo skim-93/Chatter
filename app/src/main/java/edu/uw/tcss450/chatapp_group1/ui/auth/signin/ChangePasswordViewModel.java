@@ -24,6 +24,7 @@ import edu.uw.tcss450.chatapp_group1.io.RequestQueueSingleton;
 
 public class ChangePasswordViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mResponse;
+    private String mEmail;
 
     public ChangePasswordViewModel(@NonNull Application application) {
         super(application);
@@ -60,8 +61,18 @@ public class ChangePasswordViewModel extends AndroidViewModel {
         }
     }
 
+    public void setmEmail(String email) {
+        this.mEmail = email;
+    }
+
+    public String getmEmail() {
+        return mEmail;
+    }
+
     public void connect(final String email, final String newPassword) {
         String url = "https://group1-tcss450-project.herokuapp.com/verification/change-password";
+
+        Log.d("Change Password View Model", "Email: " + email +", Password: " + newPassword);
 
         JSONObject body = new JSONObject();
         try {
