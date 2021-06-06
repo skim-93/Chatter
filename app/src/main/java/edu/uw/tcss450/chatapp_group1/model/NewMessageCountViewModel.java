@@ -13,7 +13,14 @@ import java.util.Map;
  * View model to store data about new message notification counts.
  */
 public class NewMessageCountViewModel extends ViewModel {
+    /**
+     * Map to store {chat room id, new message count}.
+     */
     private MutableLiveData<Map<Integer, Integer>> mNewMessageCount;
+
+    /**
+     * Integer to store count of total new messages.
+     */
     private MutableLiveData<Integer> mTotalMessageCount;
 
     /**
