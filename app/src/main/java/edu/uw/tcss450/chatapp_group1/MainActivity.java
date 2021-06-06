@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 //When the user navigates to the chats page, reset the new message count.
                 //This will need some extra logic for your project as it should have
                 //multiple chat rooms.
-                mNewMessageModel.reset();
+                mNewMessageModel.reset(arguments.getInt("chatid"));
             }
             if (destination.getId() == R.id.navigation_contact){
                 mNewRequestModel.reset();
@@ -393,10 +393,11 @@ public class MainActivity extends AppCompatActivity {
             NavDestination nd = nc.getCurrentDestination();
             if (intent.hasExtra("chatMessage")) {
                 ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
+                int chatId = intent.getIntExtra("chatid", -1);
                 //If the user is not on the chat screen, update the
                 // NewMessageCountView Model
                 if (nd.getId() != R.id.chatRoomFragment) {
-                    mNewMessageModel.increment();
+                    mNewMessageModel.increment(chatId);
                 }
                 //Inform the view model holding chatroom messages of the new
                 //message.
