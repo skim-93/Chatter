@@ -69,14 +69,12 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 binding.textLat.setText("latitude: " + String.valueOf(location.getLatitude())));
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
                 binding.textLong.setText("longitude: " + String.valueOf(location.getLongitude())));
-        binding.buttonSetLocation.setEnabled(false);
-        binding.buttonSetLocation.setOnClickListener(button -> {
-                    mWeatherModel.updateZipcode(currentZipcode);
-                }
-        );
-        binding.forecastButton.setOnClickListener(button ->
-                Navigation.findNavController(getView()).navigate(
-                        LocationFragmentDirections.actionLocationFragmentToNavigationWeather()));
+        currentZipcode = mModel.getZipcode();
+        binding.forecastButton.setOnClickListener(button -> {
+            mWeatherModel.updateZipcode(currentZipcode);
+            Navigation.findNavController(getView()).navigate(
+                    LocationFragmentDirections.actionLocationFragmentToNavigationWeather());
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -87,8 +85,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
         mMap.clear();
-        Button button = (Button) getView().findViewById(R.id.button_setLocation);
-        button.setEnabled(true);
         FragmentLocationBinding binding = FragmentLocationBinding.bind(getView());
         currentLatitude = latLng.latitude;
         currentLongitude = latLng.longitude;

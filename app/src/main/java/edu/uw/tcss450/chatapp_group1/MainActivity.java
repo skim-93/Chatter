@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                                 .get(LocationViewModel.class);
                     }
                     mLocationModel.setLocation(location);
+                    mLocationModel.setZipcode(getCurrentZip());
                     mWeatherModel = new ViewModelProvider(MainActivity.this)
                             .get(WeatherListViewModel.class);
                     mWeatherModel.updateZipcode(getCurrentZip());
@@ -292,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
                                             .get(LocationViewModel.class);
                                 }
                                 mLocationModel.setLocation(location);
+                                mLocationModel.setZipcode(getCurrentZip());
                                 mWeatherModel = new ViewModelProvider(MainActivity.this)
                                         .get(WeatherListViewModel.class);
                                 mWeatherModel.updateZipcode(getCurrentZip());
@@ -383,14 +385,7 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter irFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_REQUEST);
         registerReceiver(mPushRequestReceiver, irFilter);
-
-        if( mainPushAcceptReceiver ==null){
-            mainPushAcceptReceiver = new MainPushAcceptReceiver();
-        }
-        IntentFilter iaFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_ACCEPT);
-        registerReceiver(mainPushAcceptReceiver, iaFilter);
-
-        startLocationUpdates();
+        //startLocationUpdates();
     }
     @Override
     public void onPause() {
@@ -402,11 +397,7 @@ public class MainActivity extends AppCompatActivity {
         if (mPushRequestReceiver != null){
             unregisterReceiver(mPushRequestReceiver);
         }
-
-        if (mainPushAcceptReceiver !=null){
-            unregisterReceiver(mainPushAcceptReceiver);
-        }
-        stopLocationUpdates();
+        //stopLocationUpdates();
     }
 
     public void setActionBarTitle(String title) {
